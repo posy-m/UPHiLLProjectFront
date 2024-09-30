@@ -1,0 +1,15 @@
+@media (min-width:360px) {
+  .headerBox {
+    @apply w-full h-20 bg-green-900 flex items-center p-8 relative;
+  }
+
+
+  .headerBox>div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+
+}
