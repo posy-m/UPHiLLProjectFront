@@ -56,16 +56,6 @@ export default function Auth(props: AuthProps) {
     measurementId: MEASUREMENT_ID
 
   };
-  // const firebaseConfig = {
-  //   apiKey: "AIzaSyA9o-ilsFl7nl0pcSIdUqIb68ee4sbjvPE",
-  //   authDomain: "test-app-699c0.firebaseapp.com",
-  //   projectId: "test-app-699c0",
-  //   storageBucket: "test-app-699c0.appspot.com",
-  //   messagingSenderId: "492107781045",
-  //   appId: "1:492107781045:web:d1de617a91a74c92d8bffc",
-  //   measurementId: "G-XM4FGXSFZJ"
-  // };
-
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
