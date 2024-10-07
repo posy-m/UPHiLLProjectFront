@@ -1,0 +1,45 @@
+.avatar_wrap {
+  width: 100px;
+}
+
+/* 아바타 이미지 및 사진 가격 */
+.avatar_img {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  position:relative;
+  /* position: relative; */
+  @apply bg-red-400 border-l-rose-800 rounded-md flex justify-center items-end mb-2;
+}
+
+.avatar_img .avatar_bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.avatar_img > span {
+  position: absolute;
+  @apply text-black font-bold text-sm;
+}
+
+
+/* 아바타 수정 삭제 버튼 */
+.avatar_btn {
+  width: 100px;
+  @apply flex justify-end;
+}
+
+.avatar_btn span{
+  @apply block ml-2 bg-purple-400 rounded-sm text-yellow-700 cursor-pointer;
+}
+
+/* 수정 삭제 팝업창 */
+
+
+/* 아바타 등록 추가버튼 */
+.add_btn {
+  position: relative;
+  right: 0;
+  bottom: 0;
+}
