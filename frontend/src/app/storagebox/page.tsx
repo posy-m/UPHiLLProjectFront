@@ -1,17 +1,28 @@
 "use client"
 
 import Image from 'next/image'
-import Footerbar from '../_components/footerbar/footerbar'
+// import Footerbar from '../_components/footerbar/footerbar'
 import styled from './storagebox.module.css'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useAtom } from 'jotai';
+import { userInfo } from '../(jotai)/atom'
+
+
+interface Product {
+  id: number;
+  imageUrl: string;
+}
 
 const Storagebox = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [clickedImage, setClickedImage] = useState<string | null>(null)
+  const [list, setList] = useState<Product[]>([])
+  const [atom, setAtom] = useAtom(userInfo)
 
   const enlargeImage = (src: string) => {
-    setClickedImage(src);
     setIsModalOpen(true);
+    setClickedImage(src);
   }
 
   const closeModal = () => {
@@ -19,9 +30,20 @@ const Storagebox = () => {
     setClickedImage(null);
   }
 
-  const coverBox = () => {
-
+  //데이터 받아오기
+  const getproduct = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/user/getproduct/" + atom.userId);
+      const data = response.data
+      setList(data)
+    } catch (error) {
+      console.error("보관함에서 에러", error)
+    }
   }
+
+  useEffect(() => {
+    getproduct()
+  }, [])
 
 
 
@@ -29,10 +51,9 @@ const Storagebox = () => {
     <div className={styled.storge_box}>
       <span>구매한 상품</span>
       <div className={styled.img_box}>
-        <Image src="/test.jpeg" onClick={() => enlargeImage('/test.jpeg')} width={300} height={500} alt='요섭이사진' className={styled.customImage} />
-        {/* <Image src="/test.jpeg" width={300} height={500} alt='요섭이사진' className={styled.customImage} /> */}
-        {/* <Image src="/test.jpeg" alt='요섭이사진' layout='fill' objectFit='contain' /> */}
-        {/* <Image src="/test.jpeg" width={30} height={30} alt='요섭이사진' /> */}
+        {list.map((product) =>
+          <Image key={product.id} src={product.imageUrl} onClick={() => enlargeImage(product.imageUrl)} width={300} height={500} alt='기프티콘' className={styled.customImage} />
+        )}
       </div>
     </div>
 
@@ -42,17 +63,16 @@ const Storagebox = () => {
         <div className={styled.modalContent}>
           {clickedImage && (
             <Image
-              // width={300} height={500}
-              src={clickedImage} alt="확대된 이미지"
-              fill
+              src={clickedImage}
+              alt="확대된 이미지"
+              layout='fill'
               className={styled.enlargedImage}
             />
           )}
         </div>
-        <button onClick={coverBox}>사용</button>
+        <button>사용</button>
       </div>
     )}
-    <Footerbar />
   </>)
 }
 

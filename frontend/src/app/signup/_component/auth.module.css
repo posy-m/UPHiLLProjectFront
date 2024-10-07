@@ -1,0 +1,14 @@
+@media (min-width:360px) {
+
+  .auth {}
+
+  .auth>input {
+    @apply w-64 p-2 mr-1 rounded-sm;
+    border: 1px solid gray;
+  }
+
+  .auth>button {
+    @apply w-16 h-9 bg-green-900 rounded-sm text-white;
+  }
+
+}

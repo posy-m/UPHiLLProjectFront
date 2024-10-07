@@ -12,7 +12,7 @@
   }
 
 
-  .found_id>button {
-    @apply w-80 h-12 bg-orange-400 rounded-sm font-medium;
+  .found_id>a {
+    @apply flex justify-center items-center w-80 h-12 bg-orange-400 rounded-sm font-medium;
   }
 }
