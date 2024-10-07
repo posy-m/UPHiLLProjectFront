@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAtom } from 'jotai';
 import { userInfo } from '../../../(jotai)/atom'
+import test from '@/../../public/test.jpeg'
 
 
 interface Product {
@@ -14,13 +15,16 @@ interface Product {
   imageUrl: string;
 }
 
-const Using = () => {
+const Using = ({ use }: { use: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [clickedImage, setClickedImage] = useState<string | null>(null)
   const [list, setList] = useState<Product[]>([])
-  const [atom, setAtom] = useAtom(userInfo)
+  // const [use, setUse] = useState(false)
+  // const [atom, setAtom] = useAtom(userInfo)
+  const [orderProduct, setOrderProduct] = useState(0)
 
-  const enlargeImage = (src: string) => {
+  const enlargeImage = (src: string, id: number) => {
+    setOrderProduct(id)
     setIsModalOpen(true);
     setClickedImage(src);
   }
@@ -33,26 +37,46 @@ const Using = () => {
   //데이터 받아오기
   const getproduct = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/user/getproduct/" + atom.userId);
+      const response = await axios.post("http://localhost:3000/user/getproduct/", {
+        param: {
+          type: 'product',
+          use
+        }
+      });
       const data = response.data
+
       setList(data)
     } catch (error) {
-      console.error("보관함에서 에러", error)
+      console.error("using에서 에러", error)
     }
   }
 
   useEffect(() => {
     getproduct()
-  }, [])
+  }, [use])
+
+  const useProductClick = async () => {
+    try {
+      const response = await axios.put("http://localhost:3000/user/completedproduct/", {
+        orderProduct
+      })
+      const data = response.data
+      setList(data)
+
+    } catch (error) {
+      console.error(error, "모달 사용에서 에러")
+    }
+  }
 
 
 
   return (<>
     <div className={styled.storge_box}>
-      <span>구매한 상품</span>
+      <span>사용 가능</span>
       <div className={styled.img_box}>
         {list.map((product) =>
-          <Image key={product.id} src={product.imageUrl} onClick={() => enlargeImage(product.imageUrl)} width={300} height={500} alt='기프티콘' className={styled.customImage} />
+          <Image key={product.id} src={product.imageUrl} onClick={() => enlargeImage(product.imageUrl, product.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />
+          // {/* <Image src={test} onClick={() => enlargeImage()} width={300} height={500} alt='기프티콘' className={styled.customImage} /> */ }
         )}
       </div>
     </div>
@@ -70,7 +94,7 @@ const Using = () => {
             />
           )}
         </div>
-        <button>사용</button>
+        <button onClick={useProductClick} >사용</button>
       </div>
     )}
   </>)
