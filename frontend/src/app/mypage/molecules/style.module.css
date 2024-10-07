@@ -1,0 +1,26 @@
+
+/* MypageInfoheader 스타일 */
+.infoheader {
+    @apply
+    w-full 
+    flex 
+    justify-center 
+    mt-4 
+    text-xl 
+    font-semibold
+}
+
+/* MypsgeText 스타일 */
+.infotext{
+    @apply
+    w-full 
+    mt-10
+}
+
+/* ChangePlace 스타일 */
+.changestyl{
+    @apply
+    w-full 
+    flex 
+    mt-5
+}
