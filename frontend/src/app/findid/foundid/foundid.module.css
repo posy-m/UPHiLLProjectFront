@@ -1,0 +1,18 @@
+@media (min-width:360px) {
+  .found_id {
+    @apply flex flex-col gap-5 text-center items-center mt-28;
+  }
+
+  .found_id>span {
+    @apply text-2xl font-extrabold mb-8;
+  }
+
+  .found_id>span:nth-child(2) {
+    @apply text-green-800 font-extrabold mb-8 text-lg;
+  }
+
+
+  .found_id>a {
+    @apply flex justify-center items-center w-80 h-12 bg-orange-400 rounded-sm font-medium;
+  }
+}

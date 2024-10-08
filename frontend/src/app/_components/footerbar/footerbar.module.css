@@ -1,0 +1,10 @@
+@media (min-width:360px) {
+  .footerBox {
+    /* @apply w-full h-20 bg-green-900 flex items-center p-8 relative; */
+    @apply w-full h-20 bg-green-900 flex items-center place-content-around p-8 fixed bottom-0 left-0 z-50;
+    /* transform: translateY(-10%); */
+  }
+
+
+
+}
