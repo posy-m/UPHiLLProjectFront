@@ -1,0 +1,21 @@
+.product_ul {
+  width: 100%;
+  @apply flex justify-center my-6 text-3xl text-white font-bold;
+}
+
+.product_ul > li {
+  width: 120px;
+  @apply flex justify-center items-center mx-3 bg-black rounded-lg px-2 py-2;
+}
+
+.avatar_ul {
+  width: 330px;
+  margin:0 auto;
+  background-color: wheat;
+}
+
+.avatar_ul > li {
+  width: 100px;
+  float: left;
+  margin: 0 5px 25px;
+}
