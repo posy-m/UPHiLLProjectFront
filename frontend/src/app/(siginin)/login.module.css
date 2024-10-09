@@ -13,12 +13,13 @@
   }
 
   .sign_in>button {
-    @apply w-80 h-12 bg-orange-400 rounded-sm font-medium;
+    @apply w-80 h-12 rounded-sm font-medium font-bold;
+    background-color: #5DB075;
   }
 
   .sign_in>button:last-child {
     /* @apply mt-4; */
-    background-color: rgb(178, 178, 167);
+    background-color: #f9e000;
   }
 
   /* 이메일찾기, 비밀번호 찾기, 회원가입 Box */

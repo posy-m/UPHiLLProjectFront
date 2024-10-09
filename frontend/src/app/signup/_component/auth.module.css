@@ -8,7 +8,8 @@
   }
 
   .auth>button {
-    @apply w-16 h-9 bg-green-900 rounded-sm text-white;
+    @apply w-16 h-[41px] rounded-sm text-white bg-green-900;
+    /* background-color: #5DB075; */
   }
 
 }

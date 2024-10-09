@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAtom } from 'jotai';
 import { userInfo } from '../../../(jotai)/atom'
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import test from '../../../../../public/test.jpeg'
 

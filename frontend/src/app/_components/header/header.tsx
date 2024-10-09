@@ -1,12 +1,15 @@
 
 import Link from 'next/link'
 import styles from './header.module.css'
+import Image from 'next/image'
+import logo from '../../../../public/logo.png'
+import back from '../../../../public/back.png'
 
 const Header = ({ showBackButton }: { showBackButton: boolean }) => {
   return (<>
     <div className={styles.headerBox}>
-      {showBackButton && <Link href="/">뒤로가기</Link>}
-      <div>이미지 컴포넌트</div>
+      {showBackButton && <Link href="/"><Image src={back} alt='logo' width={30} height={30} /></Link>}
+      <div><Image src={logo} alt='logo' width={60} height={60} /> </div>
     </div>
   </>
   )
