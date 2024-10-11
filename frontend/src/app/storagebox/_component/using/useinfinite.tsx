@@ -21,7 +21,7 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
 }
 
 const getPage = async ({ pageParam }: { pageParam: number }) => {
-  const { data } = await axios.get("http://localhost:4000/user/getproduct/", {
+  const { data } = await axios.get("http://localhost:3000/user/getproduct/", {
     params: {
       page: pageParam
     }

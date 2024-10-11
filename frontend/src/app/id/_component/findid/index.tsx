@@ -89,7 +89,7 @@ const Findid = ({ setFn }: { setFn: Function }) => {
         <Auth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (01012345678)' name='phoneNumber' maxLength={11} onChange={handleInputChange} />
         {phoneError && <p className={styled.error}>{phoneError}</p>}
       </div>
-      <button>아이디 찾기</button>
+      <button>이메일 찾기</button>
     </form>
   </>
   )

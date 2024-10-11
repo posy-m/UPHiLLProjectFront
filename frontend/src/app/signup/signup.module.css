@@ -37,14 +37,19 @@
     background-color: #5DB075;
   }
 
-  .check_box>p {
+  /* .check_box>p {
     @apply text-xs text-red-500 items-start ml-1
-  }
+  } */
+
 
   /* error메세지 표시하는 곳 */
 
   .error {
-    @apply flex flex-col items-center
+    @apply flex flex-col
+  }
+
+  .errored {
+    @apply text-xs text-red-500 mt-1 text-left;
   }
 
   /* .error>input {
@@ -52,9 +57,9 @@
     border: 1px solid gray;
   } */
 
-  .error>p {
-    @apply text-xs text-red-500 mt-1 pr-44
+  /* .error>p {
+    @apply text-xs text-red-500 mt-1;
   }
-
+ */
 
 }

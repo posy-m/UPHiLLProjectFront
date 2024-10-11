@@ -12,16 +12,16 @@ const Footerbar = () => {
 
   return (<>
     <div className={styled.footerBox}>
-      <Link href="/">
+      <Link href="/shop/avatar">
         <Image src={shoppingCart} alt='store image' width={35} height={35} />
       </Link>
-      <Link href="/">
+      <Link href="/main">
         <Image src={mountin} alt='mountin image' width={35} height={35} />
       </Link>
       <Link href="/storagebox">
         <Image src={box} alt='mountin image' width={35} height={35} />
       </Link>
-      <Link href="/">
+      <Link href="/mypage/infopersonal">
         <Image src={mypage} alt='mountin image' width={35} height={35} />
       </Link>
     </div>

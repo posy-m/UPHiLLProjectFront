@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect } from 'react'
 import Image from 'next/image'
 import styled from './used.module.css'
+import { pages } from 'next/dist/build/templates/app-page';
 
 const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any) => {
   useEffect(() => {
@@ -21,7 +22,7 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
 
 const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) => {
   try {
-    const { data } = await axios.get('http://localhost:4000/user/getproduct', {
+    const { data } = await axios.get('http://localhost:3000/user/getproduct', {
       params: {
         page: pageParam,
         use
@@ -80,8 +81,6 @@ const CompletedInfinite = ({ use }: { use: boolean }) => {
             />
           ))
         )}
-
-        {/* <Image src={test} width={300} height={500} alt='기프티콘' className={styled.customImage} /> */}
       </div>
     </div>
   )
