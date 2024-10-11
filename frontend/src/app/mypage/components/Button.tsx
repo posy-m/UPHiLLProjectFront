@@ -1,9 +1,9 @@
 import React from 'react'
 
 // const Button = ( { children , buttonchild } : { buttonchild : string , children : React.ReactNode}) => {
-  const Button = ( { buttonchild ,title} : { buttonchild : string,title:string}) => {
+  const Button = ( { className ,title,onClick} : {onClick:any, className : string,title:string}) => {
   return (
-        <button className={buttonchild}>{title}</button>
+        <button className={className} onClick={onClick}>{title}</button>
   )
 }
 
