@@ -1,10 +1,11 @@
 @media (min-width:360px) {
   .completepgae {
-    @apply flex flex-col gap-5 text-center items-center mt-28;
+    @apply flex flex-col gap-5 text-center items-center mt-48;
   }
 
   .completepgae>span {
     @apply text-2xl font-extrabold text-green-800;
+
   }
 
   .completepgae>span:nth-child(2) {
@@ -13,6 +14,7 @@
 
 
   .completepgae>a {
-    @apply flex w-80 h-12 bg-orange-400 rounded-sm font-medium items-center justify-center;
+    @apply flex w-80 h-12 rounded-sm font-medium font-bold items-center justify-center;
+    background-color: #5DB075;
   }
 }

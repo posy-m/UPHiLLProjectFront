@@ -4,7 +4,7 @@ import { useState } from 'react'
 import CompletedProduct from './_component/completedproduct'
 import Using from './_component/using'
 import styled from './using.module.css'
-import Scroll from './_component/using/useinfinite'
+import CompletedInfinite from './_component/completedproduct/completedinfinite'
 
 
 const StorageBox = () => {
@@ -17,7 +17,8 @@ const StorageBox = () => {
       <span onClick={() => change(false)} className={!use ? styled.activeTab : ''}>사용 가능</span>
       <span onClick={() => change(true)} className={use ? styled.activeTab : ''}>사용 완료</span>
     </div>
-    {use ? <CompletedProduct use={use} /> : <Using use={use} />}
+    {/* {use ? <CompletedProduct use={use} /> : <Using use={use} />} */}
+    {use ? <CompletedInfinite use={use} /> : <Using use={use} />}
     {/* {use === false && <Using use={use} />}
     {use === true && <CompletedProduct use={use} />} */}
   </>)

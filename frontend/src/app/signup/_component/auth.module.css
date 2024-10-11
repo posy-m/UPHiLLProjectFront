@@ -3,13 +3,13 @@
   .auth {}
 
   .auth>input {
-    @apply w-64 p-2 mr-1 rounded-sm;
+    @apply w-64 p-2 mr-1 rounded-sm text-sm;
     border: 1px solid gray;
   }
 
   .auth>button {
-    @apply w-16 h-[41px] rounded-sm text-white bg-green-900;
-    /* background-color: #5DB075; */
+    @apply w-16 h-[37px] rounded-sm text-black;
+    background-color: #5DB075;
   }
 
 }

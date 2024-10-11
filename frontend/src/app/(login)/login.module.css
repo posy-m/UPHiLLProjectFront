@@ -1,6 +1,6 @@
 @media(min-width:360px) {
   .sign_in {
-    @apply flex flex-col gap-5 text-center items-center mt-28;
+    @apply flex flex-col gap-5 text-center items-center mt-48;
   }
 
   .sign_in>span {

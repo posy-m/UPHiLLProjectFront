@@ -1,12 +1,13 @@
 'use client'
 import React, { ChangeEvent, useState } from 'react'
-import styles from './(siginin)/login.module.css'
+import styles from './(login)/login.module.css'
 import Header from './_components/header/header';
 import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { useAtom } from 'jotai';
 import { userInfo } from './(jotai)/atom';
+import Footerbar from './_components/footerbar/footerbar';
 
 export default function Home() {
   const [emailValue, setEmailValue] = useState<string>("");

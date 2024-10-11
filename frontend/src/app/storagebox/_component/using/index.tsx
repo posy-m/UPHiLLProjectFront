@@ -71,15 +71,7 @@ const Using = ({ use }: { use: boolean }) => {
 
 
   return (<>
-    <div className={styled.storge_box}>
-      <span>사용 가능</span>
-      <div className={styled.img_box}>
-        {list.map((product) =>
-          <Image key={product.id} src={product.imageUrl} onClick={() => enlargeImage(product.imageUrl, product.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />
-          // {/* <Image src={test} onClick={() => enlargeImage()} width={300} height={500} alt='기프티콘' className={styled.customImage} /> */ }
-        )}
-      </div>
-    </div>
+
 
     <Scroll setIsModalOpen={setIsModalOpen} setOrderProduct={setOrderProduct} setClickedImage={setClickedImage} />
 

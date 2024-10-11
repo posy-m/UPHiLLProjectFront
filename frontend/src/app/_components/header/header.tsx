@@ -8,8 +8,8 @@ import back from '../../../../public/back.png'
 const Header = ({ showBackButton }: { showBackButton: boolean }) => {
   return (<>
     <div className={styles.headerBox}>
-      {showBackButton && <Link href="/"><Image src={back} alt='logo' width={30} height={30} /></Link>}
-      <div><Image src={logo} alt='logo' width={60} height={60} /> </div>
+      {showBackButton && <Link href="/"><Image src={back} alt='뒤로가기 이미지' width={30} height={30} /></Link>}
+      <div><Image src={logo} alt='logo 이미지' width={60} height={60} /> </div>
     </div>
   </>
   )
