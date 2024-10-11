@@ -1,0 +1,55 @@
+.product_wrap {
+  width: 330px;
+  height: 90px;
+  @apply bg-white flex items-center rounded-md;
+}
+
+/* 아바타 이미지 및 사진 가격 */
+.product_img {
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+  @apply bg-red-400 border-l-rose-800 rounded-2xl flex justify-center items-end mx-3;
+}
+
+.product_wrap > .product_desc {
+  font-size: 16px;
+  @apply mr-2 font-bold;
+}
+.product_desc .product_price {
+  @apply text-sm;
+}
+
+/* 버튼 */
+.product_btn{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* @apply flex items-center; */
+}
+.button {
+  width: 50px;
+  height: 30px;
+  @apply flex justify-center items-center bg-black rounded-lg text-white font-semibold
+}
+
+
+/* 아바타 수정 삭제 버튼 */
+/* .poroduct_btn {
+  width: 100px;
+  @apply flex justify-end;
+}
+
+.poroduct_btn span{
+  @apply block ml-2 bg-purple-400 rounded-sm text-yellow-700 cursor-pointer;
+}  */
+
+/* 수정 삭제 팝업창 */
+
+
+/* 아바타 등록 추가버튼 */
+/* .add_btn {
+  position: relative;
+  right: 0;
+  bottom: 0;
+} */
