@@ -4,14 +4,11 @@ import React, {ReactNode, useEffect, useState} from 'react'
 import styled from './popup.module.css'
 import axios from 'axios';
 
-// interface PopupProps {
-//   isPopup: boolean;
-// }
 
-const Popup = ({isPopup, setIsPopup, avatarArray, setAvatarArray}: {isPopup: boolean, setIsPopup: Function, avatarArray: Array<{name: string, price: number, image: string}>, setAvatarArray: Function}) => {  
+const Popup = ({isPopup, setIsPopup}: {isPopup: boolean, setIsPopup: Function}) => {  
   const [attachment, setAttachment] = useState<string | ArrayBuffer | null>();
   
-  const handleChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -23,18 +20,10 @@ const Popup = ({isPopup, setIsPopup, avatarArray, setAvatarArray}: {isPopup: boo
     }
   }
 
-  // // input type 추가
-  // interface Mytype {
-  //   name : string;
-  //   price : number;
-  // }
-
-  const avatarFrm = (e : React.FormEvent<HTMLFormElement>) => {
+  const productFrm = (e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const {name, price, image} = e.target as HTMLFormElement;
-    console.log("ddddddddd")
-
-    const nameValue: string = (name as HTMLInputElement).value;
+    const nameValue: string = (name as unknown as HTMLInputElement).value;
     const priceValue: number = parseFloat((price as HTMLInputElement).value);;
     
     if(!image.files[0]){
@@ -47,21 +36,17 @@ const Popup = ({isPopup, setIsPopup, avatarArray, setAvatarArray}: {isPopup: boo
       return;
     }
 
-    // const modifyCheck = confirm('수정하시겠습니까?');
-
-    // if(!modifyCheck){
-    //   console.log("수정완료")
-    //   return;
-    // }
-
     // File 정보 
     const formData = new FormData();
 
     formData.append('image', image.files[0]);
     formData.append('name', nameValue);
     formData.append('price', priceValue.toString());
+    formData.append("type", 'product')
     
-    axios.post('/shop/avatar', formData
+    console.log(formData)
+
+    axios.post('http://localhost:4000/shop/product', formData
       ,{
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -69,10 +54,6 @@ const Popup = ({isPopup, setIsPopup, avatarArray, setAvatarArray}: {isPopup: boo
         withCredentials: true
       }).then(response => {
         console.log("Avatar registed successfully", response);
-        console.log(avatarArray)
-        setAvatarArray((prev:Array<string>) => [
-          ...prev, {name: nameValue, price: priceValue, image: attachment?.toString()}
-        ])
         setIsPopup(!isPopup)
       }).catch(error => {
         console.error("Error registered avatar", error);
@@ -80,27 +61,27 @@ const Popup = ({isPopup, setIsPopup, avatarArray, setAvatarArray}: {isPopup: boo
   }
   
   return (
-   <form action="" 
+   <form
    method="post" 
    id="avatarFrm" 
-   className={styled.avatar_frm} 
-   onSubmit={avatarFrm} 
+   className={styled.product_frm} 
+   onSubmit={productFrm} 
    >
     <div className={styled.frm_wrap}>
-      <div className={styled.avatar_img}>
+      <div className={styled.product_img}>
         <label htmlFor='image'>아바타 이미지
-        {attachment && <img src={attachment.toString()} className={styled.avatar_upload} />}
+        {attachment && <img src={attachment.toString()} className={styled.product_upload} />}
         </label>
-        <input type="file" id="image" name="image" accept="image/*" onChange={handleChangeAvatar}/>
+        <input type="file" id="image" name="image" accept="image/*" onChange={handleChangeProduct}/>
       </div>
-      <div className={styled.avatar_info}>
+      <div className={styled.product_info}>
         <div>
           <label htmlFor='name'>이름</label> :
-          &nbsp;<input type="text" id="name" name="name" placeholder='아바타 이름 입력' />
+          &nbsp;<input type="text" id="name" name="name" placeholder='상품 이름 입력' />
         </div>
         <div>
           <label htmlFor='price'>가격</label> :
-          &nbsp;<input type="number" id="price" name="price" placeholder='아바타 가격 입력'/>
+          &nbsp;<input type="number" id="price" name="price" placeholder='상품 가격 입력'/>
         </div>
         <p>아바타를 등록하시겠습니까?</p>
         <div className={styled.btn_area}>
