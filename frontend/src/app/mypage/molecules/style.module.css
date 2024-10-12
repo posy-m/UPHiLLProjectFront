@@ -2,25 +2,59 @@
 /* MypageInfoheader 스타일 */
 .infoheader {
     @apply
-    w-full 
-    flex 
-    justify-center 
-    mt-4 
-    text-xl 
+    w-full
+    flex
+    justify-center
+    mt-4
+    text-xl
     font-semibold
 }
+.click{
+    @apply
+    cursor-pointer 
+}
+.click:hover{
+    border-bottom:2px solid ;
+}
+
 
 /* MypsgeText 스타일 */
 .infotext{
     @apply
-    w-full 
-    mt-10
+    w-full
+    mt-5
 }
 
 /* ChangePlace 스타일 */
 .changestyl{
     @apply
+    w-full
+    flex
+    mt-5
+}
+
+/* FooterMomWith 스타일 */
+.footer{
+    @apply
+    w-full
+    flex
+    justify-center
+    mt-10
+}
+
+/* PurchaseInf */
+
+.Purinfostyle{
+    @apply 
     w-full 
     flex 
-    mt-5
+    justify-center 
+    mt-8
+}
+.purchaseitem{
+    @apply
+    w-full 
+    flex 
+    justify-center 
+    mt-8
 }
