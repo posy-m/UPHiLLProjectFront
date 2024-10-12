@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Ttext = ({children, spanchild} : {spanchild: string, children: React.ReactNode})=>{
+const Ttext = ({children, spanchild,onClick} : {onClick:()=>void,spanchild: string, children: React.ReactNode})=>{
 return (
     <div>
-        <span className={spanchild}>{children}</span>
+        <span className={spanchild} onClick={onClick}>{children}</span>
     </div>
 )
 }

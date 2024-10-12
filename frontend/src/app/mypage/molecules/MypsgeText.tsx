@@ -2,15 +2,16 @@ import React from 'react'
 import Ttext from '../components/Ttext'
 import styled from './style.module.css'
 
-const MypsgeText = () => {
+const MypsgeText = ({email,points,onClick}:{email:any,points:number,onClick:()=>void}) => {
+  
   return (
-    <div>
+    <div className='mt-10'>
         <div className={styled.infotext}>
-        <Ttext spanchild='text-base'>$10000</Ttext>
-        </div>
+        <Ttext spanchild='text-base' onClick={()=>{}}>${points}</Ttext>
+        </div> 
 
         <div className={styled.infotext}>
-        <Ttext spanchild='text-base'>이메일 아이디보여지는곳</Ttext>
+        <Ttext spanchild='text-base' onClick={()=>{}} >{email}</Ttext>
         </div>
     </div>
   )
