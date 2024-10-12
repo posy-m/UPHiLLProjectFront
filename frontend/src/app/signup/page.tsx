@@ -31,8 +31,8 @@ const Signup = () => {
   const [nickNameError, setNickNameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [birthError, setBirthError] = useState("");
-
   const [phoneAuth, setPhoneAuth] = useState(false)
+
 
 
   // input태그 handler 함수
@@ -67,6 +67,7 @@ const Signup = () => {
             break;
           case 'birthDate':
             setBirthError("");
+
             break;
           case 'checkPassword':
             setCheckPasswordError("");
@@ -89,6 +90,7 @@ const Signup = () => {
               break;
             case 'birthDate':
               setBirthError(err.message);
+
               break;
             case 'checkPassword':
               setCheckPasswordError(err.message);
@@ -135,6 +137,7 @@ const Signup = () => {
       setNickNameError("");
       setPhoneError("");
       setBirthError("");
+
       setCheckPasswordError("");
 
       // 이거 axios 확안해보기!!!!!!!!!!!!!!!!!!!!
@@ -157,37 +160,37 @@ const Signup = () => {
             <input type="text" placeholder='Email을 입력해주세요' name='email' onChange={handleInputChange} />
             <button type="button" onClick={() => { DuplicateCheck('email', 'email') }}>중복확인</button>
             {emailCheck !== null && (
-              <p>{emailCheck ? '이미 존재하는 이메일입니다.' : '사용할 수 있는 이메일입니다.'}</p>
+              <p className={styled.errored}>{emailCheck ? '이미 존재하는 이메일입니다.' : '사용할 수 있는 이메일입니다.'}</p>
             )}
+            {emailError && <p className={styled.errored}>{emailError}</p>}
           </div>
-          {emailError && <p className={styled.error}>{emailError}</p>}
         </div>
         <input type="text" placeholder='이름' name='userName' onChange={handleInputChange} />
         <div className={styled.check_box}>
           <div className={styled.check_wrap}>
             <input type="text" placeholder='닉네임(5글자 이내)' name='nickName' maxLength={5} onChange={handleInputChange} />
             <button type="button" onClick={() => { DuplicateCheck('nickName', 'nickName') }}>중복확인</button>
-            {emailCheck !== null && (
-              <p>{nickNameCheck ? '이미 존재하는 닉네임입니다.' : '사용할 수 있는 닉네임입니다.'}</p>
+            {nickNameCheck !== null && (
+              <p className={styled.errored}>{nickNameCheck ? '이미 존재하는 닉네임입니다.' : '사용할 수 있는 닉네임입니다.'}</p>
             )}
           </div>
         </div>
         <div className={styled.error}>
-          <input type="text" placeholder='생년월일 (예시_020213)' name='birthDate' maxLength={6} onChange={handleInputChange} />
-          {birthError && <p className={styled.error}>{birthError}</p>}
+          <input type="text" placeholder='생년월일을 입력해주세요. [YYYY-MM-DD]' name='birthDate' maxLength={10} onChange={handleInputChange} />
+          {birthError && <p className={styled.errored}>{birthError}</p>}
         </div>
         <div className={styled.error}>
           {/* <input type="text" placeholder='휴대폰 번호 (01012345678)' name='phoneNumber' maxLength={11} onChange={handleInputChange} /> */}
           <Auth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (01012345678)' name='phoneNumber' maxLength={11} onChange={handleInputChange} />
-          {phoneError && <p className={styled.error}>{phoneError}</p>}
+          {phoneError && <p className={styled.errored}>{phoneError}</p>}
         </div>
         <div className={styled.error}>
           <input type="password" placeholder='비밀번호 (영문+숫자+특수기호 8자이상20자이내 )' name='password' maxLength={20} onChange={handleInputChange} />
-          {passwordError && <p className={styled.error}>{passwordError}</p>}
+          {passwordError && <p className={styled.errored}>{passwordError}</p>}
         </div>
         <div className={styled.error}>
           <input type="password" placeholder='비밀번호 확인' name='checkPassword' maxLength={20} onChange={handleInputChange} />
-          {checkPassword && <p className={styled.error}>{checkPassword}</p>}
+          {checkPassword && <p className={styled.errored}>{checkPassword}</p>}
         </div>
 
 

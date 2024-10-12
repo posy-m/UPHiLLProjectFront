@@ -1,0 +1,3 @@
+.confirm {
+  @apply flex text-xs text-red-500 items-start ml-1 mt-1;
+}

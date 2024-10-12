@@ -1,5 +1,10 @@
 import Link from 'next/link'
 import styled from './footerbar.module.css'
+import Image from 'next/image'
+import shoppingCart from '../../../../public/shoppingCart.png'
+import mountin from '../../../../public/mountin.png'
+import box from '../../../../public/box.png'
+import mypage from '../../../../public/person.png'
 
 
 
@@ -7,10 +12,18 @@ const Footerbar = () => {
 
   return (<>
     <div className={styled.footerBox}>
-      <Link href="/">상품</Link>
-      <Link href="/">홈</Link>
-      <Link href="/storagebox">보관함</Link>
-      <Link href="/">마이페이지</Link>
+      <Link href="/shop/avatar">
+        <Image src={shoppingCart} alt='store image' width={35} height={35} />
+      </Link>
+      <Link href="/main">
+        <Image src={mountin} alt='mountin image' width={35} height={35} />
+      </Link>
+      <Link href="/storagebox">
+        <Image src={box} alt='mountin image' width={35} height={35} />
+      </Link>
+      <Link href="/mypage/infopersonal">
+        <Image src={mypage} alt='mountin image' width={35} height={35} />
+      </Link>
     </div>
   </>)
 }

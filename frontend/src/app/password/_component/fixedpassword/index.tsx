@@ -65,8 +65,6 @@ const Fixdpassword = ({ email, setFn }: { email: string, setFn: Function }) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     // console.log(formData.email);
-
-
     try {
       await Valiation(new FormData(event.currentTarget)); // 전체 폼 validation
       await Valiation(formData);
@@ -75,7 +73,7 @@ const Fixdpassword = ({ email, setFn }: { email: string, setFn: Function }) => {
 
       // email porps랑로 전달받기
       if (formDataValue && (formDataValue.password === formDataValue.checkPassword)) {
-        const respones = await axios.post("http://localhost:3000/user/findid",
+        const responese = await axios.post("http://localhost:3000/user/findpassword",
           { email, formDataValue })
       }
       setFn("complete")

@@ -82,10 +82,10 @@ const Findpassword = ({ setFn, setEmail }: { setFn: Function, setEmail: Function
       setEmailError("");
       setPhoneError("");
       // email 확인
-      const checkeEmailResponses = await axios.post("http://localhost:3000/user/duplication")
-      const checkEmail = checkeEmailResponses.data
+      const checkeEmailResponses = await axios.post("http://localhost:3000/user/duplication", { email: formDataValue.email })
+      const checkEmailData = checkeEmailResponses.data
       // 휴대폰번호 인증되면 보내기
-      if (formDataValue && (checkEmail === formDataValue.email) && phoneAuth) {
+      if (formDataValue && (checkEmailData && phoneAuth)) {
         // router.push(`/fixedpassword`);
         setEmail(formDataValue.email);
         setFn("fixed")

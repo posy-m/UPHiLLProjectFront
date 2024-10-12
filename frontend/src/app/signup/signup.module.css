@@ -1,6 +1,6 @@
 @media (min-width:360px) {
   .sign_up {
-    @apply flex flex-col gap-5 text-center items-center mt-20;
+    @apply flex flex-col gap-5 text-center items-center mt-32;
   }
 
   .sign_up>span {
@@ -17,8 +17,10 @@
   } */
 
   .sign_up>button {
-    @apply w-80 h-12 bg-orange-400 rounded-sm font-medium;
+    @apply w-80 h-12 rounded-sm font-medium;
+    background-color: #5DB075;
   }
+
 
   /* input, button이랑 같이 있는 Box  */
 
@@ -31,17 +33,23 @@
   }
 
   .check_box>.check_wrap>button {
-    @apply w-16 h-9 bg-green-900 rounded-sm text-white
+    @apply w-16 h-[38px] rounded-sm text-black;
+    background-color: #5DB075;
   }
 
-  .check_box>p {
+  /* .check_box>p {
     @apply text-xs text-red-500 items-start ml-1
-  }
+  } */
+
 
   /* error메세지 표시하는 곳 */
 
   .error {
-    @apply flex flex-col items-center
+    @apply flex flex-col
+  }
+
+  .errored {
+    @apply text-xs text-red-500 mt-1 text-left;
   }
 
   /* .error>input {
@@ -49,9 +57,9 @@
     border: 1px solid gray;
   } */
 
-  .error>p {
-    @apply text-xs text-red-500 mt-1 pr-44
+  /* .error>p {
+    @apply text-xs text-red-500 mt-1;
   }
-
+ */
 
 }

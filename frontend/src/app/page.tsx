@@ -1,12 +1,13 @@
 'use client'
 import React, { ChangeEvent, useState } from 'react'
-import styles from './(siginin)/login.module.css'
+import styles from './(login)/login.module.css'
 import Header from './_components/header/header';
 import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { useAtom } from 'jotai';
 import { userInfo } from './(jotai)/atom';
+import Footerbar from './_components/footerbar/footerbar';
 
 export default function Home() {
   const [emailValue, setEmailValue] = useState<string>("");
@@ -48,7 +49,7 @@ export default function Home() {
       <input type="password" placeholder='비밀번호를 입력해주세요 ' name='password' onChange={(e: ChangeEvent) => { setPasswordValue((e.target as HTMLInputElement).value) }} />
       <button>로그인</button>
       <div className={styles.findBox}>
-        <Link href="/findid">이메일 찾기</Link>
+        <Link href="/id">이메일 찾기</Link>
         <Link href="/password">비밀번호 찾기</Link>
         <Link href="/signup">회원가입</Link>
       </div>
