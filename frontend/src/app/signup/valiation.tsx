@@ -9,6 +9,9 @@ export async function Valiation(formData: FormData, fieldName?: string) {
   const phoneNumber = formData.get("phoneNumber") as string;
   const birthDate = formData.get("birthDate") as string;
 
+  // 추가: 날짜 유효성 검사
+
+
   // Validate only the specified field if provided
   if (fieldName) {
     switch (fieldName) {
@@ -42,12 +45,24 @@ export async function Valiation(formData: FormData, fieldName?: string) {
         break;
 
       case 'birthDate':
-        const birthRegex = /^\d{6}$/;
-        if (!birthRegex.test(birthDate)) {
-          throw new Error("올바른 형식을 입력해주세요.");
-        }
-        break;
+        const birthRegex = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+        const [year, month, day] = birthDate.split('-').map(Number);
+        const date = new Date(year, month - 1, day);
 
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (!birthRegex.test(birthDate)) {
+          throw new Error(`올바른 형식 또는 하이픈을 입력해주세요.`);
+        }
+        // // 월과 일이 유효한지 체크
+        else if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+          throw new Error("유효하지 않은 생년월일입니다.");
+        }
+        // 추가: 오늘 날짜 및 미래 날짜 검사
+        else if (date >= today) {
+          throw new Error("날짜를 다시 확인해주세요.");
+        }
+      // break;
       case 'checkPassword':
         if (checkPassword !== password) {
           throw new Error("비밀번호가 일치하지 않습니다.")

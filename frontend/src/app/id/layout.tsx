@@ -9,7 +9,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   const path = usePathname()
 
   return (<>
-    <Header showBackButton={path === '/findid' ? true : false} />
+    <Header showBackButton={true} />
     {children}
   </>)
 }

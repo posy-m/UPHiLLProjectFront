@@ -8,6 +8,8 @@ import axios from 'axios'
 import { useAtom } from 'jotai';
 import { userInfo } from '../../../(jotai)/atom'
 import test from '@/../../public/test.jpeg'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import Scroll from './useinfinite'
 
 
 interface Product {
@@ -34,27 +36,27 @@ const Using = ({ use }: { use: boolean }) => {
     setClickedImage(null);
   }
 
-  //데이터 받아오기
-  const getproduct = async () => {
-    try {
-      const response = await axios.post("http://localhost:3000/user/getproduct/", {
-        param: {
-          type: 'product',
-          use
-        }
-      });
-      const data = response.data
+  // //데이터 받아오기
+  // const getproduct = async () => {
+  //   try {
+  //     const response = await axios.post("http://localhost:3000/user/getproduct/", {
+  //       param: {
+  //         type: 'product',
+  //         use
+  //       }
+  //     });
+  //     const data = response.data
+  //     setList(data)
+  //   } catch (error) {
+  //     console.error("using에서 에러", error)
+  //   }
+  // }
 
-      setList(data)
-    } catch (error) {
-      console.error("using에서 에러", error)
-    }
-  }
+  // useEffect(() => {
+  //   getproduct()
+  // }, [use])
 
-  useEffect(() => {
-    getproduct()
-  }, [use])
-
+  // 사용완료
   const useProductClick = async () => {
     try {
       const response = await axios.put("http://localhost:3000/user/completedproduct/", {
@@ -62,24 +64,16 @@ const Using = ({ use }: { use: boolean }) => {
       })
       const data = response.data
       setList(data)
-
     } catch (error) {
       console.error(error, "모달 사용에서 에러")
     }
   }
 
 
-
   return (<>
-    <div className={styled.storge_box}>
-      <span>사용 가능</span>
-      <div className={styled.img_box}>
-        {list.map((product) =>
-          <Image key={product.id} src={product.imageUrl} onClick={() => enlargeImage(product.imageUrl, product.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />
-          // {/* <Image src={test} onClick={() => enlargeImage()} width={300} height={500} alt='기프티콘' className={styled.customImage} /> */ }
-        )}
-      </div>
-    </div>
+
+
+    <Scroll setIsModalOpen={setIsModalOpen} setOrderProduct={setOrderProduct} setClickedImage={setClickedImage} />
 
     {/* 모달 */}
     {isModalOpen && (
@@ -94,10 +88,11 @@ const Using = ({ use }: { use: boolean }) => {
             />
           )}
         </div>
-        <button onClick={useProductClick} >사용</button>
+        <button onClick={useProductClick}>사용</button>
       </div>
     )}
   </>)
 }
+
 
 export default Using
