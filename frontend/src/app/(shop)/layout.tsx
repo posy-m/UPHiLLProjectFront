@@ -6,7 +6,7 @@ const queryClient = new QueryClient();
 const Layout = ({children}:{children:React.ReactNode}) => {
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <main>{children}</main>
     </QueryClientProvider>
   )
 }
