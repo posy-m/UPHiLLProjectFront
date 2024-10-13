@@ -9,6 +9,7 @@ import Nicname from './components/Nicname';
 import Point from './components/Point';
 import Goback from './components/Goback';
 import Avata from './components/Avata';
+import FootPoinNickAlt from './components/FootPoinNickAlt';
 
 function Maps() {
     const [lat, setLat] = useState(0);
@@ -116,9 +117,11 @@ function Maps() {
 
     return (
         <div style={{ position: "relative", width: '100vw', height: '100vh' }}>
-            <Altitude elevation={high} />
-
-            {/* 닉네임과 포인트를 감싸는 div */}
+            {/* FooterBar 컴포넌트를 하단에 추가 */}
+            <FootPoinNickAlt elevation={high} nickname={nickname} points={points} />
+            
+            {/* <Altitude elevation={high} /> */}
+            {/* 닉네임과 포인트를 감싸는 div
             <div style={{
             position: 'absolute',
             top: '5px', // 상단에서 20px 떨어진 위치
@@ -134,7 +137,7 @@ function Maps() {
         }}>
             <Nicname nickname={nickname} />
             <Point points={points} />
-        </div>
+        </div> */}
 
             <div id='map' style={{ width: '100%', height: '100%' }}></div>
             {/* showReturnButton이 true일 때만 버튼 표시 */}

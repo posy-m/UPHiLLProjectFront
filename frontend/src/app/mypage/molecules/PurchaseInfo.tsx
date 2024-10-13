@@ -255,10 +255,11 @@ const PurchaseInfo = () => {
     //   return lastPage.hasMore ? allPages.length + 1 : undefined;
     // }
 
-    // 더미데이터 이용코드
-    getNextPageParam(lastPage) {
-      return lastPage.hasMore ? lastPage.items.length / 10 + 1 : undefined; // 페이지 번호 계산
-    }
+  
+        // 더미데이터 이용코드
+        getNextPageParam(lastPage,allPages) {
+          return lastPage.hasMore ? allPages.length + 1 : undefined; // 페이지 번호 계산
+        }
 
   });
   useScrollEnd(fetchNextPage, hasNextPage);
