@@ -7,7 +7,6 @@ import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { useAtom } from 'jotai';
 import { userInfo } from './(jotai)/atom';
-import Footerbar from './_components/footerbar/footerbar';
 
 export default function Home() {
   const [emailValue, setEmailValue] = useState<string>("");
@@ -25,7 +24,7 @@ export default function Home() {
       }, { withCredentials: true })
       setAtom(response.data)
       // 경재가 해놓은 라우터로
-      router.push("/")
+      router.push("/main")
     } catch (error) {
       console.error("로그인 데이터 에러", error)
     }
@@ -37,7 +36,7 @@ export default function Home() {
     const kakaoData = respose.data
     if (kakaoData) {
       setAtom(kakaoData)
-      router.push("/")
+      router.push("/main")
     }
   }
 
