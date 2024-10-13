@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import styled from './avatar.module.css'
-import Popup from './Popup';
 import axios from 'axios';
-const Avatar = ({setProductId,updated,setUP,productId, modifyPopup, setModifyPopup,price, image}: {updated:boolean,setProductId:Function,setUP:Function,productId: number, modifyPopup: boolean,setModifyPopup: Function ,price: number, image:string}) => {
+const AdminAvatar = ({setProductId,updated,setUP,productId, modifyPopup, setModifyPopup,price, image}: {updated:boolean,setProductId:Function,setUP:Function,productId: number, modifyPopup: boolean,setModifyPopup: Function ,price: number, image:string}) => {
 
   const handleDelete = (key:number) => {
     const deleteQuestion = confirm('정말 삭제 하시겠습니까?');
@@ -34,4 +33,4 @@ const Avatar = ({setProductId,updated,setUP,productId, modifyPopup, setModifyPop
   )
 }
 
-export default Avatar;
+export default AdminAvatar;
