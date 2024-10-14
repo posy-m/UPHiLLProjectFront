@@ -115,7 +115,10 @@ function Maps() {
                             params: { lat: userLat, lng: userLng }
                         });
         
-                        if (response.status === 200) {
+                               // 응답 데이터 확인
+                               console.log(response.data); // API 응답 로그
+
+                        if (response.status === 200 && response.data.results && response.data.results.length > 0) {
                             const newHigh = response.data.results[0].elevation;
                             setHigh(newHigh);
         
@@ -124,6 +127,8 @@ function Maps() {
                                 setPoints(prevPoints => prevPoints + pointIncrement);
                                 setPrevHigh(newHigh);
                             }
+                        }else {
+                            console.error("고도 데이터를 가져오는 데 실패했습니다:", response.data);
                         }
                     });
                 } catch (error) {
