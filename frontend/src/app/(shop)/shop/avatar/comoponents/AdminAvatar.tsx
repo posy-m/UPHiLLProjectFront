@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import styled from './avatar.module.css'
+import styled from './adminAvatar.module.css'
 import axios from 'axios';
 const AdminAvatar = ({setProductId,updated,setUP,productId, modifyPopup, setModifyPopup,price, image}: {updated:boolean,setProductId:Function,setUP:Function,productId: number, modifyPopup: boolean,setModifyPopup: Function ,price: number, image:string}) => {
 

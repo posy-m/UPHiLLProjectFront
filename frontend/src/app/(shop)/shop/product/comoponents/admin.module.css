@@ -1,0 +1,22 @@
+@media(min-width: 360px){
+  .product_ul {
+    position: fixed;
+    top: 80px;
+    @apply w-full flex justify-center my-6 text-3xl text-white font-bold;
+  }
+  
+  .product_ul > li {
+    @apply w-full flex justify-center items-center mx-3 bg-black rounded-lg px-2 py-2;
+  }
+  
+  .avatar_ul {
+    width: 330px;
+    margin:0 auto;
+  }
+  
+  .avatar_ul > li {
+    width: 100px;
+    margin: 0 5px 25px;
+  }
+}
+

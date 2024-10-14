@@ -1,20 +1,14 @@
 @media (min-width: 360px){
   .user_avatar_wrap {
-    width: 100%;
-    background-color: antiquewhite;
-  }
-
-  /* 헤더 */
-  .header {
-    width: 100%;
-    background-color: aquamarine;
-    height: 70px;
-    @apply flex justify-center items-center font-bold text-white text-3xl;
+    position: fixed;
+    top: 80px;
+    height: 640px;
+    @apply w-full;
   }
 
   /* 상단 카테고리 */
   .category {
-    @apply flex justify-center items-center bg-slate-300 py-4;
+    @apply h-20 flex justify-center items-center py-4;
   }
 
   .category li {
@@ -24,37 +18,38 @@
 
   /* 현재 착용중 아바타 */
   .now_avatar {
-    width:100%;
-    padding: 30px 0;
-    @apply flex justify-center items-center
+    width: 100%;
+    height: 210px;
+    border-bottom: 3px solid #efefef;
+    box-sizing: border-box;
+    @apply flex justify-center items-center;
   }
 
   /* 유저가 아바타를 살 수 있는 공간 및 착용하는 곳 */
   .avatar_collection {
-    width: 100%;
-    background: brown;
-    @apply flex justify-center ;
+    height:350px;
+    @apply w-full flex justify-center;
   }
 
-  .avatar_collection > ul {
-    width: 300px;
-    background: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .avatar_collection > ul > li {
+  .avatar_collection li {
+    position: relative;
     width: 130px;
     height: 130px;
     background: purple;
     margin: 10px;
     color: white;
-    border: 5px solid #fff;
-    box-sizing: border-box;
     border-radius: 10px;
-    
+  }
+
+  /* 구입전에 비활성화할 배경 */
+  li > .inactive_avatar {
+    position: absolute;
+    left:0;
+    top:0;
+    width: 130px;
+    height: 130px;
+    background: rgba(255,255,255,0.5);
+    color: white;
+    border-radius: 10px;
   }
 }

@@ -6,12 +6,8 @@ import styled from './page.module.css';
 
 const page = () => {
   return (
-    <div className={styled.body_wrap}>
-      {/* <Admin /> */}
-      {/*  */}
-      {/* <UserAvatarBuy/> */}
+      // <Admin />
       <User />
-    </div>
   )
 }
 

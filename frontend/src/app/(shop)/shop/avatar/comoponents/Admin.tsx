@@ -9,7 +9,9 @@ import Popup from './Popup';
 import Modify from './Modify';
 import styled from './admin.module.css';
 import { getPages } from '../api';
-import useScroll from '../../hooks/useScroll';
+import {UseScroll} from '../../hooks/UseScroll';
+import Header from '@/app/_components/header/header';
+import Footerbar from '@/app/_components/footerbar/footerbar';
 
 const Admin = () => {
 
@@ -19,7 +21,7 @@ const Admin = () => {
   const [productId, setProductId] = useState(0);
   // const [productName, setProductName] = useState("");
   // const [productPrice, setProductPrice] = useState(0);
- 
+
   const {
     data,
     hasNextPage, // true
@@ -30,11 +32,13 @@ const Admin = () => {
     queryFn: getPages,
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages){
+      
+      // 페이지가 남아있으면 더 추가해주는 로직
       return allPages.length < 3 ? allPages.length + 1 : undefined;
     }
   });
 
-  const scroll = useScroll(fetchNextPage, hasNextPage, isFetchingNextPage, data);
+  // const scroll = UseScroll(fetchNextPage, hasNextPage, isFetchingNextPage, data);
 
   // 페이지 데이터 가져오고
   // console.log(data)
@@ -58,27 +62,33 @@ const Admin = () => {
 
   // }, [data]);
 
-  return (
-      <div className={styled.avatar_wrap} onScroll={scroll as any} >
-        <div className={styled.header}><h2>관리자 페이지</h2></div>
+  return (<>
+      <Header showBackButton={false} />
+      <div className={styled.avatar_wrap} >
         <div className={styled.avatar_content}>
           <ul className={styled.product_ul}>
-            <li style={{borderBottom:"3px solid rgb(112, 61, 22)", color: "rgb(112, 61, 22)"}}>아바타</li>
+            <li style={{borderBottom:"3px solid rgb(112, 61, 22)", color: "rgb(112, 61, 22)", boxSizing: "border-box"}}>아바타</li>
             <li><Link style={{width: "100%", height: '100%', display: 'flex', justifyContent: 'center'}} href="http://localhost:3000/shop/product">상품</Link></li>
           </ul>
-          <ul className={styled.avatar_ul}>
+          <UseScroll
+            fetchNextPage={fetchNextPage} 
+            hasNextPage={hasNextPage} 
+            isFetchingNextPage={isFetchingNextPage} 
+            data={data}
+            >
             {data?.pages.map((page) => page.map((e:any) =>
-              <li key={e.id}>
+              <li className={styled.avatar_list} key={e.id}>
                 <Avatar productId={e.id} updated={updated} setUP={setUpdate} setProductId={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} price={e.price} image={e.image}/>
               </li>))
             } 
-          </ul>
+          </UseScroll>
         </div>
         <AddBtn isPopup={isPopup} setIsPopup={setIsPopup} modifyPopup={modifyPopup}/>
         { isPopup ? <Popup isPopup={isPopup} setIsPopup={setIsPopup}/> : '' }
         { modifyPopup ? <Modify productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup}/> : '' }
       </div>
-    )
+      <Footerbar />
+  </>)
   }
 
 export default Admin;
