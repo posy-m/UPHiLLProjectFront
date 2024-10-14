@@ -8,10 +8,12 @@ import PurchaseInfo from './PurchaseInfo'
 import Confichange from './Confichange'
 import styled from './style.module.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Footerbar from '@/app/_components/footerbar/footerbar'
+import Header from '@/app/_components/header/header'
 
 const queryClient = new QueryClient();
-const InfoForm = () => {
 
+const InfoForm = () => {
   const [select,setSelect] = useState('개인정보')
   const [userInfo,setUserInfo] = useState({
     email:'lkj26902465@gmail.com',
@@ -95,14 +97,16 @@ const InfoForm = () => {
     setPasswordMessage('비밀번호가 변경되었습니다.');
   }
 
-
-  return (
-    <div className=''>
+  
+  return (<>
+        <Header showBackButton={false}/> {/* 뒤로가기 버튼 숨기기 */}
+    <div className={styled.container}>
+        <div className={styled.centerContent} style={{marginTop:'100px'}}>
         {/* 개인정보 */}
         <MypageInfoheader select={select} setSelect={setSelect} />
         {select === '개인정보' ? (
-
-      <>
+          
+        <>
         <MypsgeText email={userInfo.email} points={userInfo.points} onClick={()=>{}}/>
 
         <ChangePlace 
@@ -131,12 +135,12 @@ const InfoForm = () => {
                 inputype='text'
                 value={userInfo.password}
                 onChange=''
-              />
+                />
               <Confichange
                 className='비밀번호 변경'
                 title='비밀번호 변경'
                 onClick={() => setIsPasswordChangeMode(true)} // 클릭 시 변경 모드로 전환
-              />
+                />
             </>
           ) : (
             <>
@@ -165,6 +169,7 @@ const InfoForm = () => {
             </>
           )}
         <FooterMemWith onClick=''/>
+        <Footerbar/>
       </>
 
         ):(
@@ -176,9 +181,10 @@ const InfoForm = () => {
         </QueryClientProvider>
       </>
         )}
-
+        </div>
+        <Footerbar/>
     </div>
-  )
+    </>)
 }
 
 export default InfoForm
