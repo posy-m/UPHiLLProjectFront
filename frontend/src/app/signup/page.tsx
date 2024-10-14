@@ -1,10 +1,11 @@
 "use client"
 
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styled from './signup.module.css'
 import { Valiation } from './valiation'
 import axios from 'axios'
 import Auth from './_component/Auth'
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
   // input 상태
@@ -32,6 +33,9 @@ const Signup = () => {
   const [phoneError, setPhoneError] = useState("");
   const [birthError, setBirthError] = useState("");
   const [phoneAuth, setPhoneAuth] = useState(false)
+
+  const router = useRouter()
+
 
 
 
@@ -67,7 +71,6 @@ const Signup = () => {
             break;
           case 'birthDate':
             setBirthError("");
-
             break;
           case 'checkPassword':
             setCheckPasswordError("");
@@ -90,7 +93,6 @@ const Signup = () => {
               break;
             case 'birthDate':
               setBirthError(err.message);
-
               break;
             case 'checkPassword':
               setCheckPasswordError(err.message);
@@ -100,7 +102,7 @@ const Signup = () => {
     }
   };
 
-  // email중복체크
+  // email, 닉네임 중복체크
   const DuplicateCheck = async (type: string, name: string) => {
     const teg = document.querySelector(`input[name=${name}]`) as HTMLInputElement;
     const respose = await axios.post("http://localhost:3000/user/duplication", {
@@ -110,39 +112,31 @@ const Signup = () => {
       data: teg.value
     })
     const { data } = respose.data;
-    setEmailCheck(data)
+    if (type === 'email') {
+      setEmailCheck(data)
+    } else if (type === "nickName") {
+      setNickNameCheck(data)
+    }
   }
-
-  // 닉네임 중복확인
-  // const nickNameDuplicateCheck = async () => {
-  //   const respose = await axios.post("http://localhost:3000/user/duplication", {
-  //     nickName: formDataValue.nickName
-  //   })
-  // }
-
 
   // form태그 event
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     // console.log(formData.email);
-
-
     try {
       await Valiation(new FormData(event.currentTarget)); // 전체 폼 validation
-
-      await Valiation(formData);
+      // await Valiation(formData);
       setEmailError("");
       setPasswordError("");
       setNickNameError("");
       setPhoneError("");
       setBirthError("");
-
       setCheckPasswordError("");
-
       // 이거 axios 확안해보기!!!!!!!!!!!!!!!!!!!!
       if (formDataValue && (((!nickNameCheck && !emailCheck) && phoneAuth) && (formDataValue.checkPassword === formDataValue.password))) {
         const respones = await axios.post("http://localhost:3000/user/signup", formDataValue)
+        router.push('/signup/completepgae')
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -181,8 +175,8 @@ const Signup = () => {
         </div>
         <div className={styled.error}>
           {/* <input type="text" placeholder='휴대폰 번호 (01012345678)' name='phoneNumber' maxLength={11} onChange={handleInputChange} /> */}
-          <Auth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (01012345678)' name='phoneNumber' maxLength={11} onChange={handleInputChange} />
-          {phoneError && <p className={styled.errored}>{phoneError}</p>}
+          <Auth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (010-1234-5678)' name='phoneNumber' maxLength={13} onChange={handleInputChange} />
+          {/* {phoneError && <p className={styled.errored}>{phoneError}</p>} */}
         </div>
         <div className={styled.error}>
           <input type="password" placeholder='비밀번호 (영문+숫자+특수기호 8자이상20자이내 )' name='password' maxLength={20} onChange={handleInputChange} />
@@ -192,8 +186,6 @@ const Signup = () => {
           <input type="password" placeholder='비밀번호 확인' name='checkPassword' maxLength={20} onChange={handleInputChange} />
           {checkPassword && <p className={styled.errored}>{checkPassword}</p>}
         </div>
-
-
         <button type="submit">회원가입</button>
       </form >
     </>

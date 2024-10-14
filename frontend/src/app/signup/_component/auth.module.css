@@ -12,4 +12,8 @@
     background-color: #5DB075;
   }
 
+  .confirm {
+    @apply flex text-xs text-red-500 items-start mt-1;
+  }
+
 }

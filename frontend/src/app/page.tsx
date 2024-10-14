@@ -18,7 +18,7 @@ export default function Home() {
   const loginBtn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
-      const response = await axios.post("http://localhost:3000/user/siginin", {
+      const response = await axios.post("http://localhost:3000/user/signin", {
         emailValue,
         passwordValue
       }, { withCredentials: true })
@@ -52,7 +52,7 @@ export default function Home() {
         <Link href="/password">비밀번호 찾기</Link>
         <Link href="/signup">회원가입</Link>
       </div>
-      <button onClick={kakaoBtn}>카카오 소셜 로그인</button>
+      <button type='button' onClick={kakaoBtn}>카카오 소셜 로그인</button>
     </form>
   </>
   );

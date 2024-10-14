@@ -25,7 +25,7 @@ const PhoneAuthConfirm = ({ setFn }: { setFn: Function }) => {
   }
   return (
     <>
-      <input type="text" onChange={(e: ChangeEvent) => setCode(parseInt((e.target as HTMLInputElement).value))} />
+      <input type="text" placeholder='인증 코드 6자리를 입력해주세요' maxLength={6} onChange={(e: ChangeEvent) => setCode(parseInt((e.target as HTMLInputElement).value))} />
       <button onClick={confirm}>인증확인</button>
       {message && <p className={styled.confirm}>{message}</p>}
     </>
