@@ -1,3 +1,20 @@
+/* InfoForm 스타일 */
+.container{
+    @apply
+    flex /* display: flex; */
+    flex-col  /* flex-direction: column; */
+    justify-between 
+    items-center  /* align-items: center; 가로로 중앙 정렬 */
+    min-h-screen  /* min-height: 100vh; 화면 전체 높이를 채움 */
+}
+/* 미디어 쿼리 - 작은 화면에서 패딩 조정 */
+@media (max-width: 640px) {
+    .container {
+        /* 작은 화면에서 패딩을 줄임 */
+        padding-top: 12px; /* 작은 화면에서 상단 패딩을 줄임 */
+        padding-bottom: 10px; /* 작은 화면에서 하단 패딩을 줄임 */
+    }
+}
 
 /* MypageInfoheader 스타일 */
 .infoheader {
@@ -9,41 +26,63 @@
     text-xl
     font-semibold
 }
+/* 미디어 쿼리 - 작은 화면에서 스타일 조정 */
+@media (max-width: 640px) {
+    .infoheader {
+        margin-top: 2px; /* 작은 화면에서 위쪽 여백을 줄임 */
+        font-size: 1.25rem; /* 폰트 크기를 줄임 */
+    }
+}
 .click{
     @apply
     cursor-pointer 
+    transition duration-200 ease-in-out;
 }
 .click:hover{
-    border-bottom:2px solid ;
+    @apply
+    border-b-2 border-solid; ;
 }
 
 
 /* MypsgeText 스타일 */
-.infotext{
+/* .infotext{
     @apply
     w-full
     mt-5
+} */
+.infotext, .changestyl {
+    @apply w-full flex justify-center mt-5;
 }
-
 /* ChangePlace 스타일 */
-.changestyl{
+/* .changestyl{
     @apply
     w-full
     flex
     mt-5
-}
+} */
 
 /* FooterMomWith 스타일 */
 .footer{
     @apply
-    w-full
-    flex
-    justify-center
-    mt-10
+    w-full /* 헤더와 풋터를 화면 가로 전체로 */
+    max-w-[1200px] /* 최대 넓이를 지정하여 지나치게 넓어지지 않게 */
+    mx-auto /* 가운데 정렬 */
+}
+.footerContent {
+    @apply flex justify-center items-center; /* 가로 중앙 정렬 */
+    gap: 8px; /* 항목 간 간격 추가 (필요에 따라 조정) */
+}
+
+.centerContent {
+    @apply flex 
+    flex-col 
+    items-center 
+    w-full 
+    mt-5 
+    space-y-5; /* 컴포넌트 간 간격을 줌 */
 }
 
 /* PurchaseInf */
-
 .Purinfostyle{
     @apply 
     w-full 

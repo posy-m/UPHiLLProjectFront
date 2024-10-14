@@ -1,0 +1,15 @@
+@media (min-width:360px) {
+  .usingBox {
+    @apply mt-28 flex gap-5 content-center justify-center text-2xl font-extrabold;
+
+  }
+
+  .usingBox span:hover {
+    /* color: #0070f3; */
+  }
+
+  .activeTab {
+    /* color: #0070f3; */
+    border-bottom: 2px solid;
+  }
+}
