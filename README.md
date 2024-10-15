@@ -9,11 +9,11 @@
  기간 : 2024.05.14 ~ 2024.05.28 <br>
 
  개발 인원 : 5명 
- - 팀원 1 (BE) :
- - 팀원 2 (BE) : 
- - 팀원 3 (FE) :
- - 팀원 4 (FE) :
- - 팀원 5 (FE) :
+ - 팀원 1 (BE) : 김기현
+ - 팀원 2 (BE) : 이민혁
+ - 팀원 3 (FE) : 김민지
+ - 팀원 4 (FE) : 박상철
+ - 팀원 5 (FE) : 이경재
 
 기술 스택   
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=white"> <img src="https://img.shields.io/badge/HTML-D0654C?style=for-the-badge&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=black"> <img src="https://img.shields.io/badge/Typescript-3D6AAC?style=for-the-badge&logo=Typescript&logoColor=white"> <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> 

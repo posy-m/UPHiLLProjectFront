@@ -8,6 +8,7 @@ import Auth from './_component/Auth'
 import { useRouter } from "next/navigation";
 
 const Signup = () => {
+
   // input 상태
   const [formDataValue, setFormDataValue] = useState({
     email: "" as string,
@@ -105,13 +106,13 @@ const Signup = () => {
   // email, 닉네임 중복체크
   const DuplicateCheck = async (type: string, name: string) => {
     const teg = document.querySelector(`input[name=${name}]`) as HTMLInputElement;
-    const respose = await axios.post("http://localhost:3000/user/duplication", {
+    const response = await axios.post("http://localhost:3000/user/duplication", {
       // nickName: formDataValue.nickName,
       // email: formDataValue.email
       type,
       data: teg.value
     })
-    const { data } = respose.data;
+    const { data } = response.data;
     if (type === 'email') {
       setEmailCheck(data)
     } else if (type === "nickName") {
