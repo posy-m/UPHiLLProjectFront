@@ -3,11 +3,9 @@
 import { useState } from 'react'
 import styled from './findpassword.module.css'
 import { Valiation } from '@/app/signup/valiation'
-import axios from 'axios'
-import Foundpassword from '../fixedpassword'
 import { useRouter } from "next/navigation";
-// import Auth from '../../../signup/_component/Auth'
 import Auth from '../../../signup/_component/Auth'
+import customAxios from '@/lib/customAxios'
 
 
 
@@ -82,10 +80,11 @@ const Findpassword = ({ setFn, setEmail }: { setFn: Function, setEmail: Function
       setEmailError("");
       setPhoneError("");
       // email 확인
-      const checkeEmailResponses = await axios.post("http://localhost:3000/user/duplication", { email: formDataValue.email })
+      const checkeEmailResponses = await customAxios.post("/user/findpw", { email: formDataValue.email })
       const checkEmailData = checkeEmailResponses.data
       // 휴대폰번호 인증되면 보내기
       if (formDataValue && (checkEmailData && phoneAuth)) {
+        // && phoneAuth
         // router.push(`/fixedpassword`);
         setEmail(formDataValue.email);
         setFn("fixed")
@@ -109,7 +108,7 @@ const Findpassword = ({ setFn, setEmail }: { setFn: Function, setEmail: Function
       </div>
       <div className={styled.find_pw}>
         {/* <input type="text" placeholder='휴대폰 번호 (01012345678)' name='phoneNumber' maxLength={11} onChange={handleEmailChange} /> */}
-        <Auth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (01012345678)' name='phoneNumber' maxLength={11} onChange={handleEmailChange} />
+        <Auth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (010-1234-5678)' name='phoneNumber' maxLength={13} onChange={handleEmailChange} />
         {phoneError && <p>{phoneError}</p>}
       </div>
       <button>비밀번호 변경</button>

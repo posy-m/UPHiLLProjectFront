@@ -1,9 +1,11 @@
+"use client"
 // hooks/useInfiniteProducts.ts
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Image from 'next/image'
 import styled from './storagebox.module.css'
+import customAxios from '@/lib/customAxios';
 
 const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any) => {
   useEffect(() => {
@@ -21,7 +23,7 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
 }
 
 const getPage = async ({ pageParam }: { pageParam: number }) => {
-  const { data } = await axios.get(`http://localhost:3000/user/getproduct/`, {
+  const { data } = await customAxios.get(`/user/getproduct/`, {
     params: {
       page: pageParam
     }
@@ -37,6 +39,11 @@ interface Product {
 
 const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage }: { setIsModalOpen: Dispatch<SetStateAction<boolean>>, setOrderProduct: Dispatch<SetStateAction<number>>, setClickedImage: Dispatch<SetStateAction<string | null>> }) => {
   // const [list, setList] = useState<Product[]>([])
+  const [total, setTotal] = useState(0);
+  const getTotalpage = async () => {
+    const response = await customAxios.get("/shop/product/count");
+    setTotal(response.data)
+  }
   const {
     data,
     hasNextPage,
@@ -46,9 +53,10 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage }: { setIsMod
   } = useInfiniteQuery({
     queryKey: ['pagenation'],
     queryFn: getPage,
+    // queryFn: ({ pageParam }) => getPage({ pageParam }),
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages) {
-      return allPages.length < 12 ? allPages.length + 1 : undefined
+      return allPages.length < total ? allPages.length + 1 : undefined
     }
   })
   useScollEnd(fetchNextPage, isFetchingNextPage, data)
@@ -58,6 +66,10 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage }: { setIsMod
     setIsModalOpen(true);
     setClickedImage(src);
   }
+  useEffect(() => {
+    getTotalpage()
+  }, [])
+
   useEffect(() => {
 
     // console.log(data);

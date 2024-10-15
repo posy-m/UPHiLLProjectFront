@@ -6,6 +6,7 @@ import { Valiation } from './valiation'
 import axios from 'axios'
 import Auth from './_component/Auth'
 import { useRouter } from "next/navigation";
+import customAxios from '@/lib/customAxios'
 
 const Signup = () => {
 
@@ -105,18 +106,28 @@ const Signup = () => {
 
   // email, 닉네임 중복체크
   const DuplicateCheck = async (type: string, name: string) => {
-    const teg = document.querySelector(`input[name=${name}]`) as HTMLInputElement;
-    const response = await axios.post("http://localhost:3000/user/duplication", {
-      // nickName: formDataValue.nickName,
-      // email: formDataValue.email
-      type,
-      data: teg.value
-    })
-    const { data } = response.data;
-    if (type === 'email') {
-      setEmailCheck(data)
-    } else if (type === "nickName") {
-      setNickNameCheck(data)
+    try {
+
+      const teg = document.querySelector(`input[name=${name}]`) as HTMLInputElement;
+      const response = await customAxios.post("/user/duplication", {
+        // nickName: formDataValue.nickName,
+        // email: formDataValue.email
+        type,
+        data: teg.value
+      })
+      const { data } = response.data;
+      if (type === 'email') {
+        setEmailCheck(data)
+      } else if (type === "nickName") {
+        setNickNameCheck(data)
+      }
+    } catch (error) {
+      console.log("하이영");
+      if (type === 'email') {
+        setEmailCheck(true)
+      } else if (type === "nickName") {
+        setNickNameCheck(true)
+      }
     }
   }
 
@@ -136,7 +147,9 @@ const Signup = () => {
       setCheckPasswordError("");
       // 이거 axios 확안해보기!!!!!!!!!!!!!!!!!!!!
       if (formDataValue && (((!nickNameCheck && !emailCheck) && phoneAuth) && (formDataValue.checkPassword === formDataValue.password))) {
-        const respones = await axios.post("http://localhost:3000/user/signup", formDataValue)
+        const respones = await customAxios.post("/user/signup", formDataValue)
+
+
         router.push('/signup/completepgae')
       }
     } catch (err) {
@@ -155,7 +168,7 @@ const Signup = () => {
             <input type="text" placeholder='Email을 입력해주세요' name='email' onChange={handleInputChange} />
             <button type="button" onClick={() => { DuplicateCheck('email', 'email') }}>중복확인</button>
             {emailCheck !== null && (
-              <p className={styled.errored}>{emailCheck ? '이미 존재하는 이메일입니다.' : '사용할 수 있는 이메일입니다.'}</p>
+              <p className={emailCheck ? styled.errored : styled.success}>{emailCheck ? '이미 존재하는 이메일입니다.' : '사용할 수 있는 이메일입니다.'}</p>
             )}
             {emailError && <p className={styled.errored}>{emailError}</p>}
           </div>
@@ -166,7 +179,7 @@ const Signup = () => {
             <input type="text" placeholder='닉네임(5글자 이내)' name='nickName' maxLength={5} onChange={handleInputChange} />
             <button type="button" onClick={() => { DuplicateCheck('nickName', 'nickName') }}>중복확인</button>
             {nickNameCheck !== null && (
-              <p className={styled.errored}>{nickNameCheck ? '이미 존재하는 닉네임입니다.' : '사용할 수 있는 닉네임입니다.'}</p>
+              <p className={nickNameCheck ? styled.errored : styled.success}>{nickNameCheck ? '이미 존재하는 닉네임입니다.' : '사용할 수 있는 닉네임입니다.'}</p>
             )}
           </div>
         </div>

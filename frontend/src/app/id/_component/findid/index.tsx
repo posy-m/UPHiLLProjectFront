@@ -7,8 +7,9 @@ import { Valiation } from '../../../signup/valiation'
 import axios from 'axios'
 import Auth from '../../../signup/_component/Auth'
 import { useRouter } from 'next/navigation'
+import customAxios from '@/lib/customAxios'
 
-const Findid = ({ setFn }: { setFn: Function }) => {
+const Findid = ({ setFn, setPhoneNumber }: { setFn: Function, setPhoneNumber: Function }) => {
 
   const [formDataValue, setFormDataValue] = useState({
     email: "" as string,
@@ -58,19 +59,18 @@ const Findid = ({ setFn }: { setFn: Function }) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     // console.log(formData.email);
-
-
     try {
       await Valiation(new FormData(event.currentTarget)); // 전체 폼 validation
       await Valiation(formData);
       setPhoneError("")
-
       // 이거 axios 확안해보기!!!!!!!!!!!!!!!!!!!!
-      const respones = await axios.post("http://localhost:3000/user/duplication", { phone: formDataValue.phoneNumber })
+      const respones = await customAxios.post("/user/findid", { phoneNumber: formDataValue.phoneNumber })
       const phoneNumberData = respones.data
       if (formDataValue && (phoneNumberData && phoneAuth)) {
+        // && phoneAuth
 
-        setFn("fixedID")
+        setPhoneNumber(formDataValue.phoneNumber)
+        setFn("FixedID")
         // router.push("findid/foundid")
       }
     } catch (err) {
@@ -86,8 +86,8 @@ const Findid = ({ setFn }: { setFn: Function }) => {
       <span>본인인증</span>
       <input type="text" placeholder='이름' name='useName' />
       <div className={styled.find_id}>
-        <Auth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (01012345678)' name='phoneNumber' maxLength={11} onChange={handleInputChange} />
-        {phoneError && <p className={styled.error}>{phoneError}</p>}
+        <Auth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (010-1234-5678)' name='phoneNumber' maxLength={13} onChange={handleInputChange} />
+        {/* {phoneError && <p className={styled.error}>{phoneError}</p>} */}
       </div>
       <button>이메일 찾기</button>
     </form>

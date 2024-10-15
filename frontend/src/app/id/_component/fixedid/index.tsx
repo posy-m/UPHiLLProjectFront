@@ -3,14 +3,19 @@ import axios from 'axios'
 import styled from './foundid.module.css'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import customAxios from '@/lib/customAxios'
 
-const FixedId = () => {
+const FixedId = ({ phoneNumber }: { phoneNumber: string }) => {
+  // console.log(phoneNumber);
+
   const [email, setEmail] = useState("")
 
   const findEmail = async () => {
     try {
-      const response = await axios.post("localhost:3000/user/findid");
-      const emailData = response.data.email
+      const response = await customAxios.post("/user/findid", { phoneNumber });
+      // console.log(response);
+
+      const emailData = response.data
       setEmail(emailData)
     } catch (error) {
       console.error(error, "아이디찾기에서 fixedid에서 오류")
@@ -18,7 +23,9 @@ const FixedId = () => {
   }
 
   useEffect(() => {
+
     findEmail();
+
   }, []);
 
 

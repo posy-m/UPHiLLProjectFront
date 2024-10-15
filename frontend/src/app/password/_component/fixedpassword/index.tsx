@@ -5,6 +5,7 @@ import styled from './foundpassword.module.css'
 import { Valiation } from '@/app/signup/valiation'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
+import customAxios from '@/lib/customAxios'
 
 // interface FoundpasswordProps {
 //   emailValue: string;
@@ -63,8 +64,10 @@ const Fixdpassword = ({ email, setFn }: { email: string, setFn: Function }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const formData = new FormData(event.currentTarget);
     // console.log(formData.email);
+    console.log("test")
     try {
       await Valiation(new FormData(event.currentTarget)); // 전체 폼 validation
       await Valiation(formData);
@@ -73,10 +76,13 @@ const Fixdpassword = ({ email, setFn }: { email: string, setFn: Function }) => {
 
       // email porps랑로 전달받기
       if (formDataValue && (formDataValue.password === formDataValue.checkPassword)) {
-        const responese = await axios.post("http://localhost:3000/user/findpassword",
-          { email, formDataValue })
+        console.log(formDataValue.password);
+        console.log(formDataValue.checkPassword);
+
+        const responese = await customAxios.put("/user/findpassword",
+          { email, password: formDataValue.password })
+        setFn("complete")
       }
-      setFn("complete")
     } catch (err) {
       if (err instanceof Error) {
         console.error(err.message, "found password 부분 오류");
