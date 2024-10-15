@@ -8,10 +8,10 @@ const Confichange = ({title,onClick,className}:{title:string,onClick:any,classNa
     
   const [buttonTitle,setButtonTitle] = useState(title)
   return (
-    <div>
+    <div className={styled.confichangeTop}>
          {/* 버튼에 onClick함수 생성 후 할당하기 */}
-         <Button 
-            className={className} 
+          <Button 
+            className={styled.confichangeButton} 
             title={buttonTitle}
             onClick={()=>onClick()}
             />
