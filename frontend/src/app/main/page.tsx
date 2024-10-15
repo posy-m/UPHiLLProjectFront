@@ -1,6 +1,4 @@
 "use client"
-/// <reference types="@types/google.maps" />
-
 import React, { useEffect, useState,useRef } from 'react';
 import { Loader } from "@googlemaps/js-api-loader";
 import axios from 'axios';
@@ -11,9 +9,7 @@ import Goback from './components/Goback';
 import Avata from './components/Avata';
 import FootPoinNickAlt from './components/FootPoinNickAlt';
 import Footerbar from '../_components/footerbar/footerbar';
-
-
-
+import customAxios from '@/lib/customAxios';
 interface MessageData {
     lat:number;
     lng:number;
@@ -29,8 +25,6 @@ interface Window {
     }
 }
 
-
-
 function Maps() {
     const [lat, setLat] = useState<number>(0);
     const [lng, setLng] = useState<number>(0);
@@ -45,6 +39,8 @@ function Maps() {
     const [showReturnButton, setShowReturnButton] = useState<boolean>(false);
     const mapRef = useRef<google.maps.Map | null>(null);
 
+    let maps = null;
+    let maker = null;
 
     const loader = new Loader({
         apiKey: "", // 본인 Google Maps API KEY를 입력
@@ -58,8 +54,6 @@ function Maps() {
         disableDefaultUI:true, // 기본 UI 비활성화
     }
 
-
-
     const handleMessage= (e:MessageEvent<MessageData>)=>{
         const {lat,lng} = e.data;
         if(lat !== undefined && lng !== undefined && map){
@@ -72,89 +66,95 @@ function Maps() {
         }
     }
 
+    const getMessage = (e)=>{
+        const { data: { lat, lng } } = e;
+        setLat(lat);
+        setLng(lng);
+    }
+    const initMap=async()=>{
+        await loader.load().then(() => {
+            maps= new google.maps.Map(
+                document.getElementById("map") as HTMLElement,
+                {
+                ...mapOptions,
+                center: { lat: initialLat + 0.003, lng: initialLng }, // 하단에 캐릭터를 고정하기 위해 중심을 위로 이동
+                zoom: initialZoom,
+                disableDefaultUI: true,
+            });
+        })
+    }
+    const initMaker = ()=>{
+        // 아바타만들어어야할곳 
+        // maker = new window.google.maps.Marker({
+        //     // position: {0,0 },
+        //      map:maps,
+        //      // 추후 아바타로 변경
+        //      icon: {
+        //          url: "/welsh02.png",
+        //          //scaledSize: new google.maps.Size(32, 32)
+        //      }
+        //  });
+    }
 
+    const setPostion = ()=>{
+        if(maps!==null)
+            maps.setCenter({lat,lng})
+        if(maker!==null)
+            maker.setPosition({lat,lng})
+    }
+
+    useEffect (()=>{
+        window.onmessage=getMessage;
+        initMap()
+        initMaker()
+        setInitialLat(lat);  // 처음 위치 저장
+        setInitialLng(lng);  // 처음 위치 저장
+    },[])
+
+    useEffect(()=>{
+        // 고도 정보 가져오기
+        const fetchElevation = async () => {
+            try {
+                const response = await customAxios.get("http://localhost:4000/geolocation/elevation", {
+                    params: { lat, lng }
+                });
+
+            // 응답 데이터 확인
+            console.log(response.data); // API 응답 로그
+
+            if (response.status === 200 && response.data.results && response.data.results.length > 0) {
+                const newHigh = response.data.results[0].elevation;
+                setHigh(newHigh);
+
+                if (newHigh > prevHigh) {
+                    const pointIncrement = Math.floor(newHigh - prevHigh);
+                    setPoints(prevPoints => prevPoints + pointIncrement);
+                    setPrevHigh(newHigh);
+                }
+            } else {
+                console.error("고도 데이터를 가져오는 데 실패했습니다:", response.data);
+            }
+        } catch (error) {
+            console.error("고도 정보를 가져오는 중 오류 발생:", error);
+        }
+    };
+    fetchElevation();
+    setPostion();
+    },[lat,lng])
 
     useEffect(() => {
-            const initializeMap = async () => {
-                try {
-                    // 유저 데이터 가져오기
-                    //const userResponse = await axios.get('http://localhost:4000/user');
-                    //setNickname(userResponse.data.nickname);
-        
-                    // 현재 위치 가져오기
-                    navigator.geolocation.getCurrentPosition(async (data) => {
-                        const userLat = data.coords.latitude;
-                        const userLng = data.coords.longitude;
-
-                        setLat(userLat);
-                        setLng(userLng);
-                        setInitialLat(userLat);  // 처음 위치 저장
-                        setInitialLng(userLng);  // 처음 위치 저장
-        
-                        const loadedMap = await loader.load().then(() => {
-                            const map = new google.maps.Map(
-                                document.getElementById("map") as HTMLElement,
-                                {
-                                ...mapOptions,
-                                center: { lat: userLat + 0.003, lng: userLng }, // 하단에 캐릭터를 고정하기 위해 중심을 위로 이동
-                                zoom: initialZoom,
-                                disableDefaultUI: true,
-                            });
-                            mapRef.current = map;
-                            setMap(map);
-
-                            // 지도 움직임을 감지하여 버튼 보이기
-                            map.addListener("dragstart", () => {
-                                setShowReturnButton(true); // 지도가 움직이면 버튼 보이기
-                            });
-                            return map;
-                        });
-        
-                        // 고도 정보 가져오기
-                        const response = await axios.get("http://localhost:4000/geolocation/elevation", {
-                            params: { lat: userLat, lng: userLng }
-                        });
-        
-                               // 응답 데이터 확인
-                               console.log(response.data); // API 응답 로그
-
-                        if (response.status === 200 && response.data.results && response.data.results.length > 0) {
-                            const newHigh = response.data.results[0].elevation;
-                            setHigh(newHigh);
-        
-                            if (newHigh > prevHigh) {
-                                const pointIncrement = Math.floor(newHigh - prevHigh);
-                                setPoints(prevPoints => prevPoints + pointIncrement);
-                                setPrevHigh(newHigh);
-                            }
-                        }else {
-                            console.error("고도 데이터를 가져오는 데 실패했습니다:", response.data);
-                        }
-                    });
-                } catch (error) {
-                    console.error("지도를 로드하는 중 문제가 발생했습니다:",error);
-                }
-            };
-        
-            // 메시지 이벤트 리스너 등록
-            window.addEventListener('message', handleMessage);
-        
-            // ReactNativeWebView가 있을 경우 메시지 전송
-            if (typeof window !== 'undefined' && window.ReactNativeWebView) {
-            window.ReactNativeWebView.postMessage("Response from Next.js");
-            } else {
-            console.error("ReactNativeWebView is not available");
+        // 포인트 적립 로직
+        if (high > prevHigh) {
+            const heightDifference = high - prevHigh;
+            if (heightDifference >= 20) {
+                const pointsToAdd = Math.floor(heightDifference / 20) * 10; // 20m마다 10포인트
+                setPoints(prevPoints => prevPoints + pointsToAdd);
+                setPrevHigh(high); // 현재 고도를 이전 고도로 업데이트
             }
-            
-            initializeMap();
+        }
+    }, [lat, lng, high, prevHigh]); // lat, lng, high, prevHigh가 변경될 때마다 실행
 
-            // 컴포넌트 언마운트 시 이벤트 리스너 제거
-        return () => {
-            window.removeEventListener('message', handleMessage);
-        };
-
-        }, [prevHigh,map]);
-
+    
         // 현재 위치로 돌아가는 함수
     const recenterMap = () => {
         if (mapRef.current) {
@@ -164,7 +164,6 @@ function Maps() {
             setShowReturnButton(false); // 위치로 돌아간 후 버튼 숨김
         }
     };
-        
 
     return (
         <div style={{ position: "relative", width: '100vw', height: '100vh' }}>

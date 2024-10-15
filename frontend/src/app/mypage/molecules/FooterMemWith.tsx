@@ -40,9 +40,9 @@ const FooterMomWith = ({onClick}:{onClick:any}) => {
   return (
     <div className={styld.footer}>
       <div className={styld.footerContent}> {/* 가로 정렬을 위한 div 추가 */}
-        <Ttext spanchild='mr-2' onClick={handleLogout} >로그아웃</Ttext> 
+        <Ttext className='mr-1' onClick={handleLogout} >로그아웃</Ttext> 
         | 
-        <Ttext spanchild='ml-2' onClick={DeleteAccount} >회원탈퇴</Ttext>
+        <Ttext className='ml-1' onClick={DeleteAccount} >회원탈퇴</Ttext>
       </div>
     </div>
   )
