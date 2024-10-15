@@ -106,6 +106,7 @@ const Signup = () => {
 
   // email, 닉네임 중복체크
   const DuplicateCheck = async (type: string, name: string) => {
+
     try {
 
       const teg = document.querySelector(`input[name=${name}]`) as HTMLInputElement;
@@ -129,6 +130,7 @@ const Signup = () => {
         setNickNameCheck(true)
       }
     }
+    
   }
 
   // form태그 event
@@ -147,8 +149,8 @@ const Signup = () => {
       setCheckPasswordError("");
       // 이거 axios 확안해보기!!!!!!!!!!!!!!!!!!!!
       if (formDataValue && (((!nickNameCheck && !emailCheck) && phoneAuth) && (formDataValue.checkPassword === formDataValue.password))) {
-        const respones = await customAxios.post("/user/signup", formDataValue)
 
+        const respones = await customAxios.post("/user/signup", formDataValue)
 
         router.push('/signup/completepgae')
       }

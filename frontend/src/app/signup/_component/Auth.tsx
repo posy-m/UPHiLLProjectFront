@@ -72,6 +72,7 @@ export default function Auth(props: AuthProps) {
 
   const phoneRegex = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
 
+
   const click = async (e: Event) => {
     // axios요청을 보내서 번호랑 맞는지 확인 번호가 존재하면
     // "이미 가입 된 번호입니다." 라는 문구 주기
@@ -81,7 +82,7 @@ export default function Auth(props: AuthProps) {
       setPhoneCheck('이미 가입된 번호입니다. 다른 번호로 시도해주세요.')
       return
     }
-    // 번호 정규식
+
     const { phoneNumber: phone } = props.formData;
     const phoneNumber = phone.replace("0", "+82");
     console.log(phoneNumber);
@@ -111,6 +112,7 @@ export default function Auth(props: AuthProps) {
       <div id='recap'></div>
       {phoneError && <p className={styled.confirm}>{phoneError}</p>}
       {phoneCheck && <p className={styled.confirm}>{phoneCheck}</p>}
+
       {send ? <PhoneAuthConfirm setFn={props.value} /> : ''}
     </div>
   );
