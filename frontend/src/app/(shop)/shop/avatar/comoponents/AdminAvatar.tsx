@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react';
-import styled from './avatar.module.css'
-import axios from 'axios';
-const AdminAvatar = ({setProductId,updated,setUP,productId, modifyPopup, setModifyPopup,price, image}: {updated:boolean,setProductId:Function,setUP:Function,productId: number, modifyPopup: boolean,setModifyPopup: Function ,price: number, image:string}) => {
+// import { useEffect, useState } from 'react';
+import customAxios from '@/lib/customAxios';
+import styled from './adminAvatar.module.css'
+
+const AdminAvatar = ({setProductId,productId, modifyPopup, setModifyPopup,price, image, refetch}: {setProductId:Function,productId: number, modifyPopup: boolean,setModifyPopup: Function ,price: number, image:string, refetch: Function}) => {
 
   const handleDelete = (key:number) => {
     const deleteQuestion = confirm('정말 삭제 하시겠습니까?');
@@ -13,9 +14,9 @@ const AdminAvatar = ({setProductId,updated,setUP,productId, modifyPopup, setModi
       return;
     }
 
-    axios.delete(`http://localhost:4000/shop/avatar/${key}`).then(response => {
+    customAxios.delete(`/shop/${key}`).then(response => {
       console.log("아바타가 삭제 됐습니다.", response);
-      setUP(!updated)
+      refetch()
     }).catch(error => console.log("아바타 삭제 가 실패", error));
   }
 

@@ -1,10 +1,10 @@
 'use client';
 
 import React, {FormEventHandler, ReactNode, useEffect, useState} from 'react'
-import styled from './popup.module.css'
-import axios from 'axios';
+import styled from './popup.module.css';
+import customAxios from '@/lib/customAxios';
 
-const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Function, modifyPopup: boolean,productId:number} ) => {
+const Modify = ({modifyPopup, setModifyPopup, productId, refetch}: { setModifyPopup: Function, modifyPopup: boolean,productId:number,refetch: Function} ) => {
   const [attachment, setAttachment] = useState<string | ArrayBuffer | null>();
   const [name,setName] = useState("");
   const [price,setPrice]=useState(0);
@@ -23,11 +23,11 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
     }
   }
 
-  const detail=async()=>{
-    const response = await axios.get(`http://localhost:4000/shop/detail/${productId}`);
+  const detail = async ()=>{
+    const response = await customAxios.get(`/shop/detail/${productId}`);
     console.log(response);
     if(response.status===200){
-      const {data:{name,price,image}} = response;
+      const { data : { name, price, image}} = response;
       setName(name);
       setPrice(price)
       setImageState(image);
@@ -37,10 +37,8 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
   useEffect(() => {
     detail()
   },[])
-  
-  console.log("이게 뭐임?")
 
-  const handleModify = (e:  React.FormEvent<HTMLFormElement>) => {
+  const handleModify = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // console.log(productId)
 
@@ -48,7 +46,7 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
    const nameValue=(name as unknown as HTMLInputElement).value;
    const priceValue=Number((price as unknown as HTMLInputElement).value);
 
-    console.log(nameValue)
+    // console.log(nameValue)
     if (nameValue==="" || priceValue===0){
       alert("아바타의 이름과 가격을 입력해주세요.");
       return;
@@ -56,8 +54,8 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
     
     const formData = new FormData();
     if(!image.files[0]){
-      console.log("1")
-      axios.put('http://localhost:4000/shop/avatar', {  productId,name:nameValue,price:priceValue}
+
+      customAxios.put('/shop/avatar', { productId,name:nameValue,price:priceValue }
         ,{
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -65,17 +63,18 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
           withCredentials: true
         }).then(response => {
           console.log("Avatar registed successfully", response);
-          setModifyPopup(!modifyPopup)
+          setModifyPopup(!modifyPopup);
+          refetch();
         }).catch(error => {
           console.error("Error registered avatar", error);
         });
       }  else {
-        console.log("2")
         formData.append('image', image.files[0]);
-        formData.append('name', name);
-        formData.append('price', price);
+        formData.append('productId', productId+'');
+        formData.append('name', nameValue);
+        formData.append('price', priceValue+'');
         
-        axios.put('http://localhost:4000/shop/avatar', formData
+        customAxios.put('/shop/avatar', formData
           ,{
             headers: {
               'Content-Type': 'multipart/form-data'
@@ -83,7 +82,8 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
             withCredentials: true
           }).then(response => {
             console.log("Avatar registed successfully", response);
-            setModifyPopup(!modifyPopup)
+            setModifyPopup(!modifyPopup);
+            refetch();
           }).catch(error => {
             console.error("Error registered avatar", error);
           });
@@ -103,7 +103,6 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
    onSubmit={handleModify}
    >
     <div className={styled.frm_wrap}>
-      <span>{productId}</span>
       <div className={styled.avatar_img}>
         <label htmlFor='image'>아바타 이미지
         {attachment && <img src={attachment.toString()} className={styled.avatar_upload} />}

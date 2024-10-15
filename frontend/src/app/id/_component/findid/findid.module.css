@@ -1,0 +1,30 @@
+@media (min-width:360px) {
+  .find_userid {
+    @apply flex flex-col gap-5 text-center items-center mt-48;
+  }
+
+  .find_userid>span {
+    @apply text-2xl font-extrabold mb-8;
+  }
+
+  .find_userid>input {
+    @apply w-80 p-2 rounded-sm text-sm;
+    border: 1px solid gray;
+  }
+
+  .find_userid>button {
+    @apply w-80 h-12 rounded-sm font-medium font-bold;
+    background-color: #5DB075;
+
+  }
+
+  .find_id>input {
+    @apply w-80 p-2 rounded-sm text-sm;
+    border: 1px solid gray;
+  }
+
+  .find_id>p {
+    @apply flex text-xs text-red-500 items-start mt-1;
+  }
+
+}
