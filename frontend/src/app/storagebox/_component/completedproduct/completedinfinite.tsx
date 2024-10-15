@@ -46,7 +46,7 @@ interface Product {
 
 
 const CompletedInfinite = ({ use }: { use: boolean }) => {
-  const [total, setTotal] = useState(12);
+  const [total, setTotal] = useState(0);
   const getTotalpage = async () => {
     const response = await customAxios.get("/shop/product/count");
     setTotal(response.data)

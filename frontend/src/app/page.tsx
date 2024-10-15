@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useAtom } from 'jotai';
 import { userInfo } from './(jotai)/atom';
 import customAxios from '@/lib/customAxios';
+import { Valiation } from './signup/valiation';
 
 
 export default function Home() {
