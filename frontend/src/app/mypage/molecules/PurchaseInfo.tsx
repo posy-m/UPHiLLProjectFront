@@ -194,7 +194,6 @@ const dummyData = Array.from({ length: 50 }, (_, index) => ({
   item: `아이템 ${index + 1}`,
   pointsDeducted: Math.floor(Math.random() * 500) + 100, // 100~600 사이의 랜덤 포인트
 }));
-
 const getPages = async ({ pageParam = 1 }: { pageParam: number }) => {
   const pageSize = 10; // 페이지당 데이터 수
   const start = (pageParam - 1) * pageSize;
@@ -206,7 +205,6 @@ const getPages = async ({ pageParam = 1 }: { pageParam: number }) => {
   };
 };
 // 더미 데이터 생성 여기까지
-
 
 
 const useScrollEnd = (onScrollToEnd: any, hasNextPage: boolean) => {
@@ -255,7 +253,6 @@ const PurchaseInfo = () => {
     //   return lastPage.hasMore ? allPages.length + 1 : undefined;
     // }
 
-  
         // 더미데이터 이용코드
         getNextPageParam(lastPage,allPages) {
           return lastPage.hasMore ? allPages.length + 1 : undefined; // 페이지 번호 계산
@@ -265,16 +262,16 @@ const PurchaseInfo = () => {
   useScrollEnd(fetchNextPage, hasNextPage);
 
   return (
-    <div style={{ minHeight: '100vh' }}>
+    <div className={styled.PurchaseInfoTop}>
       <div className={styled.Purinfostyle}>
-        <Ttext spanchild='mr-4' onClick={()=>{}}>품목</Ttext>
-        <Ttext spanchild='ml-4' onClick={()=>{}}>차감포인트</Ttext>
+        <Ttext className={styled.PurchaseInfoItem} onClick={()=>{}}>- 품목 -</Ttext>
+        <Ttext className={styled.PurchaseInfoDPoint} onClick={()=>{}}>- 차감포인트 -</Ttext>
       </div>
       {data?.pages.map((page) =>
         page.items.map((item: PurchaseItem, index: number) => (
           <div key={index} className={styled.purchaseitem}>
-            <Ttext spanchild='mr-4' onClick={()=>{}}>{item.item}</Ttext>
-            <Ttext spanchild='ml-4' onClick={()=>{}}>- {item.pointsDeducted} 포인트</Ttext>
+            <Ttext className='mr-4' onClick={()=>{}}>{item.item}</Ttext>
+            <Ttext className='ml-4' onClick={()=>{}}>- {item.pointsDeducted} 포인트</Ttext>
           </div>
         ))
       )}

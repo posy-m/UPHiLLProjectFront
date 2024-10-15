@@ -5,13 +5,13 @@ import styled from './style.module.css'
 const MypsgeText = ({email,points,onClick}:{email:any,points:number,onClick:()=>void}) => {
   
   return (
-    <div className='mt-10'>
-        <div className={styled.infotext}>
-        <Ttext spanchild='text-base' onClick={()=>{}}>${points}</Ttext>
+    <div >
+        <div className={styled.infotextTop}>
+        <Ttext className={styled.mysgeTextPoints} onClick={()=>{}}>{points} P</Ttext>
         </div> 
 
         <div className={styled.infotext}>
-        <Ttext spanchild='text-base' onClick={()=>{}} >{email}</Ttext>
+        <Ttext className={styled.mysgeTextEmail} onClick={()=>{}} >{email}</Ttext>
         </div>
     </div>
   )

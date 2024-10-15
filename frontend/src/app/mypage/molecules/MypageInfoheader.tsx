@@ -21,12 +21,12 @@ const MypageInfoheader = ({select,setSelect}:MypageInfoheaderProps) => {
     <div className={styled.infoheader}>
       <div className={styled.click}
       onClick={()=>clickHandler('개인정보')}>
-        <Ttext spanchild='mr-2' onClick={()=>{}} >개인정보</Ttext> 
+        <Ttext className='mr-2 ' onClick={()=>{}} >개인정보</Ttext> 
       </div>
         
       <div className={styled.click}
       onClick={()=>clickHandler('구매정보')}>
-        <Ttext spanchild='ml-2'onClick={()=>{}} >구매정보</Ttext>
+        <Ttext className='ml-2'onClick={()=>{}} >구매정보</Ttext>
       </div>
     </div>
   )
