@@ -7,13 +7,16 @@
   }
 
   /* 상단 카테고리 */
-  .category {
-    @apply h-20 flex justify-center items-center py-4;
+  .product_ul {
+    width: 100%;
+    padding: 10px 0 10px;
+    @apply w-full flex justify-center text-3xl font-bold box-border;
   }
-
-  .category li {
+  
+  .product_ul > li {
     width: 120px;
-    @apply flex justify-center items-center font-semibold text-2xl bg-yellow-400 py-2 rounded-lg mx-3;
+    color: rgb(131, 94, 15);
+    @apply flex justify-center items-center mx-3 px-2 py-2;
   }
 
   /* 현재 착용중 아바타 */

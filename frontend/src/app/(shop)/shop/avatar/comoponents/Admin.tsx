@@ -8,59 +8,49 @@ import AddBtn from './AddBtn';
 import Popup from './Popup';
 import Modify from './Modify';
 import styled from './admin.module.css';
-import { getPages } from '../api';
-import {UseScroll} from '../../hooks/UseScroll';
+import { getAvatarPages } from '../../api';
+import {UseScroll} from '../../hooks/useScroll';
 import Header from '@/app/_components/header/header';
 import Footerbar from '@/app/_components/footerbar/footerbar';
+import customAxios from '@/lib/customAxios';
 
 const Admin = () => {
-
   const [isPopup, setIsPopup] = useState<boolean>(false);
   const [modifyPopup, setModifyPopup] = useState<boolean>(false);
-  const [updated, setUpdate]=useState(false);
+  const [updated, setUpdate] = useState(false);
   const [productId, setProductId] = useState(0);
-  // const [productName, setProductName] = useState("");
-  // const [productPrice, setProductPrice] = useState(0);
+  const [dataLength, setDataLength] = useState(0);
+
+  const dataCountAxios = async () => {
+    const {data} = await customAxios.get('/shop/avatar/count');
+    setDataLength(data);
+  };
+
+  
+  // 최초의 한번 실행
+  useEffect(() => {
+    dataCountAxios();
+  }, []);
+
+  useEffect(() => {
+    dataCountAxios();
+  }, [updated]);
 
   const {
     data,
     hasNextPage, // true
     fetchNextPage, // 다음페이지 ㅇㅇ
-    isFetchingNextPage // 로딩중인지 boolean
+    isFetchingNextPage, // 로딩중인지 boolean
+    refetch // 재요청
   } = useInfiniteQuery({
     queryKey: ['infinitescroll'],
-    queryFn: getPages,
+    queryFn: getAvatarPages,
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages){
-      
       // 페이지가 남아있으면 더 추가해주는 로직
-      return allPages.length < 3 ? allPages.length + 1 : undefined;
+      return allPages.length < Math.ceil(dataLength / 12) ? allPages.length + 1 : undefined;
     }
   });
-
-  // const scroll = UseScroll(fetchNextPage, hasNextPage, isFetchingNextPage, data);
-
-  // 페이지 데이터 가져오고
-  // console.log(data)
-  // const dataAsync = async () => {
-  //   try {
-  //     const {data} = await axios.get("http://localhost:4000/shop/avatar");
-  //     console.log("아바타 데이터가 잘 들어왔어", data);
-      
-  //     setAvatarArray(data)
-  //   } catch (error) {
-  //     console.log("아타를 못 불러왔어", error);
-  //   }
-  // }
-  
-  // 비동기 함수 최초의 한번만 실행할 hook
-  // useEffect(() => {
-  //   dataAsync();
-  // }, [updated]);
-
-  // useEffect(() => {
-
-  // }, [data]);
 
   return (<>
       <Header showBackButton={false} />
@@ -78,14 +68,14 @@ const Admin = () => {
             >
             {data?.pages.map((page) => page.map((e:any) =>
               <li className={styled.avatar_list} key={e.id}>
-                <Avatar productId={e.id} updated={updated} setUP={setUpdate} setProductId={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} price={e.price} image={e.image}/>
+                <Avatar productId={e.id} refetch={refetch} setProductId={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} price={e.price} image={e.image}/>
               </li>))
             } 
           </UseScroll>
         </div>
         <AddBtn isPopup={isPopup} setIsPopup={setIsPopup} modifyPopup={modifyPopup}/>
-        { isPopup ? <Popup isPopup={isPopup} setIsPopup={setIsPopup}/> : '' }
-        { modifyPopup ? <Modify productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup}/> : '' }
+        { isPopup ? <Popup refetch={refetch} isPopup={isPopup} setIsPopup={setIsPopup}/> : '' }
+        { modifyPopup ? <Modify refetch={refetch} productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup}/> : '' }
       </div>
       <Footerbar />
   </>)

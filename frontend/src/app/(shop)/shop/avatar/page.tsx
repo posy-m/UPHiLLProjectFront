@@ -10,5 +10,5 @@ const page = () => {
       <User />
   )
 }
-
+ 
 export default page;

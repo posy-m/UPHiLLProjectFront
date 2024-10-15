@@ -1,58 +1,83 @@
 'use client';
-import {ReactNode, useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import Link from 'next/link';
 import AddBtn from './AddBtn';
 import Popup from './Popup';
-import axios from 'axios';
+import { getProductPages } from '../../api';
+import customAxios from '@/lib/customAxios';
 import styled from './admin.module.css';
 import Product from './Product';
 import Modify from '../../avatar/comoponents/Modify';
 import Header from '@/app/_components/header/header';
 import Footerbar from '@/app/_components/footerbar/footerbar';
+import {useInfiniteQuery} from '@tanstack/react-query';
+import { UseUserScroll } from '../../hooks/useScroll';
 
 const Admin = () => {
   const [isPopup, setIsPopup] = useState<boolean>(false);
   const [modifyPopup, setModifyPopup] = useState<boolean>(false);
-  const [avatarArray, setAvatarArray] = useState<Array<{id: number,name: string, price: number, image: string}>>([]);
-  const [updated ,setUpdate]=useState(false);
   const [productId, setProductId] = useState(0);
-  const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState(0);
+  const [dataLength, setDataLength] = useState(0);
 
+  const dataCountAxios = async () => {
+    const {data} = await customAxios.get('/shop/product/count');
+    setDataLength(data);
+  };
 
-  const dataAsync = async () => {
-    try {
-      const {data} = await axios.get("http://localhost:4000/shop/product");
-      console.log("아바타 데이터가 잘 들어왔어", data);
-      setAvatarArray(data)
-    } catch (error) {
-      console.log("아타를 못 불러왔어", error);
-    }
-  }
-  // 비동기 함수 최초의 한번만 실행할 hook
   useEffect(() => {
-    dataAsync();
-  }, [updated]);
+    dataCountAxios();
+  }, []);
+
+  useEffect(() => {
+    dataCountAxios();
+  }, [dataLength]);
+
+  const {
+    data,
+    hasNextPage, // true
+    fetchNextPage, // 다음페이지 ㅇㅇ
+    isFetchingNextPage, // 로딩중인지 boolean
+    refetch // 재요청
+  } = useInfiniteQuery({
+    queryKey: ['infinitescroll'],
+    queryFn: getProductPages,
+    initialPageParam: 1,
+    getNextPageParam(lastPage, allPages){
+      // 페이지가 남아있으면 더 추가해주는 로직
+      return allPages.length < Math.ceil(dataLength / 10) ? allPages.length + 1 : undefined;
+    }
+  });
+
+  // console.log(Math.ceil(dataLength / 10))
 
   return (
     <>
-      <div className="avartar-wrap" style={{width: '360px', height: '800px', overflow: 'scroll', position: 'relative'}}>
-        <Header showBackButton={false} />
-        <div>
+      <Header showBackButton={false} />
+      <div className={styled.avatar_wrap}>
+        <div className={styled.avatar_content}>
           <ul className={styled.product_ul}>
-            <li><Link href="http://localhost:3000/shop/avatar">아바타</Link></li>
-            <li>상품</li>
+            <li ><Link href="http://localhost:3000/shop/avatar">아바타</Link></li>
+            <li style={{borderBottom:"3px solid rgb(112, 61, 22)", color: "rgb(112, 61, 22)", boxSizing: "border-box"}}>상품</li>
           </ul>
-          <ul className={styled.avatar_ul}>
-            {avatarArray.map((e, index) => <li key={e.id}><Product name={e.name} productId={e.id} updated={updated} setUP={setUpdate} setProductId ={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} price={e.price} image={e.image}/></li> )}
-          </ul>
+          <UseUserScroll
+            fetchNextPage={fetchNextPage} 
+            hasNextPage={hasNextPage} 
+            isFetchingNextPage={isFetchingNextPage} 
+            data={data}
+            >
+            {data?.pages.map((page) => page.map((e:any) =>
+              <li className={styled.avatar_list} key={e.id}>
+                <Product productId={e.id} name={e.name} refetch={refetch} setProductId={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} price={e.price} image={e.image}/>
+              </li>))
+            } 
+          </UseUserScroll>
         </div>
         <AddBtn isPopup={isPopup} setIsPopup={setIsPopup} modifyPopup={modifyPopup}/>
-        { isPopup ? <Popup isPopup={isPopup} setIsPopup={setIsPopup}/> : '' }
-        { modifyPopup ? <Modify productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup}/> : '' }
+        { isPopup ? <Popup refetch={refetch} isPopup={isPopup} setIsPopup={setIsPopup}/> : '' }
+        { modifyPopup ? <Modify refetch={refetch} productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup}/> : '' }
+        { modifyPopup ? <Modify refetch={refetch} productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup}/> : '' }
       </div>
       <Footerbar />
-      {/* <Modify> */}
     </>
   )
 }

@@ -1,16 +1,16 @@
 'use client';
 
-import React, {FormEventHandler, ReactNode, useEffect, useState} from 'react'
-import styled from './popup.module.css'
-import axios from 'axios';
+import React, {FormEventHandler, ReactNode, useEffect, useState} from 'react';
+import styled from './popup.module.css';
+import customAxios from '@/lib/customAxios';
 
-const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Function, modifyPopup: boolean,productId:number} ) => {
+const Modify = ({modifyPopup, setModifyPopup, refetch, productId}: { setModifyPopup: Function, modifyPopup: boolean,productId:number, refetch: Function} ) => {
   const [attachment, setAttachment] = useState<string | ArrayBuffer | null>();
   const [name,setName] = useState("");
   const [price,setPrice]=useState(0);
   const [imageState, setImageState] = useState("")
 
-  // input change 발생시 아바타 변화
+  // input change 발생시 상품 변화
   const handleChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
@@ -24,7 +24,7 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
   }
 
   const detail=async()=>{
-    const response = await axios.get(`http://localhost:4000/shop/detail/${productId}`);
+    const response = await customAxios.get(`/shop/detail/${productId}`);
     console.log(response);
     if(response.status===200){
       const {data:{name,price,image}} = response;
@@ -55,7 +55,7 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
     
     const formData = new FormData();
     if(!image.files[0]){
-      axios.put('http://localhost:4000/shop/avatar', {  productId,name:nameValue,price:priceValue}
+      customAxios.put('/shop/avatar', {  productId,name:nameValue,price:priceValue}
         ,{
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -63,7 +63,8 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
           withCredentials: true
         }).then(response => {
           console.log("Avatar registed successfully", response);
-          setModifyPopup(!modifyPopup)
+          setModifyPopup(!modifyPopup);
+          refetch();
         }).catch(error => {
           console.error("Error registered avatar", error);
         });
@@ -73,7 +74,7 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
         formData.append('name', name);
         formData.append('price', price);
         
-        axios.put('http://localhost:4000/shop/avatar', formData
+        customAxios.put('/shop/avatar', formData
           ,{
             headers: {
               'Content-Type': 'multipart/form-data'
@@ -81,16 +82,17 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
             withCredentials: true
           }).then(response => {
             console.log("Avatar registed successfully", response);
-            setModifyPopup(!modifyPopup)
+            setModifyPopup(!modifyPopup);
+            refetch();
           }).catch(error => {
             console.error("Error registered avatar", error);
           });
         }
     }
-  const changeName = (e)=>{
+  const changeName = (e: any)=>{
     setName(e.target.value)
   }
-  const changePrice=(e)=>{
+  const changePrice=(e: any)=>{
     setPrice(e.target.value)
   }
   
@@ -103,7 +105,7 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
     <div className={styled.frm_wrap}>
       <span>{productId}</span>
       <div className={styled.avatar_img}>
-        <label htmlFor='image'>아바타 이미지
+        <label htmlFor='image'>상품 이미지
         {attachment && <img src={attachment.toString()} className={styled.avatar_upload} />}
         {imageState && <img src={imageState.toString()} className={styled.avatar_modify} />}
         </label>
@@ -112,13 +114,13 @@ const Modify = ({modifyPopup, setModifyPopup, productId}: { setModifyPopup: Func
       <div className={styled.avatar_info}>
         <div>
           <label htmlFor='name'>이름</label> :
-          &nbsp;<input type="text" id="name" name="name" placeholder='아바타 이름 입력' onChange={changeName}value={`${name}`}/>
+          &nbsp;<input type="text" id="name" name="name" placeholder='상품 이름 입력' onChange={changeName}value={`${name}`}/>
         </div>
         <div>
           <label htmlFor='price'>가격</label> :
-          &nbsp;<input type="number" id="price" name="price" placeholder='아바타 가격 입력' onChange={changePrice}value={`${price}`}/>
+          &nbsp;<input type="number" id="price" name="price" placeholder='상품 가격 입력' onChange={changePrice}value={`${price}`}/>
         </div>
-        <p>아바타를 수정하시겠습니까?</p>
+        <p>상품를 수정하시겠습니까?</p>
         <div className={styled.btn_area}>
           <button id="submitBtn" className={styled.btn}>수정</button>
           <span id="cancelBtn" onClick={() => setModifyPopup(!modifyPopup)} className={styled.btn}>취소</span>

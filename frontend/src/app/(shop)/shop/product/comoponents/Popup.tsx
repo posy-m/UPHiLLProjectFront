@@ -1,11 +1,11 @@
 'use client';
 
-import React, {ReactNode, useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import styled from './popup.module.css'
-import axios from 'axios';
+import customAxios from '@/lib/customAxios';
 
 
-const Popup = ({isPopup, setIsPopup}: {isPopup: boolean, setIsPopup: Function}) => {  
+const Popup = ({isPopup, setIsPopup, refetch}: {isPopup: boolean, setIsPopup: Function, refetch: Function}) => {  
   const [attachment, setAttachment] = useState<string | ArrayBuffer | null>();
   
   const handleChangeProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,12 +27,12 @@ const Popup = ({isPopup, setIsPopup}: {isPopup: boolean, setIsPopup: Function}) 
     const priceValue: number = parseFloat((price as HTMLInputElement).value);;
     
     if(!image.files[0]){
-      alert("아바타를 선택해주세요");
+      alert("상품을 선택해주세요");
       return;
     }
 
     if (!nameValue || !priceValue){
-      alert("아바타의 이름과 가격을 입력해주세요.");
+      alert("상품의 이름과 가격을 입력해주세요.");
       return;
     }
 
@@ -46,7 +46,7 @@ const Popup = ({isPopup, setIsPopup}: {isPopup: boolean, setIsPopup: Function}) 
     
     console.log(formData)
 
-    axios.post('http://localhost:4000/shop/product', formData
+    customAxios.post('/shop/product', formData
       ,{
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -54,7 +54,8 @@ const Popup = ({isPopup, setIsPopup}: {isPopup: boolean, setIsPopup: Function}) 
         withCredentials: true
       }).then(response => {
         console.log("Avatar registed successfully", response);
-        setIsPopup(!isPopup)
+        setIsPopup(!isPopup);
+        refetch();
       }).catch(error => {
         console.error("Error registered avatar", error);
       });
@@ -83,7 +84,7 @@ const Popup = ({isPopup, setIsPopup}: {isPopup: boolean, setIsPopup: Function}) 
           <label htmlFor='price'>가격</label> :
           &nbsp;<input type="number" id="price" name="price" placeholder='상품 가격 입력'/>
         </div>
-        <p>아바타를 등록하시겠습니까?</p>
+        <p>상품을 등록하시겠습니까?</p>
         <div className={styled.btn_area}>
           <button id="submitBtn" className={styled.btn}>등록</button>
           <span id="cancelBtn" className={styled.btn} onClick={() => setIsPopup(!isPopup)}>취소</span>
