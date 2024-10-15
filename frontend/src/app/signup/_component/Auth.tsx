@@ -2,7 +2,6 @@
 import React from 'react';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, PhoneAuthProvider, signInWithCredential, initializeAuth } from 'firebase/auth';
 import { getApp, initializeApp } from 'firebase/app';
-
 import { useEffect, useState } from 'react';
 import PhoneAuthConfirm from './PhoneAuthConfirm';
 
@@ -30,6 +29,8 @@ interface AuthProps {
 }
 //export default function Auth(props: AuthProps) {
 export default function Auth(props: AuthProps) {
+
+  const [phoneError, setPhoneError] = useState<string>('')
 
   const API_KEY = process.env.NEXT_PUBLIC_API_KEY
   const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
@@ -68,29 +69,37 @@ export default function Auth(props: AuthProps) {
   }, [])
 
 
+  const phoneRegex = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
+
   const click = (e: Event) => {
     const { phoneNumber: phone } = props.formData;
     const phoneNumber = phone.replace("0", "+82");
     console.log(phoneNumber);
+    if (!phoneRegex.test(phone)) {
+      setPhoneError("올바른 형식을 입력해주세요 (010-1234-5678)");
+      return
+    } else {
+      setPhoneError('')
+    }
 
     signInWithPhoneNumber(auth, phoneNumber, recap)
       .then((confirmationResult) => {
         // alert("sms 요청")
         window.confirmationResult = confirmationResult;
-        console.log(1)
-        console.log(window);
+        // console.log(1)
+        // console.log(window);
         setSend(true)
       }).catch(error => {
-        console.log(2)
+        // console.log(2)
         console.error(error)
       });
-
   }
   return (
     <div className={styled.auth}>
       <input type={props.type} placeholder={props.placeholder} name={props.name} maxLength={props.maxLength} onChange={props.onChange} />
       <button type="button" onClick={click}>요청</button>
       <div id='recap'></div>
+      {phoneError && <p className={styled.confirm}>{phoneError}</p>}
       {send ? <PhoneAuthConfirm setFn={props.value} /> : ''}
     </div>
   );
