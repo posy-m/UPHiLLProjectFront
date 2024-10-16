@@ -108,7 +108,6 @@ const Signup = () => {
   const DuplicateCheck = async (type: string, name: string) => {
 
     try {
-
       const teg = document.querySelector(`input[name=${name}]`) as HTMLInputElement;
       const response = await customAxios.post("/user/duplication", {
         // nickName: formDataValue.nickName,
@@ -123,7 +122,7 @@ const Signup = () => {
         setNickNameCheck(data)
       }
     } catch (error) {
-      console.log("하이영");
+      console.error("email,nickName 중복확인", error);
       if (type === 'email') {
         setEmailCheck(true)
       } else if (type === "nickName") {
