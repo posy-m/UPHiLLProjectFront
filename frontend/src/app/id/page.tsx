@@ -7,12 +7,13 @@ import FixedId from './_component/fixedid'
 const FindId = () => {
 
   const [dev, setDev] = useState("findID")
+  const [phoneNumber, setPhoneNumber] = useState("")
 
 
 
   return (<>
-    {dev === "findID" && <Findid setFn={setDev} />}
-    {dev === "FixedID" && < FixedId />}
+    {dev === "findID" && <Findid setFn={setDev} setPhoneNumber={setPhoneNumber} />}
+    {dev === "FixedID" && < FixedId phoneNumber={phoneNumber} />}
   </>)
 }
 
