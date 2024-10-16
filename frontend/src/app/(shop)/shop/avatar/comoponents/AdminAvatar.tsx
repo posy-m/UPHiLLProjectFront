@@ -24,7 +24,7 @@ const AdminAvatar = ({setProductId,productId, modifyPopup, setModifyPopup,price,
     <div className={styled.avatar_wrap}>
       <div className={styled.avatar_img}>
         {<img src={image} className={styled.avatar_bg} />}
-        <span>{price} Cash</span>
+        <span>{price} P</span>
       </div>
       <div className={styled.avatar_btn}>
         <span onClick={() => {setModifyPopup(!modifyPopup); setProductId(productId)}} className="button">수정</span>

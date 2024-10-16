@@ -1,3 +1,5 @@
+"use client"
+
 import React ,{ useEffect, useRef } from "react";
 
 
@@ -13,8 +15,7 @@ export const UseScroll = (props:any) => {
 
         if(ulRef.current && divRef.current){
           // 무한 스크롤 예시
-
-          console.log(divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)
+          // console.log(divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)
           if (
             (divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)&&(props.hasNextPage)
           ){
@@ -95,17 +96,19 @@ export const UseUserScroll = (props:any) => {
       <div 
         ref={divRef}
         style={{
-        width: "330px",
-        height: "355px",
+        width: "240px",
+        height: "380px",
         display: "flex",
         justifyContent: 'center',
         overflowY: "scroll",
+        margin: "0 auto"
       }}>
         <ul ref={ulRef} 
         style={{
           display: "flex",
+          margin: "0 auto",
           flexDirection: "row",
-          justifyContent: 'center',
+          justifyContent: 'start',
           flexWrap: "wrap",
           height: "max-content"
           }}>
