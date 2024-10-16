@@ -17,7 +17,6 @@ import customAxios from '@/lib/customAxios';
 const Admin = () => {
   const [isPopup, setIsPopup] = useState<boolean>(false);
   const [modifyPopup, setModifyPopup] = useState<boolean>(false);
-  const [updated, setUpdate] = useState(false);
   const [productId, setProductId] = useState(0);
   const [dataLength, setDataLength] = useState(0);
 
@@ -26,15 +25,10 @@ const Admin = () => {
     setDataLength(data);
   };
 
-  
   // 최초의 한번 실행
   useEffect(() => {
     dataCountAxios();
   }, []);
-
-  useEffect(() => {
-    dataCountAxios();
-  }, [updated]);
 
   const {
     data,
@@ -48,7 +42,7 @@ const Admin = () => {
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages){
       // 페이지가 남아있으면 더 추가해주는 로직
-      return allPages.length < Math.ceil(dataLength / 12) ? allPages.length + 1 : undefined;
+      return allPages.length < Math.ceil(dataLength / 10) ? allPages.length + 1 : undefined;
     }
   });
 
