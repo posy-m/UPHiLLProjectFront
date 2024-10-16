@@ -62,7 +62,7 @@ export default function Home() {
         <Link href="/password">비밀번호 찾기</Link>
         <Link href="/signup">회원가입</Link>
       </div>
-      <button type='button' onClick={kakaoBtn}>카카오 소셜 로그인</button>
+      <button type='button' onClick={kakaoBtn}>카카오 로그인</button>
     </form>
   </>
   );
