@@ -117,7 +117,6 @@ export default function Auth(props: AuthProps) {
       <div id='recap'></div>
       {phoneError && <p className={styled.confirm}>{phoneError}</p>}
       {phoneCheck && <p className={styled.confirm}>{phoneCheck}</p>}
-
       {send ? <PhoneAuthConfirm setFn={props.value} /> : ''}
     </div>
   );
