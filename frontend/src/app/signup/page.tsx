@@ -130,7 +130,7 @@ const Signup = () => {
         setNickNameCheck(true)
       }
     }
-    
+
   }
 
   // form태그 event
@@ -191,7 +191,7 @@ const Signup = () => {
         </div>
         <div className={styled.error}>
           {/* <input type="text" placeholder='휴대폰 번호 (01012345678)' name='phoneNumber' maxLength={11} onChange={handleInputChange} /> */}
-          <Auth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (010-1234-5678)' name='phoneNumber' maxLength={13} onChange={handleInputChange} />
+          <Auth phoneProps={formDataValue.phoneNumber} type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (010-1234-5678)' name='phoneNumber' maxLength={13} onChange={handleInputChange} />
           {/* {phoneError && <p className={styled.errored}>{phoneError}</p>} */}
         </div>
         <div className={styled.error}>
