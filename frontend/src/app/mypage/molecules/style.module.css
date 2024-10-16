@@ -1,0 +1,181 @@
+/* InfoForm 스타일 */
+.container{
+    @apply
+    w-full 
+    max-w-[1200px] 
+    mx-auto
+}
+/* 미디어 쿼리 - 작은 화면에서 패딩 조정 */
+@media (max-width: 640px) {
+    .container {
+        /* 작은 화면에서 패딩을 줄임 */
+        padding-top: 12px; /* 작은 화면에서 상단 패딩을 줄임 */
+        padding-bottom: 10px; /* 작은 화면에서 하단 패딩을 줄임 */
+    }
+}
+
+.centerContent {
+    @apply 
+    mt-28
+    space-y-6; /* 컴포넌트 간 간격을 줌 */
+}
+@media (max-width: 640px) {
+    .centerContent {
+      @apply space-y-4; /* 작은 화면에서 간격을 줄임 */
+    }
+}
+
+/* MypageInfoheader 스타일 */
+.infoheader {
+    @apply
+    flex
+    justify-center
+}
+/* 미디어 쿼리 - 작은 화면에서 스타일 조정 */
+@media (max-width: 640px) {
+    .infoheader {
+        margin-top: 2px; /* 작은 화면에서 위쪽 여백을 줄임 */
+        font-size: 1.25rem; /* 폰트 크기를 줄임 */
+    }
+}
+.click{
+    @apply
+    cursor-pointer 
+    transition 
+    duration-200 
+    font-bold
+    text-2xl
+    ease-in-out;
+}
+.click:hover{
+    border-bottom: 2px solid /* @apply border-b-2 border-solid ; ; */
+}
+
+/* MypsgeText 스타일 */
+.infotextTop{
+    @apply
+    w-full
+    flex
+    justify-center
+    mt-8
+} 
+.infotext{
+    @apply
+    w-full
+    flex
+    justify-center
+    mt-2
+} 
+.mysgeTextPoints{
+    @apply
+    font-semibold
+    mt-2
+}
+.mysgeTextEmail{
+    @apply
+    font-semibold
+}
+
+/* .infotext,  */
+.changestyl {
+    @apply 
+    w-full 
+    flex
+    justify-center
+}
+.changestylInput{
+    @apply 
+    w-full
+    w-80
+    p-2
+    mt-4
+    rounded-sm;
+    border: 1px solid gray
+}
+
+
+/* Confichange */
+.confichangeTop{
+    @apply
+    w-full
+    flex
+    justify-center
+}
+.confichangeButton{
+    @apply
+    w-full 
+    w-80
+    rounded-full 
+    font-bold
+    h-12;
+    background-color: #5db075
+}
+
+/* FooterMomWith 스타일 */
+.footer{
+    @apply
+    w-full /* 헤더와 풋터를 화면 가로 전체로 */
+    max-w-[1200px] /* 최대 넓이를 지정하여 지나치게 넓어지지 않게 */
+    mx-auto /* 가운데 정렬 */
+}
+.footerContent {
+    @apply 
+    flex 
+    justify-center 
+    items-center /* 가로 중앙 정렬 */
+    font-medium
+    text-sm
+    mt-2;
+    gap: 8px; /* 항목 간 간격 추가 (필요에 따라 조정) */
+}
+
+/* PurchaseInfo 구매정보*/
+.PurchaseInfoTop{
+    @apply
+    min-h-screen
+}
+
+.PurchaseInfoItem{
+    @apply
+    mr-4
+    p-1
+    font-semibold
+}
+.PurchaseInfoDPoint{
+    @apply
+    ml-5
+    font-semibold
+}
+
+/* PurchaseInf */
+.Purinfostyle{
+    @apply 
+    w-full 
+    flex 
+    justify-center 
+    mt-8
+}
+.purchaseitem{
+    @apply
+    w-full 
+    flex 
+    justify-center 
+    mt-8
+}
+
+/* nicknameMessage */
+.nickMessageP{
+    @apply
+    w-full
+    flex 
+    justify-center
+    text-sm
+}
+.passdMessageP{
+    @apply
+    flex 
+    justify-center
+    pl-6 
+    pr-6 
+    text-sm
+}

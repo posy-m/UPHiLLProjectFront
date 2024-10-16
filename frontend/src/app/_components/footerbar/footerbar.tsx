@@ -21,8 +21,8 @@ const Footerbar = () => {
       <Link href="/storagebox">
         <Image src={box} alt='mountin image' width={35} height={35} />
       </Link>
-      <Link href="/mypage/infopersonal">
-        <Image src={mypage} alt='mountin image' width={35} height={35} />
+      <Link href="/mypage/infoPersonal">
+        <Image src={mypage} alt='mountin image' width={40} height={40} />
       </Link>
     </div>
   </>)

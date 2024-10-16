@@ -4,6 +4,7 @@ import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, PhoneAuthProvider, s
 import { getApp, initializeApp } from 'firebase/app';
 import { useEffect, useState } from 'react';
 import PhoneAuthConfirm from './PhoneAuthConfirm';
+import customAxios from '@/lib/customAxios';
 
 import styled from './auth.module.css'
 
@@ -25,12 +26,14 @@ interface AuthProps {
   formData: a,
   phoneAuth: boolean,
   value: Function,
+  phoneProps: string,
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
 }
 //export default function Auth(props: AuthProps) {
 export default function Auth(props: AuthProps) {
 
   const [phoneError, setPhoneError] = useState<string>('')
+  const [phoneCheck, setPhoneCheck] = useState<string>('')
 
   const API_KEY = process.env.NEXT_PUBLIC_API_KEY
   const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
@@ -40,7 +43,6 @@ export default function Auth(props: AuthProps) {
   const APP_ID = process.env.NEXT_PUBLIC_APP_ID
   const MEASUREMENT_ID = process.env.NEXT_PUBLIC_MEASUREMENT_ID
 
-  const [phone, setPhone] = useState("");
   const [recap, setRecap] = useState<any>(null);
   const [send, setSend] = useState(false);
 
@@ -71,7 +73,21 @@ export default function Auth(props: AuthProps) {
 
   const phoneRegex = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
 
-  const click = (e: Event) => {
+
+  const click = async (e: Event) => {
+    // axios요청을 보내서 번호랑 맞는지 확인 번호가 존재하면
+    // "이미 가입 된 번호입니다." 라는 문구 주기
+
+    const respose = await customAxios.post("/user/duplication", {
+      type: 'phoneNumber',
+      data: props.phoneProps
+    })
+    const phonecheck = respose.data
+    if (phonecheck) {
+      setPhoneCheck('이미 가입된 번호입니다. 다른 번호로 시도해주세요.');
+      return
+    }
+
     const { phoneNumber: phone } = props.formData;
     const phoneNumber = phone.replace("0", "+82");
     console.log(phoneNumber);
@@ -100,6 +116,8 @@ export default function Auth(props: AuthProps) {
       <button type="button" onClick={click}>요청</button>
       <div id='recap'></div>
       {phoneError && <p className={styled.confirm}>{phoneError}</p>}
+      {phoneCheck && <p className={styled.confirm}>{phoneCheck}</p>}
+
       {send ? <PhoneAuthConfirm setFn={props.value} /> : ''}
     </div>
   );

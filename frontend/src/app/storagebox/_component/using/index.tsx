@@ -10,6 +10,7 @@ import { userInfo } from '../../../(jotai)/atom'
 import test from '@/../../public/test.jpeg'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Scroll from './useinfinite'
+import customAxios from '@/lib/customAxios'
 
 
 interface Product {
@@ -18,6 +19,7 @@ interface Product {
 }
 
 const Using = ({ use }: { use: boolean }) => {
+  console.log("test")
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [clickedImage, setClickedImage] = useState<string | null>(null)
   const [list, setList] = useState<Product[]>([])
@@ -59,7 +61,7 @@ const Using = ({ use }: { use: boolean }) => {
   // 사용완료
   const useProductClick = async () => {
     try {
-      const response = await axios.put("http://localhost:3000/user/completedproduct/", {
+      const response = await customAxios.put("/user/completedproduct/", {
         orderProduct
       })
       const data = response.data
