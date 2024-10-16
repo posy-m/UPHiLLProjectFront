@@ -38,12 +38,13 @@ export default function Home() {
 
   // 소셜 로그인
   const kakaoBtn = async () => {
-    const respose = await customAxios.get('/user/kakao')
-    const kakaoData = respose.data
-    if (kakaoData) {
-      setAtom(kakaoData)
-      router.push("/main")
-    }
+    router.push("http://127.0.0.1:4000/user/kakao");
+    //const respose = await customAxios.get('/user/kakao')
+    // const kakaoData = respose.data
+    // if (kakaoData) {
+    //   setAtom(kakaoData)
+    //   router.push("/main")
+    // }
   }
 
   return (<>

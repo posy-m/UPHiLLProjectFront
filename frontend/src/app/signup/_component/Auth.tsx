@@ -26,6 +26,7 @@ interface AuthProps {
   formData: a,
   phoneAuth: boolean,
   value: Function,
+  phoneProps: string,
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
 }
 //export default function Auth(props: AuthProps) {
@@ -76,10 +77,14 @@ export default function Auth(props: AuthProps) {
   const click = async (e: Event) => {
     // axios요청을 보내서 번호랑 맞는지 확인 번호가 존재하면
     // "이미 가입 된 번호입니다." 라는 문구 주기
-    const respose = await customAxios.get("/")
+
+    const respose = await customAxios.post("/user/duplication", {
+      type: 'phoneNumber',
+      data: props.phoneProps
+    })
     const phonecheck = respose.data
     if (phonecheck) {
-      setPhoneCheck('이미 가입된 번호입니다. 다른 번호로 시도해주세요.')
+      setPhoneCheck('이미 가입된 번호입니다. 다른 번호로 시도해주세요.');
       return
     }
 
