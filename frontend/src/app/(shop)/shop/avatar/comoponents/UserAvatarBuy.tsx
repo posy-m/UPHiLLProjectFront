@@ -1,28 +1,53 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from './userAvatarBuy.module.css';
+import customAxios from '@/lib/customAxios';
+import { Store } from './User';
 // import UserAvatar from '../atom/UserAvatar';
 
 const UserAvatarBuy =(props: {
+  productId: number,
   buyPopup: boolean,
   setBuyPopup:Function
 }) => {
-  console.log(props, 'dddd')
+  const {
+    buyState, 
+    setBuyState,
+    wearState,
+    setWearState 
+  } = useContext(Store);
+
+  const handleBuy = async (e: React.MouseEvent) => {
+
+    
+  customAxios.put(`/shop/buy`, {
+    productId:props.productId
+  }).then( res => {
+    console.log("구매 성공", res);
+    props.setBuyPopup(!props.buyPopup)
+  }
+  ).catch(err => console.log("구매 실패", err));
+
+  }
+
   return (
-    <form className={styled.user_avatarFrm}>
+    <div className={styled.user_avatarFrm}>
       <div className={styled.user_wear}>
-        <label className={styled.user_label} htmlFor='userAvatar'>
+        <div className={styled.user_label}>
           <img src="" alt="현재착용중 아바타" />
-        </label>
+        </div>
       </div>
       <div className={styled.btn_area}>
-        <button className={styled.btn}>구입</button>
+        <button 
+          className={styled.btn}
+          onClick={handleBuy}
+          >구입</button>
         <span 
           className={styled.btn}
           onClick={() => {props.setBuyPopup(!props.buyPopup)}
         }
         >취소</span>
       </div>
-    </form>
+    </div>
   );
 }
 
