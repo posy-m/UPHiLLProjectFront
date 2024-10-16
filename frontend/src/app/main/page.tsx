@@ -1,6 +1,4 @@
 "use client"
-/// <reference types="@types/google.maps" />
-
 import React, { useEffect, useState, useRef } from 'react';
 import { Loader } from "@googlemaps/js-api-loader";
 import axios from 'axios';
@@ -10,6 +8,22 @@ import Point from './components/Point';
 import Goback from './components/Goback';
 import Avata from './components/Avata';
 import FootPoinNickAlt from './components/FootPoinNickAlt';
+import Footerbar from '../_components/footerbar/footerbar';
+import customAxios from '@/lib/customAxios';
+interface MessageData {
+    lat: number;
+    lng: number;
+}
+
+// global.d.ts
+export { };
+declare global {
+    interface Window {
+        ReactNativeWebView?: {
+            postMessage: (message: string) => void;
+        };
+    }
+}
 
 function Maps() {
     const [lat, setLat] = useState(0);
@@ -22,19 +36,20 @@ function Maps() {
     const [points, setPoints] = useState(0);
     const [nickname, setNickname] = useState('');
     const [map, setMap] = useState<google.maps.Map | null>(null);
-    const [showReturnButton, setShowReturnButton] = useState(false);
+    const [showReturnButton, setShowReturnButton] = useState<boolean>(false);
     const mapRef = useRef<google.maps.Map | null>(null);
 
+    let maps = null;
+    let maker = null;
 
     const loader = new Loader({
-        apiKey: "AIzaSyBgnYYe51LyTb86entOMxRAFb4izXdnwB4", // 본인 Google Maps API KEY를 입력
+        apiKey: "", // 본인 Google Maps API KEY를 입력
         version: "weekly",
     });
 
     const mapOptions = {
-        mapId: "15fae331004a3a8b",
+        mapId: "",
         zoom: initialZoom,
-        // center: { lat, lng },
         tilt: 90,
         // heading: 90,
         disableDefaultUI: true, // 기본 UI 비활성화
@@ -140,9 +155,12 @@ function Maps() {
         </div> */}
 
             <div id='map' style={{ width: '100%', height: '100%' }}></div>
+
             {/* showReturnButton이 true일 때만 버튼 표시 */}
             {showReturnButton && <Goback onClick={recenterMap} />}
             {map && <Avata lat={lat} lng={lng} map={map} />}
+
+            <Footerbar />
         </div>
     );
 }

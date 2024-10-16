@@ -2,13 +2,13 @@
 
 import React, {ReactNode, useEffect, useState} from 'react'
 import styled from './popup.module.css'
-import axios from 'axios';
+import customAxios from '@/lib/customAxios';
 
 // interface PopupProps {
 //   isPopup: boolean;
 // }
 
-const Popup = ({isPopup, setIsPopup}: {isPopup: boolean, setIsPopup: Function}) => {  
+const Popup = ({isPopup, setIsPopup, refetch}: {isPopup: boolean, setIsPopup: Function, refetch: Function}) => {  
   const [attachment, setAttachment] = useState<string | ArrayBuffer | null>();
   
   const handleChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,9 +47,9 @@ const Popup = ({isPopup, setIsPopup}: {isPopup: boolean, setIsPopup: Function}) 
     formData.append('price', priceValue.toString());
     formData.append("type",'avatar')
     
-    console.log(formData)
+    // console.log(formData)
 
-    axios.post('http://localhost:4000/shop/avatar', formData
+    customAxios.post('/shop/avatar', formData
       ,{
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -57,7 +57,8 @@ const Popup = ({isPopup, setIsPopup}: {isPopup: boolean, setIsPopup: Function}) 
         withCredentials: true
       }).then(response => {
         console.log("Avatar registed successfully", response);
-        setIsPopup(!isPopup)
+        setIsPopup(!isPopup);
+        refetch();
       }).catch(error => {
         console.error("Error registered avatar", error);
       });

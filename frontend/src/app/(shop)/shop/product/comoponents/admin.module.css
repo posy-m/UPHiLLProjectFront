@@ -19,12 +19,11 @@
 
   .avatar_list {
     width: 150px;
-    /* height: 185px; */
     display: flex;
     justify-content: center;
     align-items: center;
-    /* float: left; */
     margin: 0 7px;
     padding-bottom: 25px;
   }
 }
+
