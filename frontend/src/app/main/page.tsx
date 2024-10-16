@@ -1,21 +1,18 @@
 "use client"
 import React, { useEffect, useState,useRef } from 'react';
 import { Loader } from "@googlemaps/js-api-loader";
-import axios from 'axios';
-import Altitude from './components/Altitude';
-import Nicname from './components/Nicname';
-import Point from './components/Point';
 import Goback from './components/Goback';
 import Avata from './components/Avata';
 import FootPoinNickAlt from './components/FootPoinNickAlt';
 import Footerbar from '../_components/footerbar/footerbar';
 import customAxios from '@/lib/customAxios';
+
 interface MessageData {
     lat:number;
     lng:number;
 }
 
-// global.d.ts
+// global.d.ts  
 export {};
 declare global {
 interface Window {
@@ -37,21 +34,23 @@ function Maps() {
     const [nickname, setNickname] = useState<string>('');
     const [map, setMap] = useState<google.maps.Map | null>(null);
     const [showReturnButton, setShowReturnButton] = useState<boolean>(false);
-    const mapRef = useRef<google.maps.Map | null>(null);
+    const mapRef = useRef<google.maps.Map | null>(null); // 지도 참조
+    const [maker,setMaker]=useState(null); //마커
+    // 아바타 상태 관리
+    const [avatarImage, setAvatarImage] = useState("/skyHatFront.png"); // 정면 이미지
+    const [isMoving, setIsMoving] = useState(false); // 움직임 상태
+    // 애니메이션 프레임
+    let animationFrameId:number;
 
-    let maps = null;
-    let maker = null;
-
-    const loader = new Loader({
-        apiKey: "", // 본인 Google Maps API KEY를 입력
-        version: "weekly",
-    });
+    // let maps: google.maps.Map | null = null;
+    // let maker: google.maps.Marker | null = null;
 
     const mapOptions = {
-        mapId: "",
+        mapId: process.env.NEXT_PUBLIC_GOOGLE_API_MAP_ID,
         zoom: initialZoom,
         tilt: 90,
         disableDefaultUI:true, // 기본 UI 비활성화
+        gestureHandling: 'greedy' // 한 손으로도 맵을 조작할 수 있도록 설정
     }
 
     const handleMessage= (e:MessageEvent<MessageData>)=>{
@@ -66,47 +65,88 @@ function Maps() {
         }
     }
 
-    const getMessage = (e)=>{
-        const { data: { lat, lng } } = e;
-        setLat(lat);
-        setLng(lng);
-    }
-    const initMap=async()=>{
-        await loader.load().then(() => {
-            maps= new google.maps.Map(
-                document.getElementById("map") as HTMLElement,
-                {
-                ...mapOptions,
-                center: { lat: initialLat + 0.003, lng: initialLng }, // 하단에 캐릭터를 고정하기 위해 중심을 위로 이동
-                zoom: initialZoom,
-                disableDefaultUI: true,
-            });
+    const getPosition = ()=>{
+        navigator.geolocation.watchPosition(position=>{
+            const {latitude,longitude}= position.coords;
+            setLat(latitude);
+            setLng(longitude);
         })
     }
-    const initMaker = ()=>{
-        // 아바타만들어어야할곳 
-        // maker = new window.google.maps.Marker({
-        //     // position: {0,0 },
-        //      map:maps,
-        //      // 추후 아바타로 변경
-        //      icon: {
-        //          url: "/welsh02.png",
-        //          //scaledSize: new google.maps.Size(32, 32)
-        //      }
-        //  });
+
+    const initMap=async()=>{
+        const loader = new Loader({
+            apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_MAP_KEY || "", // 본인 Google Maps API KEY를 입력
+            version: "weekly",
+        });
+
+    const load =  await loader.load();
+        const googleMap = new load.maps.Map(
+            document.getElementById("map") as HTMLElement,
+            {
+                ...mapOptions,
+                center:{lat:lat+0.002,lng:lng},
+                zoom:initialZoom,
+                disableDefaultUI:true,
+            })
+            setMap(googleMap)
+            mapRef.current = googleMap;
+    };
+
+     // 아바타 이미지 배열
+    const animateAvatar = () => {
+        const avatarImages = {
+            front: "/skyHatFront.png",
+            left: ["/skyHatFrontLeft.png", "/skyHatFrontRight.png"],
+            right: ["/skyHatFrontRight.png", "/skyHatFrontLeft.png"],
+        };
+    
+        const animationCycle = () => {
+            if (isMoving) {
+                    const currentImage = avatarImages.left[Math.floor(Math.random() * avatarImages.left.length)];
+                    setAvatarImage(currentImage);
+            }
+                animationFrameId = requestAnimationFrame(animationCycle);
+            };
+            animationCycle();
     }
 
     const setPostion = ()=>{
-        if(maps!==null)
-            maps.setCenter({lat,lng})
+        if(map!==null){
+            console.log(lat,lng)
+            map.setCenter({lat,lng})
+        }
         if(maker!==null)
             maker.setPosition({lat,lng})
     }
 
+    useEffect(() => {
+        // 사용자의 움직임 감지 캐릭터 움직임
+        const detectMovement = () => {
+            if (lat !== initialLat || lng !== initialLng) {
+                setIsMoving(true); // 캐릭터가 움직이는 상태로 변경
+                animateAvatar(); // 아바타 에니메이션 함수 실행
+            } else {
+                setIsMoving(false); // 캐릭터가 멈춰있는 상태로 변경
+                setAvatarImage(avatarImage); // 정면 이미지로 설정
+            }
+        };
+
+        detectMovement();
+
+        return () => cancelAnimationFrame(animationFrameId); // 컴포넌트 언마운트 시 애니메이션 중지
+    }, [lat, lng]);
+
     useEffect (()=>{
-        window.onmessage=getMessage;
+        window.onmessage = (e:MessageEvent<MessageData>) =>{
+            const { lat, lng } = e.data;
+            if (lat && lng && map) {
+                map.setCenter({ lat, lng });
+                setLat(lat);
+                setLng(lng);
+            }
+        };
+        getPosition();
         initMap()
-        initMaker()
         setInitialLat(lat);  // 처음 위치 저장
         setInitialLng(lng);  // 처음 위치 저장
     },[])
@@ -115,6 +155,7 @@ function Maps() {
         // 고도 정보 가져오기
         const fetchElevation = async () => {
             try {
+                console.log("요청")
                 const response = await customAxios.get("http://localhost:4000/geolocation/elevation", {
                     params: { lat, lng }
                 });
@@ -144,21 +185,27 @@ function Maps() {
 
     useEffect(() => {
         // 포인트 적립 로직
-        if (high > prevHigh) {
-            const heightDifference = high - prevHigh;
-            if (heightDifference >= 20) {
-                const pointsToAdd = Math.floor(heightDifference / 20) * 10; // 20m마다 10포인트
+        if (high > prevHigh+20) {
+                const pointsToAdd = Math.floor((prevHigh+20) / 20) * 10; // 20m마다 10포인트
                 setPoints(prevPoints => prevPoints + pointsToAdd);
                 setPrevHigh(high); // 현재 고도를 이전 고도로 업데이트
-            }
         }
     }, [lat, lng, high, prevHigh]); // lat, lng, high, prevHigh가 변경될 때마다 실행
 
+    // 맵 드래그할때 현재위치로 돌아가는버튼 보이게하기
+    useEffect(() => {
+        if (map) {
+            // 지도를 드래그할 때 버튼을 보이도록 설정
+            map.addListener("dragstart", () => {
+                setShowReturnButton(true);
+            });
+        }
+    }, [map]);
     
         // 현재 위치로 돌아가는 함수
     const recenterMap = () => {
         if (mapRef.current) {
-            const offsetLat = 0.003; // 캐릭터를 하단에 고정하기 위한 오프셋
+            const offsetLat = 0.002; // 캐릭터를 하단에 고정하기 위한 오프셋
             mapRef.current.setCenter({ lat: initialLat + offsetLat, lng:initialLng});
             mapRef.current.setZoom(initialZoom); // 초기 줌 레벨로 설정
             setShowReturnButton(false); // 위치로 돌아간 후 버튼 숨김
@@ -166,9 +213,9 @@ function Maps() {
     };
 
     return (
+    <>
         <div style={{ position: "relative", width: '100vw', height: '100vh' }}>
             {/* FooterBar 컴포넌트를 하단에 추가 */}
-            <FootPoinNickAlt elevation={high} nickname={nickname} points={points} />
             
             <div id='map' style={{ width: '100%', height: '100%' }}></div>
 
@@ -176,8 +223,10 @@ function Maps() {
             {showReturnButton && <Goback onClick={recenterMap} />}
             {map && <Avata lat={lat} lng={lng} map={map} />}
             
-            <Footerbar/>
+            <FootPoinNickAlt elevation={high} nickname={nickname} points={points} />
         </div>
+        <Footerbar/>
+    </>
     );
 }
 

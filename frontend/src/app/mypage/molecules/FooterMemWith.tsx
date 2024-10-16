@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import Ttext from '../components/Ttext'
+import Modal from './Modal'
 import styld from './style.module.css'
 
 const FooterMomWith = ({onClick}:{onClick:any}) => {
-    
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
       // 로그아웃할때
   const handleLogout = async () => {
@@ -21,8 +23,6 @@ const FooterMomWith = ({onClick}:{onClick:any}) => {
 
       // 회원탈퇴할때
   const DeleteAccount = async () => {
-    const confirmed = confirm('정말로 회원탈퇴를 하시겠습니까?');
-    if (confirmed) {
       const response = await fetch('/api/delete-account', {
         method: 'DELETE',
       });
@@ -33,16 +33,44 @@ const FooterMomWith = ({onClick}:{onClick:any}) => {
       } else {
         alert('회원탈퇴 실패.');
       }
-    }
+    
   };
 
   
   return (
     <div className={styld.footer}>
       <div className={styld.footerContent}> {/* 가로 정렬을 위한 div 추가 */}
-        <Ttext className='mr-1' onClick={handleLogout} >로그아웃</Ttext> 
+        <Ttext className='mr-1' onClick={() => setShowLogoutModal(true)} >로그아웃</Ttext> 
         | 
-        <Ttext className='ml-1' onClick={DeleteAccount} >회원탈퇴</Ttext>
+        <Ttext className='ml-1' onClick={() => setShowDeleteModal(true)} >회원탈퇴</Ttext>
+
+        {showLogoutModal && (
+          <Modal
+          onClick=''
+          className=''
+            title="로그아웃 확인"
+            message="정말 로그아웃하시겠습니까?"
+            onConfirm={() => {
+              handleLogout();
+              setShowLogoutModal(false);
+            }}
+            onCancel={() => setShowLogoutModal(false)}
+          />
+        )}
+
+        {showDeleteModal && (
+          <Modal
+          onClick=''
+          className=''
+            title="회원탈퇴 확인"
+            message="정말로 회원탈퇴를 하시겠습니까?"
+            onConfirm={() => {
+              DeleteAccount();
+              setShowDeleteModal(false);
+            }}
+            onCancel={() => setShowDeleteModal(false)}
+          />
+        )}
       </div>
     </div>
   )

@@ -16,7 +16,7 @@
 
 .centerContent {
     @apply 
-    mt-28
+    mt-24
     space-y-6; /* 컴포넌트 간 간격을 줌 */
 }
 @media (max-width: 640px) {
@@ -30,6 +30,7 @@
     @apply
     flex
     justify-center
+    gap-12
 }
 /* 미디어 쿼리 - 작은 화면에서 스타일 조정 */
 @media (max-width: 640px) {
@@ -43,7 +44,7 @@
     cursor-pointer 
     transition 
     duration-200 
-    font-bold
+    font-extrabold
     text-2xl
     ease-in-out;
 }
@@ -178,4 +179,35 @@
     pl-6 
     pr-6 
     text-sm
+}
+
+
+
+/* Modal 로그아웃 회원탈퇴 CSS */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.modalActions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+.messages{
+    margin-top: 6px;
 }
