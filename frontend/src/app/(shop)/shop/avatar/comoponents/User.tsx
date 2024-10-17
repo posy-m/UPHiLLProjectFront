@@ -57,7 +57,7 @@ export const User = () => {
   
   useEffect(() => {
     dataLength();
-  },[dataCount])
+  },[])
 
 
   const {
@@ -72,7 +72,7 @@ export const User = () => {
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages){
       // 페이지가 남아있으면 더 추가해주는 로직
-      return allPages.length < Math.ceil(dataCount / 12) ? allPages.length + 1 : undefined;
+      return allPages.length < dataCount? allPages.length + 1 : undefined;
     }
   });
 
@@ -84,7 +84,7 @@ export const User = () => {
     <div className={styled.user_avatar_wrap}>
       <ul className={styled.product_ul}>
         <li style={{borderBottom:"3px solid rgb(112, 61, 22)", color: "rgb(112, 61, 22)", boxSizing: "border-box"}}><Link href="http://localhost:3000/shop/avatar">아바타</Link></li>
-        <li>상품</li>
+        <li><Link href="http://127.0.0.1:3000/shop/product">상품</Link></li>
       </ul>
       <div className={styled.now_avatar}>
         <UserAvatar />
