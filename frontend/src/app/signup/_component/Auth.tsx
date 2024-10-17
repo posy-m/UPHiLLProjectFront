@@ -75,40 +75,45 @@ export default function Auth(props: AuthProps) {
 
 
   const click = async (e: Event) => {
-    // axios요청을 보내서 번호랑 맞는지 확인 번호가 존재하면
-    // "이미 가입 된 번호입니다." 라는 문구 주기
+    try {
+      if (phoneCheck || phoneError) {
+        setPhoneCheck('')
+        setPhoneError('')
+      }
+      // axios요청을 보내서 번호랑 맞는지 확인 번호가 존재하면
+      // "이미 가입 된 번호입니다." 라는 문구 주기
+      const respose = await customAxios.post("/user/duplication", {
+        type: 'phoneNumber',
+        data: props.phoneProps
+      })
+      const phonecheck = respose.data
+      console.log(phonecheck);
+      // 메세지 요청
+      const { phoneNumber: phone } = props.formData;
+      const phoneNumber = phone.replace("0", "+82");
+      console.log(phoneNumber);
+      if (!phoneRegex.test(phone)) {
+        setPhoneError("올바른 형식을 입력해주세요 (010-1234-5678)");
+        return
+      } else {
+        setPhoneError('')
+      }
+      signInWithPhoneNumber(auth, phoneNumber, recap)
+        .then((confirmationResult) => {
+          // alert("sms 요청")
+          window.confirmationResult = confirmationResult;
+          // console.log(1)
+          // console.log(window);
+          setSend(true)
+        }).catch(error => {
+          // console.log(2)
+          console.error(error)
+        });
 
-    const respose = await customAxios.post("/user/duplication", {
-      type: 'phoneNumber',
-      data: props.phoneProps
-    })
-    const phonecheck = respose.data
-    if (phonecheck) {
-      setPhoneCheck('이미 가입된 번호입니다. 다른 번호로 시도해주세요.');
-      return
+    } catch (error) {
+      console.log(error, "가입된 번호 쪽 ");
+      setPhoneCheck("이미 가입된 번호입니다. 다른 번호로 시도해주세요.")
     }
-
-    const { phoneNumber: phone } = props.formData;
-    const phoneNumber = phone.replace("0", "+82");
-    console.log(phoneNumber);
-    if (!phoneRegex.test(phone)) {
-      setPhoneError("올바른 형식을 입력해주세요 (010-1234-5678)");
-      return
-    } else {
-      setPhoneError('')
-    }
-
-    signInWithPhoneNumber(auth, phoneNumber, recap)
-      .then((confirmationResult) => {
-        // alert("sms 요청")
-        window.confirmationResult = confirmationResult;
-        // console.log(1)
-        // console.log(window);
-        setSend(true)
-      }).catch(error => {
-        // console.log(2)
-        console.error(error)
-      });
   }
   return (
     <div className={styled.auth}>
