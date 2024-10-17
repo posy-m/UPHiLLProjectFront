@@ -38,9 +38,9 @@ export async function Valiation(formData: FormData, fieldName?: string) {
       //   break;
 
       case 'phoneNumber':
-        const phoneRegex = /^\d{11}$/;
+        const phoneRegex = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
         if (!phoneRegex.test(phoneNumber)) {
-          throw new Error("올바른 형식을 입력해주세요.");
+          throw new Error("올바른 형식과 하이픈을 입력해주세요.");
         }
         break;
 
