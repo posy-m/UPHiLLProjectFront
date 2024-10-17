@@ -4,20 +4,20 @@ import User from './comoponents/User'
 
 const page = () => {
   // const {} = useAtom();
-  const auth:string = '일반'
+  const auth: string = '일반'
   // const [authCompare, setAuthCompare] = useAtom<object>({
   //   email: '',
   //   nickName: '',
   //   point: '',
   //   image: ''
   // });
- 
-    return (
-      <>
-        {
-          auth === "일반" ? <User /> : <Admin />
-        }
-      </>
+  console.log('test')
+  return (
+    <>
+      {
+        auth === "일반" ? <User /> : <Admin />
+      }
+    </>
   )
 }
 

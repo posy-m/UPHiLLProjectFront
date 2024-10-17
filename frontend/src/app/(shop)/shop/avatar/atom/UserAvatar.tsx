@@ -1,6 +1,8 @@
 import React from 'react';
 
 const UserAvatar = () => {
+
+
   return (
     <div style={{
       display: "flex",
@@ -9,7 +11,7 @@ const UserAvatar = () => {
       flexDirection: "column",
       padding: '20px 0 0'
     }}>
-      <div style={{ width: "120px", height: "120px", border: "5px solid green", borderRadius: "10px"}}>
+      <div style={{ width: "120px", height: "120px", border: "5px solid green", borderRadius: "10px" }}>
         <img src="" alt="" />
       </div>
       <p style={{

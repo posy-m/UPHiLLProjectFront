@@ -1,51 +1,51 @@
 "use client"
 
-import React ,{ useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 
 // 관리자 스크롤
-export const UseScroll = (props:any) => {
+export const UseScroll = (props: any) => {
   // ul 높이값을 가져가기 위한 useRef 훅사용
   const divRef = useRef<HTMLDivElement | null>(null);
   const ulRef = useRef<HTMLUListElement | null>(null);
 
   // ul 태그가 있음면 조건문 실행
   useEffect(() => {
-      const handlerScroll = () => {
+    const handlerScroll = () => {
 
-        if(ulRef.current && divRef.current){
-          // 무한 스크롤 예시
-          // console.log(divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)
-          if (
-            (divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)&&(props.hasNextPage)
-          ){
-            props.fetchNextPage();
-          }
+      if (ulRef.current && divRef.current) {
+        // 무한 스크롤 예시
+        // console.log(divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)
+        if (
+          (divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage)
+        ) {
+          props.fetchNextPage();
         }
       }
-      if(ulRef.current && divRef.current){
-        ulRef.current.addEventListener('touchmove', handlerScroll);
-      }
-      // // window.addEventListener('scroll', handlerScroll);
-      // // PC scroll 조건문
+    }
+    if (ulRef.current && divRef.current) {
+      ulRef.current.addEventListener('touchmove', handlerScroll);
+    }
+    // // window.addEventListener('scroll', handlerScroll);
+    // // PC scroll 조건문
 
-      return () => {
-        if(ulRef.current && divRef.current){
-          ulRef.current.removeEventListener('touchmove', handlerScroll);
-        }
+    return () => {
+      if (ulRef.current && divRef.current) {
+        ulRef.current.removeEventListener('touchmove', handlerScroll);
       }
-    })
+    }
+  })
 
-  return(
-    <div 
+  return (
+    <div
       ref={divRef}
       style={{
-      width: "330px",
-      height: "536px",
-      margin:"0 auto",
-      overflowY: "scroll",
-    }}>
-      <ul ref={ulRef} 
+        width: "330px",
+        height: "536px",
+        margin: "0 auto",
+        overflowY: "scroll",
+      }}>
+      <ul ref={ulRef}
         style={{
           display: "flex",
           flexDirection: "row",
@@ -59,43 +59,41 @@ export const UseScroll = (props:any) => {
 
 
 // 유저 스크롤
-export const UseUserScroll = (props:any) => {
+export const UseUserScroll = (props: any) => {
   // ul 높이값을 가져가기 위한 useRef 훅사용
   const divRef = useRef<HTMLDivElement | null>(null);
   const ulRef = useRef<HTMLUListElement | null>(null);
 
   // // ul 태그가 있음면 조건문 실행
-    useEffect(() => {
-        const handlerScroll = () => {
+  useEffect(() => {
+    const handlerScroll = () => {
 
-          if(ulRef.current && divRef.current){
-            // 무한 스크롤 예시
-
-            console.log(divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)
-            if (
-              (divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)&&(props.hasNextPage)
-            ){
-              props.fetchNextPage();
-            }
-          }
-        }
-      if(ulRef.current && divRef.current){
-        ulRef.current.addEventListener('touchmove', handlerScroll);
-      }
-      //     // // window.addEventListener('scroll', handlerScroll);
-      //     // // PC scroll 조건문
-
-      return () => {
-        if(ulRef.current && divRef.current){
-          ulRef.current.removeEventListener('touchmove', handlerScroll);
+      if (ulRef.current && divRef.current) {
+        // 무한 스크롤 예시
+        console.log(divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)
+        if ((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage)) {
+          console.log((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage))
+          //props.fetchNextPage();
         }
       }
-    })
+    }
+    if (ulRef.current && divRef.current) {
+      ulRef.current.addEventListener('touchmove', handlerScroll);
+    }
+    //     // // window.addEventListener('scroll', handlerScroll);
+    //     // // PC scroll 조건문
 
-  return(
-      <div 
-        ref={divRef}
-        style={{
+    return () => {
+      if (ulRef.current && divRef.current) {
+        ulRef.current.removeEventListener('touchmove', handlerScroll);
+      }
+    }
+  }, [])
+
+  return (
+    <div
+      ref={divRef}
+      style={{
         width: "240px",
         height: "380px",
         display: "flex",
@@ -103,7 +101,7 @@ export const UseUserScroll = (props:any) => {
         overflowY: "scroll",
         margin: "0 auto"
       }}>
-        <ul ref={ulRef} 
+      <ul ref={ulRef}
         style={{
           display: "flex",
           margin: "0 auto",
@@ -111,9 +109,9 @@ export const UseUserScroll = (props:any) => {
           justifyContent: 'start',
           flexWrap: "wrap",
           height: "max-content"
-          }}>
-          {props.children}
-        </ul>
-      </div>
+        }}>
+        {props.children}
+      </ul>
+    </div>
   )
 };

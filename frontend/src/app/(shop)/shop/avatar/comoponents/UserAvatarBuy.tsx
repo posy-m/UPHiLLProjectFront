@@ -4,29 +4,25 @@ import customAxios from '@/lib/customAxios';
 import { Store } from './User';
 // import UserAvatar from '../atom/UserAvatar';
 
-const UserAvatarBuy =(props: {
+const UserAvatarBuy = (props: {
   productId: number,
   buyPopup: boolean,
-  setBuyPopup:Function
+  setBuyPopup: Function
 }) => {
   const {
-    buyState, 
+    buyState,
     setBuyState,
     wearState,
-    setWearState 
+    setWearState
   } = useContext(Store);
 
   const handleBuy = async (e: React.MouseEvent) => {
 
-    
-  customAxios.put(`/shop/buy`, {
-    productId:props.productId
-  }).then( res => {
-    console.log("구매 성공", res);
-    props.setBuyPopup(!props.buyPopup)
-  }
-  ).catch(err => console.log("구매 실패", err));
 
+    const response = await customAxios.put(`/shop/product/buy`, {
+      productId: props.productId
+    })
+    console.log(response);
   }
 
   return (
@@ -37,15 +33,8 @@ const UserAvatarBuy =(props: {
         </div>
       </div>
       <div className={styled.btn_area}>
-        <button 
-          className={styled.btn}
-          onClick={handleBuy}
-          >구입</button>
-        <span 
-          className={styled.btn}
-          onClick={() => {props.setBuyPopup(!props.buyPopup)}
-        }
-        >취소</span>
+        <button className={styled.btn} onClick={handleBuy}>구입</button>
+        <span className={styled.btn} onClick={() => { props.setBuyPopup(!props.buyPopup) }}>취소</span>
       </div>
     </div>
   );
