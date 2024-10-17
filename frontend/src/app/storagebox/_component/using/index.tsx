@@ -60,7 +60,8 @@ const Using = ({ use }: { use: boolean }) => {
   // 사용완료
   const useProductClick = async () => {
     try {
-      const response = await customAxios.put("/user/completedproduct/", {
+      console.log(orderProduct)
+      const response = await customAxios.put("/shop/product/complete", {
         orderProduct
       })
       const data = response.data
@@ -74,7 +75,7 @@ const Using = ({ use }: { use: boolean }) => {
   return (<>
 
 
-    <Scroll setIsModalOpen={setIsModalOpen} setOrderProduct={setOrderProduct} setClickedImage={setClickedImage} />
+    <Scroll setIsModalOpen={setIsModalOpen} setOrderProduct={setOrderProduct} setClickedImage={setClickedImage} use={use} />
 
     {/* 모달 */}
     {isModalOpen && (
