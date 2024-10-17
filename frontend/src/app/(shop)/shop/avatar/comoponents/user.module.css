@@ -22,30 +22,31 @@
   /* 현재 착용중 아바타 */
   .now_avatar {
     width: 100%;
-    height: 210px;
     border-bottom: 3px solid #efefef;
     box-sizing: border-box;
     @apply flex justify-center items-center;
   }
 
+  
+
   /* 유저가 아바타를 살 수 있는 공간 및 착용하는 곳 */
   .avatar_collection {
-    height:350px;
+    height: 350px;
     @apply w-full flex justify-center;
   }
 
   .avatar_collection li {
-    position: relative;
-    width: 130px;
-    height: 130px;
+    width: 100px;
+    height: 100px;
     background: purple;
+    border:1px solid #ccc;
     margin: 10px;
     color: white;
     border-radius: 10px;
   }
 
   /* 구입전에 비활성화할 배경 */
-  li > .inactive_avatar {
+  /* li > .inactive_avatar {
     position: absolute;
     left:0;
     top:0;
@@ -54,5 +55,5 @@
     background: rgba(255,255,255,0.5);
     color: white;
     border-radius: 10px;
-  }
+  } */
 }

@@ -2,7 +2,7 @@
 
 import {useEffect, useState} from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import Avatar from './AdminAvatar';
+import Avatar from './User';
 import Link from 'next/link';
 import AddBtn from './AddBtn';
 import Popup from './Popup';
@@ -14,14 +14,14 @@ import Header from '@/app/_components/header/header';
 import Footerbar from '@/app/_components/footerbar/footerbar';
 import customAxios from '@/lib/customAxios';
 
-const Admin = () => {
+const User = () => {
   const [isPopup, setIsPopup] = useState<boolean>(false);
   const [modifyPopup, setModifyPopup] = useState<boolean>(false);
   const [productId, setProductId] = useState(0);
   const [dataLength, setDataLength] = useState(0);
 
   const dataCountAxios = async () => {
-    const {data} = await customAxios.get('/shop/avatar/count');
+    const {data} = await customAxios.get('/shop/product/count');
     setDataLength(data);
   };
 
@@ -51,8 +51,8 @@ const Admin = () => {
       <div className={styled.avatar_wrap} >
         <div className={styled.avatar_content}>
           <ul className={styled.product_ul}>
-            <li style={{borderBottom:"3px solid rgb(112, 61, 22)", color: "rgb(112, 61, 22)", boxSizing: "border-box"}}>아바타</li>
-            <li><Link style={{width: "100%", height: '100%', display: 'flex', justifyContent: 'center'}} href="http://localhost:3000/shop/product">상품</Link></li>
+            <li><Link  style={{width: "100%", height: '100%', display: 'flex', justifyContent: 'center'}} href="http://127.0.0.1:3000/shop/avatar">아바타</Link></li>
+            <li style={{borderBottom:"3px solid rgb(112, 61, 22)", color: "rgb(112, 61, 22)", boxSizing: "border-box"}}>상품</li>
           </ul>
           <UseScroll
             fetchNextPage={fetchNextPage} 
@@ -62,7 +62,7 @@ const Admin = () => {
             >
             {data?.pages.map((page) => page.map((e:any) =>
               <li className={styled.avatar_list} key={e.id}>
-                <Avatar productId={e.id} refetch={refetch} setProductId={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} price={e.price} image={e.image}/>
+                <Avatar />
               </li>))
             } 
           </UseScroll>
@@ -75,4 +75,4 @@ const Admin = () => {
   </>)
   }
 
-export default Admin;
+export default User;

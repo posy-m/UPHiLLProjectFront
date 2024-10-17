@@ -4,9 +4,6 @@ import React, {ReactNode, useEffect, useState} from 'react'
 import styled from './popup.module.css'
 import customAxios from '@/lib/customAxios';
 
-// interface PopupProps {
-//   isPopup: boolean;
-// }
 
 const Popup = ({isPopup, setIsPopup, refetch}: {isPopup: boolean, setIsPopup: Function, refetch: Function}) => {  
   const [attachment, setAttachment] = useState<string | ArrayBuffer | null>();

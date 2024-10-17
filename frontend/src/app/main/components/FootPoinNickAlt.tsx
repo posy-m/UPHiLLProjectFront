@@ -14,7 +14,7 @@ const FootPoinNickAlt: React.FC<FootPoinNickAltProps> = ({ elevation, points, ni
     return (
         <div style={{
             position: 'fixed', // 하단에 고정
-            bottom: "140px", // Footerbar 위에 위치
+            bottom: "100px", // Footerbar 위에 위치
             width: '100%',
             backgroundColor: '#fff', // 배경 흰색
             display: 'flex',

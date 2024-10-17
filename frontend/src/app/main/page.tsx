@@ -1,15 +1,12 @@
 "use client"
 import React, { useEffect, useState, useRef } from 'react';
 import { Loader } from "@googlemaps/js-api-loader";
-import axios from 'axios';
-import Altitude from './components/Altitude';
-import Nicname from './components/Nicname';
-import Point from './components/Point';
 import Goback from './components/Goback';
 import Avata from './components/Avata';
 import FootPoinNickAlt from './components/FootPoinNickAlt';
 import Footerbar from '../_components/footerbar/footerbar';
 import customAxios from '@/lib/customAxios';
+
 interface MessageData {
     lat: number;
     lng: number;
@@ -37,87 +34,170 @@ function Maps() {
     const [nickname, setNickname] = useState('');
     const [map, setMap] = useState<google.maps.Map | null>(null);
     const [showReturnButton, setShowReturnButton] = useState<boolean>(false);
-    const mapRef = useRef<google.maps.Map | null>(null);
+    const mapRef = useRef<google.maps.Map | null>(null); // 지도 참조
+    const [maker, setMaker] = useState(null); //마커
+    // 아바타 상태 관리
+    const [avatarImage, setAvatarImage] = useState("/skyHatFront.png"); // 정면 이미지
+    const [isMoving, setIsMoving] = useState(false); // 움직임 상태
+    // 애니메이션 프레임
+    let animationFrameId: number;
 
-    let maps = null;
-    let maker = null;
-
-    const loader = new Loader({
-        apiKey: "", // 본인 Google Maps API KEY를 입력
-        version: "weekly",
-    });
+    // let maps: google.maps.Map | null = null;
+    // let maker: google.maps.Marker | null = null;
 
     const mapOptions = {
-        mapId: "",
+        mapId: process.env.NEXT_PUBLIC_GOOGLE_API_MAP_ID,
         zoom: initialZoom,
         tilt: 90,
-        // heading: 90,
         disableDefaultUI: true, // 기본 UI 비활성화
+        gestureHandling: 'greedy' // 한 손으로도 맵을 조작할 수 있도록 설정
+    }
+
+    const handleMessage = (e: MessageEvent<MessageData>) => {
+        const { lat, lng } = e.data;
+        if (lat !== undefined && lng !== undefined && map) {
+            map.setCenter({ lat, lng });
+            mapRef.current?.setCenter({ lat, lng })
+            setLat(lat)
+            setLng(lng)
+        } else {
+            console.error("Lat or Lng is undefined in the message data");
+        }
+    }
+
+    const getPosition = () => {
+        navigator.geolocation.watchPosition(position => {
+            const { latitude, longitude } = position.coords;
+            setLat(latitude);
+            setLng(longitude);
+        })
+    }
+
+    const initMap = async () => {
+        const loader = new Loader({
+            apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_MAP_KEY || "", // 본인 Google Maps API KEY를 입력
+            version: "weekly",
+        });
+
+        const load = await loader.load();
+        const googleMap = new load.maps.Map(
+            document.getElementById("map") as HTMLElement,
+            {
+                ...mapOptions,
+                center: { lat: lat + 0.002, lng: lng },
+                zoom: initialZoom,
+                disableDefaultUI: true,
+            })
+        setMap(googleMap)
+        mapRef.current = googleMap;
+    };
+
+    // 아바타 이미지 배열
+    const animateAvatar = () => {
+        const avatarImages = {
+            front: "/skyHatFront.png",
+            left: ["/skyHatFrontLeft.png", "/skyHatFrontRight.png"],
+            right: ["/skyHatFrontRight.png", "/skyHatFrontLeft.png"],
+        };
+
+        const animationCycle = () => {
+            if (isMoving) {
+                const currentImage = avatarImages.left[Math.floor(Math.random() * avatarImages.left.length)];
+                setAvatarImage(currentImage);
+            }
+            animationFrameId = requestAnimationFrame(animationCycle);
+        };
+        animationCycle();
+    }
+
+    const setPostion = () => {
+        if (map !== null) {
+            console.log(lat, lng)
+            map.setCenter({ lat, lng })
+        }
+        if (maker !== null)
+            maker.setPosition({ lat, lng })
     }
 
     useEffect(() => {
-        const initializeMap = async () => {
-            try {
-                // 유저 데이터 가져오기
-                //const userResponse = await axios.get('http://localhost:4000/user');
-                //setNickname(userResponse.data.nickname);
-
-                // 현재 위치 가져오기
-                navigator.geolocation.getCurrentPosition(async (data) => {
-                    const userLat = data.coords.latitude;
-                    const userLng = data.coords.longitude;
-
-                    setLat(userLat);
-                    setLng(userLng);
-                    setInitialLat(userLat);  // 처음 위치 저장
-                    setInitialLng(userLng);  // 처음 위치 저장
-
-                    const loadedMap = await loader.load().then(() => {
-                        const map = new google.maps.Map(
-                            document.getElementById("map") as HTMLElement,
-                            {
-                                ...mapOptions,
-                                center: { lat: userLat + 0.002, lng: userLng }, // 하단에 캐릭터를 고정하기 위해 중심을 위로 이동
-                                zoom: initialZoom,
-                                disableDefaultUI: true,
-                            });
-                        mapRef.current = map;
-                        setMap(map);
-
-                        // 지도 움직임을 감지하여 버튼 보이기
-                        map.addListener("dragstart", () => {
-                            setShowReturnButton(true); // 지도가 움직이면 버튼 보이기
-                        });
-                        // 지도 위치가 변경될 때 버튼을 보이게 하는 이벤트 추가
-                        map.addListener("center_changed", () => {
-                            setShowReturnButton(true);
-                        });
-                        return map;
-                    });
-
-                    // 고도 정보 가져오기
-                    const response = await axios.get("http://localhost:4000/geolocation/elevation", {
-                        params: { lat: userLat, lng: userLng }
-                    });
-
-                    if (response.status === 200) {
-                        const newHigh = response.data.results[0].elevation;
-                        setHigh(newHigh);
-
-                        if (newHigh > prevHigh) {
-                            const pointIncrement = Math.floor(newHigh - prevHigh);
-                            setPoints(prevPoints => prevPoints + pointIncrement);
-                            setPrevHigh(newHigh);
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error("지도를 로드하는 중 문제가 발생했습니다:", error);
+        // 사용자의 움직임 감지 캐릭터 움직임
+        const detectMovement = () => {
+            if (lat !== initialLat || lng !== initialLng) {
+                setIsMoving(true); // 캐릭터가 움직이는 상태로 변경
+                animateAvatar(); // 아바타 에니메이션 함수 실행
+            } else {
+                setIsMoving(false); // 캐릭터가 멈춰있는 상태로 변경
+                setAvatarImage(avatarImage); // 정면 이미지로 설정
             }
         };
 
-        initializeMap();
-    }, [prevHigh]);
+        detectMovement();
+
+        return () => cancelAnimationFrame(animationFrameId); // 컴포넌트 언마운트 시 애니메이션 중지
+    }, [lat, lng]);
+
+    useEffect(() => {
+        window.onmessage = (e: MessageEvent<MessageData>) => {
+            const { lat, lng } = e.data;
+            if (lat && lng && map) {
+                map.setCenter({ lat, lng });
+                setLat(lat);
+                setLng(lng);
+            }
+        };
+        getPosition();
+        initMap()
+        setInitialLat(lat);  // 처음 위치 저장
+        setInitialLng(lng);  // 처음 위치 저장
+    }, [])
+
+    useEffect(() => {
+        // 고도 정보 가져오기
+        const fetchElevation = async () => {
+            try {
+                console.log("요청")
+                const response = await customAxios.get("/geolocation/elevation", {
+                    params: { lat, lng }
+                });
+
+                if (response.status === 200) {
+                    const newHigh = response.data.results[0].elevation;
+                    setHigh(newHigh);
+
+                    if (newHigh > prevHigh) {
+                        const pointIncrement = Math.floor(newHigh - prevHigh);
+                        setPoints(prevPoints => prevPoints + pointIncrement);
+                        setPrevHigh(newHigh);
+                    }
+                } else {
+                    console.error("고도 데이터를 가져오는 데 실패했습니다:", response.data);
+                }
+            } catch (error) {
+                console.error("고도 정보를 가져오는 중 오류 발생:", error);
+            }
+        };
+        //fetchElevation();
+        setPostion();
+    }, [lat, lng])
+
+    useEffect(() => {
+        // 포인트 적립 로직
+        if (high > prevHigh + 20) {
+            const pointsToAdd = Math.floor((prevHigh + 20) / 20) * 10; // 20m마다 10포인트
+            setPoints(prevPoints => prevPoints + pointsToAdd);
+            setPrevHigh(high); // 현재 고도를 이전 고도로 업데이트
+        }
+    }, [lat, lng, high, prevHigh]); // lat, lng, high, prevHigh가 변경될 때마다 실행
+
+    // 맵 드래그할때 현재위치로 돌아가는버튼 보이게하기
+    useEffect(() => {
+        if (map) {
+            // 지도를 드래그할 때 버튼을 보이도록 설정
+            map.addListener("dragstart", () => {
+                setShowReturnButton(true);
+            });
+        }
+    }, [map]);
 
     // 현재 위치로 돌아가는 함수
     const recenterMap = () => {
@@ -131,37 +211,20 @@ function Maps() {
 
 
     return (
-        <div style={{ position: "relative", width: '100vw', height: '100vh' }}>
-            {/* FooterBar 컴포넌트를 하단에 추가 */}
-            <FootPoinNickAlt elevation={high} nickname={nickname} points={points} />
+        <>
+            <div style={{ position: "relative", width: '100vw', height: '100vh' }}>
+                {/* FooterBar 컴포넌트를 하단에 추가 */}
 
-            {/* <Altitude elevation={high} /> */}
-            {/* 닉네임과 포인트를 감싸는 div
-            <div style={{
-            position: 'absolute',
-            top: '5px', // 상단에서 20px 떨어진 위치
-            right: '15px', // 우측에서 20px 떨어진 위치
-            backgroundColor: 'rgba(255, 255, 255, 0.8)', // 반투명 흰색 배경
-            borderRadius: '8px', // 모서리 둥글게
-            padding: '10px', // 안쪽 여백
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // 그림자 효과
-            display: 'flex', // 플렉스 박스 사용
-            flexDirection: 'column', // 세로 방향 정렬
-            alignItems: 'flex-start', // 왼쪽 정렬
-            zIndex: 10 // zIndex 추가
-        }}>
-            <Nicname nickname={nickname} />
-            <Point points={points} />
-        </div> */}
+                <div id='map' style={{ width: '100%', height: '100%' }}></div>
 
-            <div id='map' style={{ width: '100%', height: '100%' }}></div>
+                {/* showReturnButton이 true일 때만 버튼 표시 */}
+                {showReturnButton && <Goback onClick={recenterMap} />}
+                {map && <Avata lat={lat} lng={lng} map={map} />}
 
-            {/* showReturnButton이 true일 때만 버튼 표시 */}
-            {showReturnButton && <Goback onClick={recenterMap} />}
-            {map && <Avata lat={lat} lng={lng} map={map} />}
-
+                <FootPoinNickAlt elevation={high} nickname={nickname} points={points} />
+            </div>
             <Footerbar />
-        </div>
+        </>
     );
 }
 
