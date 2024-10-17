@@ -23,12 +23,12 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
 }
 
 const getPage = async ({ pageParam }: { pageParam: number }) => {
-  const { data } = await customAxios.get(`/user/getproduct/`, {
+  const { data } = await customAxios.get("/shop/mybox/product", {
     params: {
       page: pageParam
     }
   })
-  // console.log(data)
+
   return data
 }
 
@@ -41,8 +41,13 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage }: { setIsMod
   // const [list, setList] = useState<Product[]>([])
   const [total, setTotal] = useState(0);
   const getTotalpage = async () => {
-    const response = await customAxios.get("/shop/product/count");
-    setTotal(response.data)
+    try {
+
+      const response = await customAxios.get("/shop/product/count");
+      setTotal(response.data)
+    } catch (error) {
+      console.log("error")
+    }
   }
   const {
     data,
@@ -84,7 +89,9 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage }: { setIsMod
       // console.log("로딩완료", data)
       return (
         <>
-          {data.pages.map((product: Product[]) => product.map((el) => { return (<Image key={el.id} src={el.imageUrl} onClick={() => enlargeImage(el.imageUrl, el.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />) }))
+          {data.pages.map((product: Product[]) => product.map((el) => {
+            return (<Image key={el.id} src={`http://127.0.0.1:4000${el.product.image}`} onClick={() => enlargeImage(`http://127.0.0.1:4000${el.product.image}`, el.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />)
+          }))
           }
         </>
       )

@@ -156,7 +156,7 @@ function Maps() {
         const fetchElevation = async () => {
             try {
                 console.log("요청")
-                const response = await customAxios.get("http://localhost:4000/geolocation/elevation", {
+                const response = await customAxios.get("/geolocation/elevation", {
                     params: { lat, lng }
                 });
 
@@ -176,7 +176,7 @@ function Maps() {
                 console.error("고도 정보를 가져오는 중 오류 발생:", error);
             }
         };
-        fetchElevation();
+        //fetchElevation();
         setPostion();
     }, [lat, lng])
 

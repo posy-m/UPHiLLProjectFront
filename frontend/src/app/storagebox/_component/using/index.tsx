@@ -19,7 +19,6 @@ interface Product {
 }
 
 const Using = ({ use }: { use: boolean }) => {
-  console.log("test")
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [clickedImage, setClickedImage] = useState<string | null>(null)
   const [list, setList] = useState<Product[]>([])
@@ -67,7 +66,7 @@ const Using = ({ use }: { use: boolean }) => {
       const data = response.data
       setList(data)
     } catch (error) {
-      console.error(error, "모달 사용에서 에러")
+      console.error(error, "모달 사용에서 에러");
     }
   }
 

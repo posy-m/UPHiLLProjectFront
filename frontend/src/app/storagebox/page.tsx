@@ -8,9 +8,9 @@ import CompletedInfinite from './_component/completedproduct/completedinfinite'
 
 
 const StorageBox = () => {
-  const [use, setUse] = useState(false)
+  const [use, setUse] = useState(false);
   const change = (value: boolean) => {
-    setUse(value)
+    setUse(value);
   }
   return (<>
     <div className={styled.usingBox}>
