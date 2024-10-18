@@ -7,7 +7,7 @@
 
   /* 상단 */
   .product_ul {
-    @apply mt-8 flex gap-14 content-center justify-center text-2xl font-extrabold;
+    @apply mt-8 flex gap-14 content-center justify-center text-2xl font-extrabold pb-6;
   }
 
   .product_ul>li:nth-child(2) {
