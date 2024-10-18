@@ -42,14 +42,14 @@ export const UseScroll = (props: any) => {
       ref={divRef}
       style={{
         width: "330px",
-        height: "536px",
+        // height: "536px",
         margin: "0 auto",
-        overflowY: "scroll",
+        // overflowY: "scroll",
       }}>
       <ul ref={ulRef}
         style={{
           display: "flex",
-          flexDirection: "row",
+          // flexDirection: "row",
           flexWrap: "wrap"
         }}>
         {props.children}
