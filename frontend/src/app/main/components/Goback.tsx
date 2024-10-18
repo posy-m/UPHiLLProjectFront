@@ -12,8 +12,8 @@ const Goback: React.FC<GobackProps> = ({ onClick }) => {
             onClick={onClick}
             style={{
                 position: 'absolute',
-                right: '30px',
-                top: '90%',
+                right: '20px',
+                top: '70%',
                 transform: 'translateY(-50%)',
                 padding: '10px',
                 zIndex: 10,
@@ -21,7 +21,7 @@ const Goback: React.FC<GobackProps> = ({ onClick }) => {
                 borderRadius: '50%',
                 boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
             }}>
-            <FaLocationArrow size={20} color='#000' />
+            <FaLocationArrow size={15} color='#000' />
         </button>
     );
 };

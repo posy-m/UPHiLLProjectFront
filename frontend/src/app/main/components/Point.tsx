@@ -8,14 +8,12 @@ interface PointDisplayProps {
 const Point: React.FC<PointDisplayProps> = ({ points }) => {
     return (
         <div style={{
-            fontSize: '16px', // 글자 크기 조정
+            fontSize: '18px', // 글자 크기 조정
             fontWeight: 'bold',
-            textAlign: 'center' // 가운데 정렬
-            // padding: '10px 0',
-            // fontSize: '20px',
-            // fontWeight: 'bold',
+            textAlign: 'center', // 가운데 정렬
+            marginLeft:'20px'
         }}>
-            포인트: {points}P
+            포인트 : {points} P
         </div>
     );
 };

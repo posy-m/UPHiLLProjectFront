@@ -31,11 +31,13 @@ function Maps() {
     const [high, setHigh] = useState<number>(0);
     const [prevHigh, setPrevHigh] = useState<number>(0);
     const [points, setPoints] = useState<number>(0);
+    const [prevLat, setPrevLat] = useState(lat);
+    const [prevLng, setPrevLng] = useState(lng);
     const [nickname, setNickname] = useState<string>('');
     const [map, setMap] = useState<google.maps.Map | null>(null);
     const [showReturnButton, setShowReturnButton] = useState<boolean>(false);
     const mapRef = useRef<google.maps.Map | null>(null); // 지도 참조
-    const [maker,setMaker]=useState(null); //마커
+    const [maker,setMaker]=useState<google.maps.Marker | null>(null); //마커
     // 아바타 상태 관리
     const [avatarImage, setAvatarImage] = useState("/skyHatFront.png"); // 정면 이미지
     const [isMoving, setIsMoving] = useState(false); // 움직임 상태
@@ -65,14 +67,24 @@ function Maps() {
         }
     }
 
+    // GPS 위치 가져오깅
     const getPosition = ()=>{
         navigator.geolocation.watchPosition(position=>{
             const {latitude,longitude}= position.coords;
             setLat(latitude);
             setLng(longitude);
+
+            // 지도 초기화 후 첫 위치 설정 시에만 지도 중심 설정
+            // 초기 위치 설정과 지도 중심 설정을 분리하여 더 효율적이고 깔끔하게 위치 변경과 고도 데이터를 처리
+        if (map && initialLat === 0 && initialLng === 0) {
+            setInitialLat(latitude);
+            setInitialLng(longitude);
+            map.setCenter({ lat: latitude, lng: longitude });
+        }
         })
     }
 
+    // 지도 초기화
     const initMap=async()=>{
         const loader = new Loader({
             apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_MAP_KEY || "", // 본인 Google Maps API KEY를 입력
@@ -90,6 +102,7 @@ function Maps() {
             })
             setMap(googleMap)
             mapRef.current = googleMap;
+            
     };
 
      // 아바타 이미지 배열
@@ -110,13 +123,14 @@ function Maps() {
             animationCycle();
     }
 
-    const setPostion = ()=>{
+    const setPosition = ()=>{
         if(map!==null){
             console.log(lat,lng)
             map.setCenter({lat,lng})
         }
-        if(maker!==null)
+        if(maker!==null){
             maker.setPosition({lat,lng})
+        }
     }
 
     useEffect(() => {
@@ -132,10 +146,10 @@ function Maps() {
         };
 
         detectMovement();
-
         return () => cancelAnimationFrame(animationFrameId); // 컴포넌트 언마운트 시 애니메이션 중지
     }, [lat, lng]);
 
+    // 위치,지도초기화 및 위치 감시 시작
     useEffect (()=>{
         window.onmessage = (e:MessageEvent<MessageData>) =>{
             const { lat, lng } = e.data;
@@ -155,7 +169,9 @@ function Maps() {
         // 고도 정보 가져오기
         const fetchElevation = async () => {
             try {
+                if(Math.abs(lat - prevLat) > 0.002 || Math.abs(lng - prevLng) > 0.002){
                 console.log("요청")
+                // 조건에 맞게 위치 변화가 있을 때만 고도 요청
                 const response = await customAxios.get("http://localhost:4000/geolocation/elevation", {
                     params: { lat, lng }
                 });
@@ -167,26 +183,38 @@ function Maps() {
                 const newHigh = response.data.results[0].elevation;
                 setHigh(newHigh);
 
+                // 고도가 이전 고도보다 높을 경우 포인트 추가
                 if (newHigh > prevHigh) {
-                    const pointIncrement = Math.floor(newHigh - prevHigh);
-                    setPoints(prevPoints => prevPoints + pointIncrement);
-                    setPrevHigh(newHigh);
+                    const pointIncrement = Math.floor(newHigh - prevHigh); // 고도 차이만큼 포인트 증가
+                    setPoints(prevPoints => prevPoints + pointIncrement); // 포인트 업데이트
+                    setPrevHigh(newHigh); // 이전 고도 값 갱신
                 }
             } else {
                 console.error("고도 데이터를 가져오는 데 실패했습니다:", response.data);
+                }
             }
         } catch (error) {
             console.error("고도 정보를 가져오는 중 오류 발생:", error);
         }
     };
-    fetchElevation();
-    setPostion();
+    // 고도 정보만 가져오고 지도 위치를 설정하는 부분은 분리
+    if (Math.abs(lat - initialLat) > 0.002 || Math.abs(lng - initialLng) > 0.002) {
+        // 일정한 위치 변화가 있는 경우에만 고도 요청
+        fetchElevation();
+    }
+
+     // lat, lng 업데이트 시 한 번만 지도 위치 설정 
+    // 지도 위치가 초기화되지 않거나 큰 변화가 있을 때만 setPosition()**을 호출
+    // 불필요한 지도의 중심 변경을 방지
+    if(map && (lat !== 0 && lng !== 0)){
+        setPosition();
+    }
     },[lat,lng])
 
     useEffect(() => {
         // 포인트 적립 로직
-        if (high > prevHigh+20) {
-                const pointsToAdd = Math.floor((prevHigh+20) / 20) * 10; // 20m마다 10포인트
+        if (high >= prevHigh+20) {
+                const pointsToAdd = Math.floor((high - prevHigh) / 20) * 10; // 20m마다 10포인트
                 setPoints(prevPoints => prevPoints + pointsToAdd);
                 setPrevHigh(high); // 현재 고도를 이전 고도로 업데이트
         }

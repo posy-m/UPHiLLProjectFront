@@ -1,7 +1,6 @@
 "use client"
 import React, {useState,useEffect} from 'react'
 import Input from '../components/Input'
-import Button from '../components/Button'
 import styled from './style.module.css'
 
 // 인풋과 버튼에 넣을 동적 상태 값을 파악하여 props로 전달받기
@@ -18,17 +17,7 @@ const ChangePlace = ({name,inputype,className,inputholder,onChange,value}:{value
   const inputChangeHeader = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
     onChange(e.target.value)
-    
-    
   }
-
-  // 버튼 클릭 시 onSubmit 함수 호출
-  // const submitHeader = () => {
-  //   onSubmit(inputValue) // 입력된 값으로 onSubmit 함수 호출
-  //   console.log('버튼 호출');
-    
-  // }
-
 
   return (
         <div className={styled.changestyl}>
@@ -42,7 +31,6 @@ const ChangePlace = ({name,inputype,className,inputholder,onChange,value}:{value
             onChange={inputChangeHeader} 
             />
         </div>
-
   )
 }
 
