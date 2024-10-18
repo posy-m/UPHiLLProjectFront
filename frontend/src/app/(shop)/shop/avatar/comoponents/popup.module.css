@@ -28,7 +28,7 @@
 
 /* 아바타 이미지 올리는 곳 */
 
-.frm_wrap > .avatar_img {
+.frm_wrap>.avatar_img {
   width: 200px;
   height: 200px;
   border: 2px solid #000;
@@ -38,7 +38,7 @@
   @apply rounded-xl overflow-hidden rounded-xl;
 }
 
-.avatar_img > label {
+.avatar_img>label {
   display: block;
   width: 100%;
   height: 100%;
@@ -50,7 +50,7 @@
   width: 100%;
   height: 100%;
   position: absolute;
-  left:0;
+  left: 0;
   top: 0;
   z-index: 2;
 }
@@ -59,12 +59,12 @@
   width: 100%;
   height: 100%;
   position: absolute;
-  left:0;
+  left: 0;
   top: 0;
   z-index: 1;
 }
 
-.avatar_img > label::after {
+.avatar_img>label::after {
   content: "";
   display: block;
   width: 4px;
@@ -76,7 +76,7 @@
   transform: translate(-50%, -50%);
 }
 
-.avatar_img > label::before {
+.avatar_img>label::before {
   content: "";
   display: block;
   width: 50px;
@@ -88,13 +88,13 @@
   transform: translate(-50%, -50%);
 }
 
-.avatar_img > input {
+.avatar_img>input {
   display: none;
 }
 
 
 /* input area */
-.avatar_info > div {
+.avatar_info>div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,7 +111,7 @@
 
 /* 아바타를 등록하시겠습니까? 태그 */
 
-.avatar_info > p {
+.avatar_info>p {
   text-align: center;
   @apply text-lg my-3 font-semibold;
 }
@@ -121,7 +121,7 @@
   width: 100%;
 }
 
-.btn_area > .btn{
+.btn_area>.btn {
   display: flex;
   justify-content: center;
   align-items: center;

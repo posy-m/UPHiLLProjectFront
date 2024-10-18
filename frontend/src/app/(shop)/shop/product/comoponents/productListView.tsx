@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import UserProductList from './UserProductBuy';
 
-const ProductListView = ({ product }) => {
+const ProductListView = ({ product }: { product: any }) => {
 
     const [buyPopup, setBuyPopup] = useState(false);
 
@@ -10,15 +10,30 @@ const ProductListView = ({ product }) => {
     }
 
     return (
-        <div style={{ width: "100%", height: "100%" }}>
-            {buyPopup ? <UserProductList productId={product.id} buyPopup={buyPopup} setBuyPopup={setBuyPopup} /> : ""}
-            <div style={{ width: "100%", height: "110px", borderRadius: "10px", border: "3px solid black" }} onClick={openPopup}>
-                <img src={`http://127.0.0.1:4000${product.image}`} alt="" className='w-full h-full' />
-                <div className='w-full flex'>{product.name}</div>
+        <div className='ghidhfsidhfisd' style={{}}>
+            {buyPopup ? (
+                <div style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    backgroundColor: "rgba(0, 0, 0, 0.8)", // 검정색 투명 배경
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    zIndex: 9999
+                }}>
+                    <UserProductList productId={product.id} buyPopup={buyPopup} setBuyPopup={setBuyPopup} />
+                </div>
+            ) : null}
+            <div style={{ justifyContent: "center", display: "flex", flexDirection: "column" }} onClick={openPopup}>
+                <img src={`http://127.0.0.1:4000/${product.image}`} alt="" style={{ borderRadius: "10px", border: "1px solid gray", width: "130px", height: "130px" }} />
+                <div className='w-full flex justify-center font-bold'>{product.name}</div>
             </div>
             <div>
             </div>
-        </div>
+        </div >
     )
 }
 
