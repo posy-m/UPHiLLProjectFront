@@ -1,11 +1,11 @@
 import React from 'react'
 
 const AvatarRegist = () => {
-  
+
   return (
     <form style={{
       background: "beige",
-      border:"2px solid black",
+      border: "2px solid black",
       boxSizing: "border-box",
       width: "260px",
       height: "200px",
@@ -22,12 +22,12 @@ const AvatarRegist = () => {
         fontSize: '22px',
         fontWeight: 'bold',
         margin: '50px 0 18px'
-      }}>아바타를<br/>구매하시겠습니까?</p>
+      }}>아바타를<br />구매하시겠습니까?</p>
       <div style={{
         display: "flex",
         justifyContent: 'center',
         alignItems: 'center',
-        }}>
+      }}>
         <button style={{
           display: "flex",
           backgroundColor: "green",

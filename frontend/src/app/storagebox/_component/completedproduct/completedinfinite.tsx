@@ -11,7 +11,6 @@ import customAxios from '@/lib/customAxios';
 const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any) => {
   useEffect(() => {
     const handlerScroll = () => {
-      console.log("되나영");
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         onScrollToEnd()
       }
@@ -25,7 +24,7 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
 
 const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) => {
   try {
-    const { data } = await customAxios.get('/user/getproduct', {
+    const { data } = await customAxios.get('/shop/mybox/product', {
       params: {
         page: pageParam,
         use
@@ -75,7 +74,6 @@ const CompletedInfinite = ({ use }: { use: boolean }) => {
     getTotalpage()
   }, [])
 
-
   useEffect(() => {
     console.log(data, "가보자아아아앙ㅇ");
   }, [data])
@@ -88,7 +86,7 @@ const CompletedInfinite = ({ use }: { use: boolean }) => {
           page?.map((product: Product) => (
             <Image
               key={product.id}
-              src={product.imageUrl}
+              src={`http://127.0.0.1:4000${product.product.image}`}
               width={300}
               height={500}
               alt='사용완료 기프티콘'

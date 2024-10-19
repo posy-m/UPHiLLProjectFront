@@ -3,12 +3,12 @@
 import styled from './product.module.css'
 import customAxios from '@/lib/customAxios';
 
-const Product = ({setProductId, productId, modifyPopup, setModifyPopup, name, price, image, refetch}: {setProductId:Function,productId: number, modifyPopup: boolean,setModifyPopup: Function, name: string, price: number, image:string, refetch: Function}) => {
+const Product = ({ setProductId, productId, modifyPopup, setModifyPopup, name, price, image, refetch }: { setProductId: Function, productId: number, modifyPopup: boolean, setModifyPopup: Function, name: string, price: number, image: string, refetch: Function }) => {
 
-  const handleDelete = (key:number) => {
+  const handleDelete = (key: number) => {
     const deleteQuestion = confirm('정말 삭제 하시겠습니까?');
     // 삭제가 취소되면 실행되는 로직
-    if(!deleteQuestion){
+    if (!deleteQuestion) {
       console.log('삭제가 취소 됐습니다.');
       return;
     }
@@ -29,8 +29,8 @@ const Product = ({setProductId, productId, modifyPopup, setModifyPopup, name, pr
         <span className={styled.product_price}>{price}원</span>
       </div>
       <div className={styled.product_btn}>
-        <span onClick={() => {setModifyPopup(!modifyPopup); setProductId(productId)}} className="button">수정</span>
-        <span onClick={()=>{handleDelete(productId)}} className="button">삭제</span>
+        <span onClick={() => { setModifyPopup(!modifyPopup); setProductId(productId) }} className="button">수정</span>
+        <span onClick={() => { handleDelete(productId) }} className="button">삭제</span>
       </div>
     </div>
   )

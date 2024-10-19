@@ -5,7 +5,7 @@ import styled from './user.module.css';
 import UserAvatar from '../atom/UserAvatar';
 import Header from '@/app/_components/header/header';
 import Footerbar from '@/app/_components/footerbar/footerbar';
-import {UseUserScroll} from '../../hooks/useScroll';
+import { UseUserScroll } from '../../hooks/useScroll';
 import Link from 'next/link';
 import UserAvatarBuy from './UserAvatarBuy';
 import customAxios from '@/lib/customAxios';
@@ -27,9 +27,9 @@ interface StoreContextProps {
 // 기본값 설정 (빈 함수와 기본 상태)
 const defaultStoreContext: StoreContextProps = {
   buyState: false,
-  setBuyState: () => {},  // 초기값은 빈 함수로 설정
+  setBuyState: () => { },  // 초기값은 빈 함수로 설정
   wearState: false,
-  setWearState: () => {},  // 초기값은 빈 함수로 설정
+  setWearState: () => { },  // 초기값은 빈 함수로 설정
 };
 
 export const Store = createContext<StoreContextProps>(defaultStoreContext);
@@ -51,13 +51,13 @@ export const User = () => {
   }
 
   const dataLength = async () => {
-    const {data} = await customAxios.get('/shop/avatar/count');
+    const { data } = await customAxios.get('/shop/avatar/count');
     setDataCount(data);
   };
-  
+
   useEffect(() => {
     dataLength();
-  },[])
+  }, [])
 
 
   const {
@@ -70,44 +70,39 @@ export const User = () => {
     queryKey: ['infinitescroll'],
     queryFn: getAvatarPages,
     initialPageParam: 1,
-    getNextPageParam(lastPage, allPages){
+    getNextPageParam(lastPage, allPages) {
       // 페이지가 남아있으면 더 추가해주는 로직
-      return allPages.length < dataCount? allPages.length + 1 : undefined;
+      return allPages.length < dataCount ? allPages.length + 1 : undefined;
     }
   });
 
   console.log(data)
 
   return (
-  <Store.Provider value={obj}>
-    <Header showBackButton={false} />
-    <div className={styled.user_avatar_wrap}>
-      <ul className={styled.product_ul}>
-        <li style={{borderBottom:"3px solid rgb(112, 61, 22)", color: "rgb(112, 61, 22)", boxSizing: "border-box"}}><Link href="http://localhost:3000/shop/avatar">아바타</Link></li>
-        <li><Link href="http://127.0.0.1:3000/shop/product">상품</Link></li>
-      </ul>
-      <div className={styled.now_avatar}>
-        <UserAvatar />
+    <Store.Provider value={obj}>
+      <Header showBackButton={false} />
+      <div className={styled.user_avatar_wrap}>
+        <ul className={styled.product_ul}>
+          <li><Link href="http://localhost:3000/shop/avatar">아바타</Link></li>
+          <li><Link href="http://127.0.0.1:3000/shop/product">상품</Link></li>
+        </ul>
+        <div className={styled.now_avatar}>
+          <UserAvatar />
+        </div>
+        <UseUserScroll
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          data={data}
+        >
+          {data?.pages.map((page) => page.map((e: any) =>
+            <li key={e.id} style={{ width: "150px" }}>
+              <AvatarCollector product={e} />
+            </li>))
+          }
+        </UseUserScroll>
       </div>
-      <UseUserScroll
-        fetchNextPage={fetchNextPage} 
-        hasNextPage={hasNextPage} 
-        isFetchingNextPage={isFetchingNextPage} 
-        data={data}
-      >
-        {data?.pages.map((page) => page.map((e:any) => 
-          <li key={e.id}
-            style={{
-              width: "110px",
-              margin: '5px'}}
-          >
-            <AvatarCollector buyPopup={buyPopup} setBuyPopup={setBuyPopup} productId={e.id}/>
-            {buyPopup ? <UserAvatarBuy productId={e.id} buyPopup={buyPopup} setBuyPopup={setBuyPopup} /> : ""}
-          </li>))
-        }
-      </UseUserScroll>
-    </div>
-    <Footerbar />
-  </Store.Provider>
+      <Footerbar />
+    </Store.Provider>
   )
 }

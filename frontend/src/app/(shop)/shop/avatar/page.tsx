@@ -1,26 +1,19 @@
+"use client"
 import React from 'react'
 import Admin from './comoponents/Admin'
-import {User} from './comoponents/User';
+import { User } from './comoponents/User';
 import { useAtom } from 'jotai';
+import { userInfo } from '@/app/(jotai)/atom';
 
 const page = () => {
-  // const {} = useAtom();
-  const auth:string = '일반'
-  // const [authCompare, setAuthCompare] = useAtom<object>({
-  //   email: '',
-  //   nickName: '',
-  //   point: '',
-  //   image: ''
-  // });
-    return (
-      <>
-        {/* {
-          auth === "일반" ? <User /> : <Admin />
-        } */}
-<Admin />
+  const [user] = useAtom(userInfo);
+  console.log(user)
 
-      </>
+  return (
+    <>
+      {parseInt(user.auth) === 2 ? <User /> : <Admin />}
+    </>
   )
 }
- 
+
 export default page;

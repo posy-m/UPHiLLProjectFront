@@ -1,17 +1,17 @@
-.user_avatarFrm{
-  border: 2px solid #333;
+.user_avatarFrm {
+  /* border: 1px solid #333; */
   background-color: ivory;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  @apply w-56 h-72 rounded-lg overflow-hidden;
+  @apply w-56 h-72 rounded-lg;
 }
 
-.user_avatarFrm > .user_wear {
+.user_avatarFrm>.user_wear {
   width: 150px;
   height: 150px;
-  border: 6px solid black;
+  border: 1px solid gray;
   margin: 30px auto;
   @apply rounded-lg;
 }
@@ -23,7 +23,7 @@
   height: 100%;
   text-indent: -999999999px;
 }
- 
+
 /* input file */
 .user_avatar {
   display: none;
@@ -34,10 +34,9 @@
   @apply flex justify-center;
 }
 
-.btn_area > .btn {
+.btn_area>.btn {
   width: 70px;
   height: 36px;
   background: rgb(28, 118, 28);
   @apply flex justify-center items-center rounded-xl text-lg font-semibold mx-1 text-white;
 }
-

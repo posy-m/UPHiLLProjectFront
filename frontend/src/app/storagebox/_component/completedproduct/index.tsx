@@ -44,7 +44,7 @@ const CompletedProduct = ({ use }: { use: boolean }) => {
     <div className={styled.storge_box}>
       <div className={styled.img_box}>
         {list.map((product) =>
-          <Image key={product.id} src={product.imageUrl} width={300} height={500} alt='기프티콘' className={styled.customImage} />
+          <Image key={product.id} src={`http://127.0.0.1:4000${product.image}`} width={300} height={500} alt='기프티콘' className={styled.customImage} />
         )}
         {/* <Image src={test} width={300} height={500} alt='기프티콘' className={styled.customImage} /> */}
       </div>
