@@ -14,13 +14,14 @@ const FootPoinNickAlt: React.FC<FootPoinNickAltProps> = ({ elevation, points, ni
     return (
         <div style={{
             position: 'fixed', // 하단에 고정
-            bottom: "100px", // Footerbar 위에 위치
+            bottom: "80px", // Footerbar 위에 위치
             width: '100%',
-            backgroundColor: '#fff', // 배경 흰색
+            backgroundColor: '#14532d', // 배경 흰색
+            color: 'rgb(248, 255, 251)',
             display: 'flex',
-            justifyContent: 'space-between', // 요소들을 좌우 균등하게 배치
+            justifyContent: 'space-around', // 요소들을 좌우 균등하게 배치
             alignItems: 'center', // 세로 가운데 정렬
-            padding: '20px 40px', // 패딩
+            padding: '20px ', // 패딩
             boxShadow: '0 -4px 8px rgba(0, 0, 0, 0.1)', // 그림자 효과
             zIndex: 10, // 지도 위로 나오도록 zIndex 설정
             fontSize: '1.2rem', // 텍스트 크기 조정

@@ -21,7 +21,8 @@
 }
 @media (max-width: 640px) {
     .centerContent {
-      @apply space-y-4; /* 작은 화면에서 간격을 줄임 */
+    @apply 
+      space-y-4; /* 작은 화면에서 간격을 줄임 */
     }
 }
 
@@ -47,6 +48,9 @@
     font-extrabold
     text-2xl
     ease-in-out;
+}
+.click.active {
+    border-bottom: 2px solid ; /* 활성화된 항목에 보더 바텀 추가 */
 }
 .click:hover{
     border-bottom: 2px solid /* @apply border-b-2 border-solid ; ; */

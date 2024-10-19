@@ -8,10 +8,7 @@ interface MypageInfoheaderProps{
   setSelect: (value:string)=>void
 }
 
-const MypageInfoheader = ({select,setSelect}:MypageInfoheaderProps) => {
-
-  // const [select,setSelect] = useState('개인정보')
-
+  const MypageInfoheader = ({select,setSelect}:MypageInfoheaderProps) => {
   const clickHandler = (click:string) =>{
     setSelect(click)
   }
@@ -19,12 +16,12 @@ const MypageInfoheader = ({select,setSelect}:MypageInfoheaderProps) => {
 
   return (
     <div className={styled.infoheader}>
-      <div className={styled.click}
+      <div className={`${styled.click} ${select === '개인정보' ? styled.active : ''}`}
       onClick={()=>clickHandler('개인정보')}>
         <Ttext className=' ' onClick={()=>{}} >개인정보</Ttext> 
       </div>
         
-      <div className={styled.click}
+      <div className={`${styled.click} ${select === '구매정보' ? styled.active : ''}`}
       onClick={()=>clickHandler('구매정보')}>
         <Ttext className=''onClick={()=>{}} >구매정보</Ttext>
       </div>
