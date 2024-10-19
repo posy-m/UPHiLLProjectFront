@@ -14,7 +14,7 @@ const page = () => {
   console.log('test')
   return (
     <>
-      {parseInt(user.auth) === 2 ? <User /> : <Admin />}
+      {parseInt(user.auth) === 2 ? <Admin /> : <User />}
     </>
   )
 }

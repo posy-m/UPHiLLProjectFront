@@ -10,7 +10,7 @@ const ProductListView = ({ product }: { product: any }) => {
     }
 
     return (
-        <div className='ghidhfsidhfisd' style={{}}>
+        <div className='ghidhfsidhfisd' >
             {buyPopup ? (
                 <div style={{
                     position: "fixed",
