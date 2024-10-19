@@ -1,11 +1,11 @@
 "use client"
 
 import React, { useEffect, useRef } from "react";
-import styled from './useScroll.module.css'
+import styled from './productScroll.module.css'
 
 
 // 관리자 스크롤
-export const UseScroll = (props: any) => {
+export const ProductScroll = (props: any) => {
   // ul 높이값을 가져가기 위한 useRef 훅사용
   const divRef = useRef<HTMLDivElement | null>(null);
   const ulRef = useRef<HTMLUListElement | null>(null);
@@ -60,7 +60,7 @@ export const UseScroll = (props: any) => {
 
 
 // 유저 스크롤
-export const UseUserScroll = (props: any) => {
+export const ProductUserScroll = (props: any) => {
   // ul 높이값을 가져가기 위한 useRef 훅사용
   const divRef = useRef<HTMLDivElement | null>(null);
   const ulRef = useRef<HTMLUListElement | null>(null);

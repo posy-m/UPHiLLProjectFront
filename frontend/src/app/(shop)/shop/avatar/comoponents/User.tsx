@@ -83,7 +83,7 @@ export const User = () => {
       <Header showBackButton={false} />
       <div className={styled.user_avatar_wrap}>
         <ul className={styled.product_ul}>
-          <li style={{ borderBottom: "3px solid rgb(112, 61, 22)", color: "rgb(112, 61, 22)", boxSizing: "border-box" }}><Link href="http://localhost:3000/shop/avatar">아바타</Link></li>
+          <li><Link href="http://localhost:3000/shop/avatar">아바타</Link></li>
           <li><Link href="http://127.0.0.1:3000/shop/product">상품</Link></li>
         </ul>
         <div className={styled.now_avatar}>
@@ -96,7 +96,7 @@ export const User = () => {
           data={data}
         >
           {data?.pages.map((page) => page.map((e: any) =>
-            <li key={e.id} style={{ width: "110px", margin: '5px' }}>
+            <li key={e.id} style={{ width: "150px" }}>
               <AvatarCollector product={e} />
             </li>))
           }

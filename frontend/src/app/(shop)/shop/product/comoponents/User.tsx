@@ -5,15 +5,17 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 // import Avatar from './User';
 import ProductListView from './ProductListView';
 import Link from 'next/link';
-import AddBtn from './AddBtn';
-import Popup from './Popup';
-import Modify from './Modify';
+// import AddBtn from './AddBtn';
+// import Popup from './Popup';
+// import Modify from './Modify';
 import styled from './admin.module.css';
+import styles from './product.user.module.css'
 import { getAvatarPages } from '../../api';
 import { UseUserScroll } from '../../hooks/useScroll';
 import Header from '@/app/_components/header/header';
 import Footerbar from '@/app/_components/footerbar/footerbar';
 import customAxios from '@/lib/customAxios';
+import { ProductScroll, ProductUserScroll } from '../../hooks/productScroll';
 
 const User = () => {
   const [isPopup, setIsPopup] = useState<boolean>(false);
@@ -51,26 +53,23 @@ const User = () => {
   console.log(data)
   return (<>
     <Header showBackButton={false} />
-    <div className={styled.avatar_wrap} >
-      <div className={styled.avatar_content}>
-        <ul className={styled.product_ul}>
-          <li><Link style={{ width: "100%", height: '100%', display: 'flex', justifyContent: 'center' }} href="http://127.0.0.1:3000/shop/avatar">아바타</Link></li>
-          <li style={{ borderBottom: "3px solid rgb(112, 61, 22)", color: "rgb(112, 61, 22)", boxSizing: "border-box" }}>상품</li>
+    <div className={styles.avatar_wrap} >
+      <div className={styles.avatar_content}>
+        <ul className={styles.product_ul}>
+          <li><Link href="http://127.0.0.1:3000/shop/avatar">아바타</Link></li>
+          <li ><Link href="http://127.0.0.1:3000/shop/product">상품</Link></li>
         </ul>
-        <UseUserScroll fetchNextPage={fetchNextPage}
+        <ProductUserScroll fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           data={data} >
           {data?.pages.map((page) => page.map((e: any) =>
-            <li className={styled.avatar_list} key={e.id}>
+            <li className={styles.avatar_list} key={e.id}>
               <ProductListView product={e} />
             </li>))
           }
-        </UseUserScroll>
+        </ProductUserScroll>
       </div>
-      <AddBtn isPopup={isPopup} setIsPopup={setIsPopup} modifyPopup={modifyPopup} />
-      {isPopup ? <Popup refetch={refetch} isPopup={isPopup} setIsPopup={setIsPopup} /> : ''}
-      {modifyPopup ? <Modify refetch={refetch} productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} /> : ''}
     </div>
     <Footerbar />
   </>)

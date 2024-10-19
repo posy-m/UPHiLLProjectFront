@@ -1,22 +1,18 @@
-@media (min-width: 360px){
+@media (min-width: 360px) {
   .user_avatar_wrap {
     position: fixed;
     top: 80px;
-    height: 640px;
-    @apply w-full;
+    /* height: 640px; */
+    /* @apply w-full;*/
   }
 
   /* 상단 카테고리 */
   .product_ul {
-    width: 100%;
-    padding: 10px 0 10px;
-    @apply w-full flex justify-center text-3xl font-bold box-border;
+    @apply mt-8 flex gap-14 content-center justify-center text-2xl font-extrabold;
   }
-  
-  .product_ul > li {
-    width: 120px;
-    color: rgb(131, 94, 15);
-    @apply flex justify-center items-center mx-3 px-2 py-2;
+
+  .product_ul>li:nth-child(1) {
+    border-bottom: 2px solid black;
   }
 
   /* 현재 착용중 아바타 */
@@ -27,7 +23,7 @@
     @apply flex justify-center items-center;
   }
 
-  
+
 
   /* 유저가 아바타를 살 수 있는 공간 및 착용하는 곳 */
   .avatar_collection {
@@ -39,7 +35,7 @@
     width: 100px;
     height: 100px;
     background: purple;
-    border:1px solid #ccc;
+    border: 1px solid #ccc;
     margin: 10px;
     color: white;
     border-radius: 10px;

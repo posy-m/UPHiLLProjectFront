@@ -1,0 +1,42 @@
+@media(min-width: 360px) {
+  /* .avatar_content { */
+  /* position: fixed; */
+  /* @apply w-full; */
+  /* padding: 80px; */
+  /* padding-top: 80px; */
+  /* } */
+
+  /* 
+  .product_ul {
+    width: 100%;
+    padding: 10px 0 40px;
+    @apply w-full flex justify-center text-3xl font-bold box-border;
+  }
+
+  .product_ul>li {
+    width: 120px;
+    color: rgb(131, 94, 15);
+    @apply flex justify-center items-center mx-3 px-2 py-2;
+  } */
+
+  .avatar_wrap {
+    margin-top: 112px
+  }
+
+  .product_ul {
+    @apply mt-8 flex gap-14 content-center justify-center text-2xl font-extrabold mb-5;
+  }
+
+  .product_ul>li:nth-child(2) {
+    border-bottom: 2px solid black;
+  }
+
+  .avatar_list {
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 7px;
+    padding-bottom: 25px;
+  }
+}
