@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UserProductList from './UserProductBuy';
 
 const ProductListView = ({ product }: { product: any }) => {
@@ -24,7 +24,7 @@ const ProductListView = ({ product }: { product: any }) => {
                     alignItems: "center",
                     zIndex: 9999
                 }}>
-                    <UserProductList productId={product.id} buyPopup={buyPopup} setBuyPopup={setBuyPopup} />
+                    <UserProductList product={product} buyPopup={buyPopup} setBuyPopup={setBuyPopup} />
                 </div>
             ) : null}
             <div style={{ justifyContent: "center", display: "flex", flexDirection: "column" }} onClick={openPopup}>

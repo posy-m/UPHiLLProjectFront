@@ -50,7 +50,6 @@ const User = () => {
       return allPages.length < Math.ceil(dataLength / 10) ? allPages.length + 1 : undefined;
     }
   });
-  console.log(data)
   return (<>
     <Header showBackButton={false} />
     <div className={styles.avatar_wrap} >
@@ -63,10 +62,12 @@ const User = () => {
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           data={data} >
-          {data?.pages.map((page) => page.map((e: any) =>
-            <li className={styles.avatar_list} key={e.id}>
-              <ProductListView product={e} />
-            </li>))
+          {data?.pages.map((page) => page.map((e: any) => {
+            return (
+              <li className={styles.avatar_list} key={e.id}>
+                <ProductListView product={e} />
+              </li>)
+          }))
           }
         </ProductUserScroll>
       </div>
