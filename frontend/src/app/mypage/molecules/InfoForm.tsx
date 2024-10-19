@@ -10,7 +10,6 @@ import styled from './style.module.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Footerbar from '@/app/_components/footerbar/footerbar'
 import Header from '@/app/_components/header/header'
-import axios from 'axios'
 import customAxios from '@/lib/customAxios'
 
 const queryClient = new QueryClient();
@@ -33,31 +32,11 @@ const [userInfo,setUserInfo] = useState({
   const [isPasswordChangeMode, setIsPasswordChangeMode] = useState(false); // 비밀번호 변경 모드 상태
 
 
-
-//   const response = await customAxios.get("http://localhost:4000/", {
-//     params: { lat, lng }
-// });
-
-  // useEffect(() => {
-  //   // API 요청 가정
-  //   const fetchUserInfo = async () => {
-  //     const response = await fetch('/api/user'); // 백엔드 API 호출
-  //     const data = await response.json();
-  //     setUserInfo({
-  //       email: data.email,
-  //       points: data.points,
-  //       nickname: data.nickname,
-  //     });
-  //   };
-
-  //   fetchUserInfo();
-  // }, []);
-
    // 사용자 정보 가져오기
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await axios.post("http://localhost:4000/user/mypage");
+        const response = await customAxios.post("http://localhost:4000/user/mypage");
         setUserInfo(response.data);
         setTemNinck(response.data.nickname); // 닉네임 초기화
       } catch (error) {
@@ -70,16 +49,6 @@ const [userInfo,setUserInfo] = useState({
 
   // 닉네임 변경 함수
   const nicknameChange = async () => {
-    // const response = await fetch('/api/user/nickname', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ nickname: newNickname }),
-    //   headers: { 'Content-Type': 'application/json' },
-    // });
-    // const result = await response.json();
-    // if (result.success) {
-    //   setUserInfo((prev) => ({ ...prev, nickname: newNickname }));
-    // }
-
     if (temNinck === userInfo.nickname) {
       setNicknameMessage('기존 닉네임과 동일합니다.');
       return;
@@ -88,9 +57,13 @@ const [userInfo,setUserInfo] = useState({
       setNicknameMessage('닉네임을 입력하세요.');
       return
     }
+    if (temNinck.length > 5) {
+      setNicknameMessage('닉네임은 5글자 이하로 설정해 주세요.');
+      return;
+  }
 
     try {
-      const response = await axios.put("http://localhost:4000/user/mypage", {
+      const response = await customAxios.put("http://localhost:4000/user/mypage", {
         type: 'nickname',
         data: temNinck
       });
@@ -103,13 +76,6 @@ const [userInfo,setUserInfo] = useState({
       setNicknameMessage('닉네임 변경에 실패했습니다.');
     }
   };
-
-    // 더미데이터를 이용함
-  //   setUserInfo((prev)=>({...prev,nickname:temNinck}))
-  //   setNicknameMessage('닉네임이 변경되었습니다.');
-  //   console.log("닉넴 변경됬으" , temNinck);
-  // };
-
 
   // 비밀번호 변경 
   const passwordChange = async() => {
@@ -131,7 +97,7 @@ const [userInfo,setUserInfo] = useState({
     }
 
     try {
-      const response = await axios.put("http://localhost:4000/user/mypage", {
+      const response = await customAxios.put("http://localhost:4000/user/mypage", {
         type: 'password',
         data: newPassword
       });
@@ -144,12 +110,7 @@ const [userInfo,setUserInfo] = useState({
       setPasswordMessage('비밀번호 변경에 실패했습니다.');
     }
   };
-    // 더미데이터를 이용함
-    // setUserInfo((prev) => ({ ...prev, password: newPassword }))
-    // setPasswordMessage('비밀번호가 변경되었습니다.');
-  
 
-  
   return (<>
         <Header showBackButton={false}/> {/* 뒤로가기 버튼 숨기기 */}
     <div className={styled.container}>

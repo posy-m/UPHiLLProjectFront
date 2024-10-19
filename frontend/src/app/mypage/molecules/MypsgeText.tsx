@@ -7,7 +7,7 @@ const MypsgeText = ({email,points,onClick}:{email:any,points:number,onClick:()=>
   return (
     <div >
         <div className={styled.infotextTop}>
-        <Ttext className={styled.mysgeTextPoints} onClick={()=>{}}>{points} P</Ttext>
+        <Ttext className={styled.mysgeTextPoints} onClick={()=>{}}>잔여 포인트 : {points} P</Ttext>
         </div> 
 
         <div className={styled.infotext}>
