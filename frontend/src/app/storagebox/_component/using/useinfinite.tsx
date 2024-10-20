@@ -22,7 +22,7 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
   }, [useScollEnd])
 }
 
-const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) => {
+const getPage = async ({ pageParam, use, setObj }: { pageParam: number, use: boolean, setObj: Function }) => {
   const { data } = await customAxios.get("/shop/mybox/product", {
     params: {
       page: pageParam,
@@ -38,7 +38,7 @@ interface Product {
   imageUrl: string;
 }
 
-const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use }: { setIsModalOpen: Dispatch<SetStateAction<boolean>>, setOrderProduct: Dispatch<SetStateAction<number>>, setClickedImage: Dispatch<SetStateAction<string | null>>, use: boolean }) => {
+const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use, setObj }: { setIsModalOpen: Dispatch<SetStateAction<boolean>>, setOrderProduct: Dispatch<SetStateAction<number>>, setClickedImage: Dispatch<SetStateAction<string | null>>, use: boolean, setObj: Function }) => {
   // const [list, setList] = useState<Product[]>([])
   const [total, setTotal] = useState(0);
   const getTotalpage = async () => {
@@ -55,7 +55,8 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use }: { set
     hasNextPage,
     fetchNextPage,
     isLoading,
-    isFetchingNextPage
+    isFetchingNextPage,
+    refetch
   } = useInfiniteQuery({
     queryKey: ['pagenation'],
     // queryFn: getPage,
@@ -74,6 +75,7 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use }: { set
   }
   useEffect(() => {
     getTotalpage()
+    setObj({ fn: refetch })
   }, [])
 
   useEffect(() => {

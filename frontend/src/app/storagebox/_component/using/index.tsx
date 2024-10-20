@@ -24,7 +24,8 @@ const Using = ({ use }: { use: boolean }) => {
   const [list, setList] = useState<Product[]>([])
   // const [use, setUse] = useState(false)
   // const [atom, setAtom] = useAtom(userInfo)
-  const [orderProduct, setOrderProduct] = useState(0)
+  const [orderProduct, setOrderProduct] = useState(0);
+  const [obj, setObj] = useState<Object | null>(null);
 
   const enlargeImage = (src: string, id: number) => {
     setOrderProduct(id)
@@ -64,8 +65,15 @@ const Using = ({ use }: { use: boolean }) => {
       const response = await customAxios.put("/shop/product/complete", {
         orderProduct
       })
-      const data = response.data
-      setList(data)
+      if (response.status === 200) {
+        const data = response.data
+        setList(data);
+        setIsModalOpen(false);
+        if (obj) {
+          obj.fn();
+        }
+        console.log(obj)
+      }
     } catch (error) {
       console.error(error, "모달 사용에서 에러");
     }
@@ -75,7 +83,7 @@ const Using = ({ use }: { use: boolean }) => {
   return (<>
 
 
-    <Scroll setIsModalOpen={setIsModalOpen} setOrderProduct={setOrderProduct} setClickedImage={setClickedImage} use={use} />
+    <Scroll setIsModalOpen={setIsModalOpen} setOrderProduct={setOrderProduct} setClickedImage={setClickedImage} use={use} setObj={setObj} />
 
     {/* 모달 */}
     {isModalOpen && (
