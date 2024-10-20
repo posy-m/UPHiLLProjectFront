@@ -8,8 +8,8 @@ import customAxios from '@/lib/customAxios';
 
 // 받아오는 데이터 타입 정의
 interface PurchaseItem {
-  item: string;
-  pointsDeducted: number;
+  name: string;
+  point: number;
 }
 
 interface PurchaseResponse {
@@ -18,11 +18,22 @@ interface PurchaseResponse {
 }
 
 const getPages = async ({ pageParam }: { pageParam?: any }): Promise<PurchaseResponse> => {
-  const response = await customAxios.get(`http://localhost:4000/page/${pageParam}`);
-  return response.data; // 서버에서 반환한 데이터를 그대로 반환
+  try {
+    const response = await customAxios.get(`/user/order`, {
+      params: {
+        page: pageParam,
+      }
+    });
+    if (response.status === 200) {
+      console.log(response.data)
+      return response.data; // 서버에서 반환한 데이터를 그대로 반환
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-const useScrollEnd = (onScrollToEnd: ()=>void, hasNextPage: boolean) => {
+const useScrollEnd = (onScrollToEnd: () => void, hasNextPage: boolean) => {
   useEffect(() => {
     const handlerScroll = () => {
       console.log("스크롤");
@@ -47,7 +58,7 @@ const PurchaseInfo = () => {
     queryFn: getPages,
     initialPageParam: 1,
     queryKey: ['pagination'],
-    getNextPageParam: (lastPage : any) => {
+    getNextPageParam: (lastPage: any) => {
       return lastPage.hasMore ? (lastPage?.pages.length + 1) : undefined; // 페이지 번호 계산
     }
   });
@@ -56,17 +67,20 @@ const PurchaseInfo = () => {
   return (
     <div className={styled.PurchaseInfoTop}>
       <div className={styled.Purinfostyle}>
-        <Ttext className={styled.PurchaseInfoItem} onClick={()=>{}}>- 품목 -</Ttext>
-        <Ttext className={styled.PurchaseInfoDPoint} onClick={()=>{}}>- 차감포인트 -</Ttext>
+        <Ttext className={styled.PurchaseInfoItem}>- 품목 -</Ttext>
+        <Ttext className={styled.PurchaseInfoDPoint} >- 차감포인트 -</Ttext>
       </div>
-      {data?.pages.map((page,pageIndex) =>
-        page.items.map((item: PurchaseItem, index: number) => (
+      {data?.pages.map((page, pageIndex) => {
+        if (!page) return <>구매항목이 없습니다.</>
+        return page.map((item: PurchaseItem, index: number) =>
           <div key={`${pageIndex}-${index}`} className={styled.purchaseitem}>
-            <Ttext className='mr-4' onClick={()=>{}}>{item.item}</Ttext>
-            <Ttext className='ml-4' onClick={()=>{}}>- {item.pointsDeducted} 포인트</Ttext>
+            <Ttext className='mr-4'>{item.product.name}</Ttext>
+            <Ttext className='ml-4'>- {item.product.price} 포인트</Ttext>
           </div>
-        ))
+        )
+      }
       )}
+
       {isFetchingNextPage && <p>더 불러오는 중...</p>}
     </div>
   );
