@@ -13,6 +13,7 @@ import Footerbar from '@/app/_components/footerbar/footerbar';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { UseUserScroll } from '../../hooks/useScroll';
 import { ProductScroll } from '../../hooks/productScroll';
+import AddBox from './AddBox';
 
 const Admin = () => {
   const [isPopup, setIsPopup] = useState<boolean>(false);
@@ -66,17 +67,20 @@ const Admin = () => {
             isFetchingNextPage={isFetchingNextPage}
             data={data}
           >
+            <li className={styled.avatar_list}>
+              <AddBox setIsPopup={setIsPopup} />
+            </li>
             {data?.pages.map((page) => page.map((e: any) =>
               <li className={styled.avatar_list} key={e.id}>
-                <Product productId={e.id} name={e.name} refetch={refetch} setProductId={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} price={e.price} image={e.image} />
+                <Product product={e} refetch={refetch} setProductId={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} />
               </li>))
             }
           </ProductScroll>
         </div>
-        <AddBtn isPopup={isPopup} setIsPopup={setIsPopup} modifyPopup={modifyPopup} />
+
         {isPopup ? <Popup refetch={refetch} isPopup={isPopup} setIsPopup={setIsPopup} /> : ''}
         {modifyPopup ? <Modify refetch={refetch} productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} /> : ''}
-        {modifyPopup ? <Modify refetch={refetch} productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} /> : ''}
+        {/* {modifyPopup ? <Modify refetch={refetch} productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} /> : ''} */}
       </div>
       <Footerbar />
     </>

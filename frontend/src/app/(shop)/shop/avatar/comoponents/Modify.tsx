@@ -8,7 +8,7 @@ const Modify = ({ modifyPopup, setModifyPopup, productId, refetch }: { setModify
   const [attachment, setAttachment] = useState<string | ArrayBuffer | null>();
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [imageState, setImageState] = useState("")
+  const [imageState, setImageState] = useState<string | null>("")
 
   // input change 발생시 아바타 변화
   const handleChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +18,7 @@ const Modify = ({ modifyPopup, setModifyPopup, productId, refetch }: { setModify
       reader.readAsDataURL(file);
 
       reader.onload = () => {
+        setImageState(null);
         setAttachment(reader.result)
       }
     }
@@ -106,7 +107,7 @@ const Modify = ({ modifyPopup, setModifyPopup, productId, refetch }: { setModify
         <div className={styled.avatar_img}>
           <label htmlFor='image'>아바타 이미지
             {attachment && <img src={attachment.toString()} className={styled.avatar_upload} />}
-            {imageState && <img src={imageState.toString()} className={styled.avatar_modify} />}
+            {imageState && <img src={`http://127.0.0.1:4000${imageState}`} className={styled.avatar_modify} />}
           </label>
           <input type="file" id="image" name="image" accept="image/*" onChange={handleChangeAvatar} />
         </div>

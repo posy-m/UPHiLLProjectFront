@@ -39,7 +39,7 @@ const Modify = ({ modifyPopup, setModifyPopup, refetch, productId }: { setModify
   }, [])
 
 
-  const handleModify = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleModify = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // console.log(productId)
 
@@ -55,38 +55,32 @@ const Modify = ({ modifyPopup, setModifyPopup, refetch, productId }: { setModify
 
     const formData = new FormData();
     if (!image.files[0]) {
-      customAxios.put('/shop/avatar', { productId, name: nameValue, price: priceValue }
+      const response = await customAxios.put(`/shop/avatar`, { productId, name: nameValue, price: priceValue }
         , {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          },
-          withCredentials: true
-        }).then(response => {
-          console.log("Avatar registed successfully", response);
-          setModifyPopup(!modifyPopup);
-          refetch();
-        }).catch(error => {
-          console.error("Error registered avatar", error);
-        });
+            'Content-Type': 'application/json'
+          }
+        })
+      if (response.status === 200) {
+        setModifyPopup(!modifyPopup);
+        refetch();
+      }
     } else {
-      console.log("2")
       formData.append('image', image.files[0]);
       formData.append('name', name);
       formData.append('price', price);
+      formData.append('productId', price);
 
-      customAxios.put('/shop/avatar', formData
+      const response = await customAxios.put(`/shop/avatar`, formData
         , {
           headers: {
             'Content-Type': 'multipart/form-data'
-          },
-          withCredentials: true
-        }).then(response => {
-          console.log("Avatar registed successfully", response);
-          setModifyPopup(!modifyPopup);
-          refetch();
-        }).catch(error => {
-          console.error("Error registered avatar", error);
-        });
+          }
+        })
+      if (response.status === 201) {
+        setModifyPopup(!modifyPopup);
+        refetch();
+      }
     }
   }
   const changeName = (e: any) => {

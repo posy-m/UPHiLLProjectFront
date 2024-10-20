@@ -13,6 +13,7 @@ import { UseScroll } from '../../hooks/useScroll';
 import Header from '@/app/_components/header/header';
 import Footerbar from '@/app/_components/footerbar/footerbar';
 import customAxios from '@/lib/customAxios';
+import AddBox from './AddBox';
 
 const Admin = () => {
   const [isPopup, setIsPopup] = useState<boolean>(false);
@@ -48,7 +49,6 @@ const Admin = () => {
 
   return (<>
     <Header showBackButton={false} />
-    {/* <div className={styled.avatar_wrap} > */}
     <div className={styled.avatar_wrap} >
       <div className={styled.avatar_content}>
         <ul className={styled.product_ul}>
@@ -61,14 +61,17 @@ const Admin = () => {
           isFetchingNextPage={isFetchingNextPage}
           data={data}
         >
+          <li className={styled.avatar_list}>
+            <AddBox setIsPopup={setIsPopup} />
+          </li>
           {data?.pages.map((page) => page.map((e: any) =>
             <li className={styled.avatar_list} key={e.id}>
-              <Avatar productId={e.id} refetch={refetch} setProductId={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} price={e.price} image={e.image} />
+              <Avatar product={e} refetch={refetch} setProductId={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} />
             </li>))
           }
         </UseScroll>
       </div>
-      <AddBtn isPopup={isPopup} setIsPopup={setIsPopup} modifyPopup={modifyPopup} />
+
       {isPopup ? <Popup refetch={refetch} isPopup={isPopup} setIsPopup={setIsPopup} /> : ''}
       {modifyPopup ? <Modify refetch={refetch} productId={productId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} /> : ''}
     </div>
