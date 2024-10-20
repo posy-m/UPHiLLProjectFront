@@ -10,7 +10,7 @@ import Link from 'next/link';
 // import Modify from './Modify';
 import styled from './admin.module.css';
 import styles from './product.user.module.css'
-import { getAvatarPages } from '../../api';
+import { getAvatarPages, getProductPages } from '../../api';
 import { UseUserScroll } from '../../hooks/useScroll';
 import Header from '@/app/_components/header/header';
 import Footerbar from '@/app/_components/footerbar/footerbar';
@@ -43,7 +43,7 @@ const User = () => {
     refetch // 재요청
   } = useInfiniteQuery({
     queryKey: ['infinitescroll'],
-    queryFn: getAvatarPages,
+    queryFn: getProductPages,
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages) {
       // 페이지가 남아있으면 더 추가해주는 로직
