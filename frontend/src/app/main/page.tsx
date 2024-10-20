@@ -6,6 +6,7 @@ import Avata from './components/Avata';
 import FootPoinNickAlt from './components/FootPoinNickAlt';
 import Footerbar from '../_components/footerbar/footerbar';
 import customAxios from '@/lib/customAxios';
+import getUserInfo from '@/lib/getUserInfo';
 
 interface MessageData {
     lat: number;
@@ -23,6 +24,7 @@ declare global {
 }
 
 function Maps() {
+    getUserInfo()
     const [lat, setLat] = useState<number>(0);
     const [lng, setLng] = useState<number>(0);
     const [initialLat, setInitialLat] = useState<number>(0); // 처음 GPS 위치 저장
