@@ -5,7 +5,7 @@ import { Store } from '../comoponents/User'
 import UserAvatarBuy from '../comoponents/UserAvatarBuy';
 import Image from 'next/image';
 
-const AvatarCollector = ({ product }: { product: any }) => {
+const AvatarCollector = ({ product, refetch }: { product: any, refetch: Function }) => {
   console.log(product.orders.length > 0)
   const [buyPopup, setBuyPopup] = useState<boolean>(false);
   const [status, setStatus] = useState('판매중');
@@ -36,7 +36,7 @@ const AvatarCollector = ({ product }: { product: any }) => {
         <div style={{
           position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", backgroundColor: "rgba(0, 0, 0, 0.8)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 9999
         }}>
-          <UserAvatarBuy product={product} buyPopup={buyPopup} setBuyPopup={setBuyPopup} orders={product.orders} status={status} />
+          <UserAvatarBuy product={product} buyPopup={buyPopup} setBuyPopup={setBuyPopup} orders={product.orders} status={status} refetch={refetch} />
         </div>) : null}
       {/* <div style={{ width: "100%", height: "110px", borderRadius: "10px", border: "1px solid black" }} onClick={handlePopup} > */}
       <div style={{ display: "flex", justifyContent: "center" }} onClick={handlePopup} >

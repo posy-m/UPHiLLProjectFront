@@ -22,6 +22,7 @@ const User = () => {
   const [modifyPopup, setModifyPopup] = useState<boolean>(false);
   const [productId, setProductId] = useState(0);
   const [dataLength, setDataLength] = useState(0);
+  const [buyPopup, setBuyPopup] = useState(false);
 
   const dataCountAxios = async () => {
     const { data } = await customAxios.get('/shop/product/count');
@@ -65,7 +66,7 @@ const User = () => {
           {data?.pages.map((page) => page.map((e: any) => {
             return (
               <li className={styles.avatar_list} key={e.id}>
-                <ProductListView product={e} />
+                <ProductListView product={e} refetch={refetch} setBuyPopup={setBuyPopup} buyPopup={buyPopup} />
               </li>)
           }))
           }

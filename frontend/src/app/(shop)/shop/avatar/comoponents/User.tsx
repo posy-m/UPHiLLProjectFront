@@ -97,7 +97,7 @@ export const User = () => {
         >
           {data?.pages.map((page) => page.map((e: any) =>
             <li key={e.id} style={{ width: "150px" }}>
-              <AvatarCollector product={e} />
+              <AvatarCollector product={e} refetch={refetch} />
             </li>))
           }
         </UseUserScroll>

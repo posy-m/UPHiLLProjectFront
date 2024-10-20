@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import UserProductList from './UserProductBuy';
 
-const ProductListView = ({ product }: { product: any }) => {
-
-    const [buyPopup, setBuyPopup] = useState(false);
-
+const ProductListView = ({ product, setBuyPopup, buyPopup }: { product: any, setBuyPopup: Function, buyPopup: boolean }) => {
     const openPopup = () => {
         setBuyPopup(true)
     }

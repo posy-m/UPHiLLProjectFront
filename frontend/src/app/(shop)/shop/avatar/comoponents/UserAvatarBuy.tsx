@@ -9,13 +9,19 @@ const UserAvatarBuy = (props: {
   buyPopup: boolean,
   setBuyPopup: Function,
   orders?: object,
-  status: string
+  status: string,
+  refetch: Function
 }) => {
 
   const handleBuy = async (e: React.MouseEvent) => {
     const response = await customAxios.put(`/shop/product/buy`, {
       productId: props.product.id
     })
+    console.log(response.status)
+    if (response.status === 200) {
+      props.setBuyPopup(false)
+      props.refetch()
+    }
     console.log(response);
   }
 
@@ -26,8 +32,11 @@ const UserAvatarBuy = (props: {
       const response = await customAxios.put("/shop/avatar/update", {
         productId: props.product.id
       });
+
       if (response.status === 200) {
         alert('변경되었습니다');
+        props.setBuyPopup(false)
+        props.refetch()
       }
     } catch (error) {
       alert("변경되지 못했습니다.");

@@ -10,10 +10,17 @@ const UserProductList = (props: {
 }) => {
     console.log(props.product)
     const handleBuy = async () => {
-        const response = await customAxios.put(`/shop/product/buy`, {
-            productId: props.product.id
-        })
-        console.log(response);
+        try {
+
+            const response = await customAxios.put(`/shop/product/buy`, {
+                productId: props.product.id
+            })
+            if (response.status === 200) {
+                props.setBuyPopup(false);
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
 
 
