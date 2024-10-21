@@ -51,7 +51,9 @@ const Popup = ({ isPopup, setIsPopup, refetch }: { isPopup: boolean, setIsPopup:
         'Content-Type': 'multipart/form-data'
       }
     });
-    if (response.status === 200) {
+    console.log(response.status)
+    if (response.status === 201) {
+      console.log(response.status)
       await refetch();
       setIsPopup(!isPopup);
     }
@@ -74,11 +76,11 @@ const Popup = ({ isPopup, setIsPopup, refetch }: { isPopup: boolean, setIsPopup:
         <div className={styled.avatar_info}>
           <div>
             {/* <label htmlFor='name'>이름</label> : */}
-            &nbsp;<input type="text" id="name" name="name" placeholder='아바타 이름' />
+            <input type="text" id="name" name="name" placeholder='아바타 이름' />
           </div>
           <div>
             {/* <label htmlFor='price'>가격</label> : */}
-            &nbsp;<input type="number" id="price" name="price" placeholder='아바타 가격' />
+            <input type="number" id="price" name="price" placeholder='아바타 가격' />
           </div>
           <p>아바타를 등록하시겠습니까?</p>
           <div className={styled.btn_area}>

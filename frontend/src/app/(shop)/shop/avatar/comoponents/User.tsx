@@ -53,11 +53,13 @@ export const User = () => {
 
   const dataLength = async () => {
     const { data } = await customAxios.get('/shop/avatar/count');
+    // console.log(data)
     setDataCount(data);
   };
 
   useEffect(() => {
     dataLength();
+    // console.log(dataLength)
   }, [])
 
 
@@ -78,7 +80,7 @@ export const User = () => {
     }
   });
 
-  console.log(data)
+  // console.log(data)
 
   return (
     <Store.Provider value={obj}>

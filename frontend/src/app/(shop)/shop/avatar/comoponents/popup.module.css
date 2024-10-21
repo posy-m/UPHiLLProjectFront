@@ -1,7 +1,8 @@
 .avatar_frm {
   width: 300px;
   height: 500px;
-  background-color: white;
+  /* background-color: white; */
+  background-color: #F7F5F5;
   border-radius: 5px;
   border: 1px solid rgb(8, 94, 8);
   position: absolute;
@@ -67,9 +68,10 @@
 .avatar_img>label::after {
   content: "";
   display: block;
-  width: 4px;
-  height: 50px;
+  width: 10px;
+  height: 100px;
   background-color: rgba(255, 255, 255, 0.7);
+  /* background-color: gray; */
   position: absolute;
   left: 50%;
   top: 50%;
@@ -79,9 +81,10 @@
 .avatar_img>label::before {
   content: "";
   display: block;
-  width: 50px;
-  height: 4px;
+  width: 100px;
+  height: 10px;
   background-color: rgba(255, 255, 255, 0.7);
+  /* background-color: gray; */
   position: absolute;
   left: 50%;
   top: 50%;

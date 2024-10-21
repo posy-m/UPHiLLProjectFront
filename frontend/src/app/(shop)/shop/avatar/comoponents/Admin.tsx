@@ -31,6 +31,10 @@ const Admin = () => {
     dataCountAxios();
   }, []);
 
+  useEffect(() => {
+    console.log(isPopup)
+  }, [isPopup])
+
   const {
     data,
     hasNextPage, // true
@@ -43,7 +47,8 @@ const Admin = () => {
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages) {
       // 페이지가 남아있으면 더 추가해주는 로직
-      return allPages.length < Math.ceil(dataLength / 10) ? allPages.length + 1 : undefined;
+      // return allPages.length < dataLength ? allPages.length + 1 : undefined;
+      return allPages.length < dataLength ? allPages.length + 1 : undefined;
     }
   });
 

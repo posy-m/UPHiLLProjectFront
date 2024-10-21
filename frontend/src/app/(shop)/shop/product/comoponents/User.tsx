@@ -2,12 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-// import Avatar from './User';
 import ProductListView from './ProductListView';
 import Link from 'next/link';
-// import AddBtn from './AddBtn';
-// import Popup from './Popup';
-// import Modify from './Modify';
 import styled from './admin.module.css';
 import styles from './product.user.module.css'
 import { getAvatarPages, getProductPages } from '../../api';
@@ -36,6 +32,7 @@ const User = () => {
     dataCountAxios();
   }, []);
 
+
   const {
     data,
     hasNextPage, // true
@@ -48,7 +45,8 @@ const User = () => {
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages) {
       // 페이지가 남아있으면 더 추가해주는 로직
-      return allPages.length < Math.ceil(dataLength / 10) ? allPages.length + 1 : undefined;
+      // return allPages.length < Math.ceil(dataLength / 10) ? allPages.length + 1 : undefined;
+      return allPages.length < dataLength ? allPages.length + 1 : undefined;
     }
   });
   return (<>

@@ -3,6 +3,7 @@
 // import { useEffect, useState } from 'react';
 import customAxios from '@/lib/customAxios';
 import styled from './adminAvatar.module.css'
+import { useEffect } from 'react';
 
 const AdminAvatar = ({ product, setProductId, productId, modifyPopup, setModifyPopup, price, image, refetch }: { product: any, setProductId: Function, productId: number, modifyPopup: boolean, setModifyPopup: Function, price: number, image: string, refetch: Function }) => {
 
@@ -29,7 +30,10 @@ const AdminAvatar = ({ product, setProductId, productId, modifyPopup, setModifyP
     <div className={styled.avatar_wrap}>
       <div className={styled.avatar_img}>
         <img src={`http://127.0.0.1:4000${product.image}`} className={styled.avatar_bg} />
-        <span>{product.price} P</span>
+      </div>
+      <div className={styled.product_desc}>
+        <span className={styled.product_title}>{product.name}</span>
+        <span className={styled.product_price}>{product.price} P</span>
       </div>
       <div className={styled.avatar_btn}>
         <span onClick={openModifyPopup} className="button">수정</span>

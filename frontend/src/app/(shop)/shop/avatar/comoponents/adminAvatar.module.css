@@ -1,9 +1,10 @@
 .avatar_wrap {
-  /* width: 150px; */
+  width: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: #F7F5F5;
 }
 
 /* 아바타 이미지 및 사진 가격 */
@@ -12,9 +13,10 @@
   height: 150px;
   overflow: hidden;
   position: relative;
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
   box-sizing: border-box;
-  @apply rounded-md flex justify-center items-end mb-3;
+  background-color: rgba(0, 0, 0, 0.3);
+  @apply rounded-md flex justify-center items-end;
 }
 
 .avatar_img .avatar_bg {
@@ -29,6 +31,24 @@
 .avatar_img>span {
   position: absolute;
   @apply text-white font-bold text-sm;
+}
+
+.product_desc>span {
+  display: flex;
+  width: 140px;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.product_desc>.product_title {
+  height: 20px;
+  font-size: 18px;
+  text-overflow: ellipsis;
+}
+
+.product_desc>.product_price {
+  font-size: 14px;
 }
 
 

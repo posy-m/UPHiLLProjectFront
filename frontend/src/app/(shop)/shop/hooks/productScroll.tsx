@@ -17,9 +17,7 @@ export const ProductScroll = (props: any) => {
       if (ulRef.current && divRef.current) {
         // 무한 스크롤 예시
         // console.log(divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)
-        if (
-          (divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage)
-        ) {
+        if (divRef.current && (divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && props.hasNextPage) {
           props.fetchNextPage();
         }
       }
@@ -68,14 +66,21 @@ export const ProductUserScroll = (props: any) => {
   // // ul 태그가 있음면 조건문 실행
   useEffect(() => {
     const handlerScroll = () => {
-
+      // console.log("dsfsdfsdfsdfsfdsfdsfsdf");
       if (ulRef.current && divRef.current) {
         // 무한 스크롤 예시
-        console.log(divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)
-        if ((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage)) {
-          console.log((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage))
-          //props.fetchNextPage();
+        // console.log(divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)
+        // if ((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage)) {
+        //   // console.log((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage))
+        //   props.fetchNextPage();
+
+        //   //props.fetchNextPage();
+        // }
+        if (divRef.current && (divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && props.hasNextPage) {
+          props.fetchNextPage();
+          console.log("dsfsdfsdfsdfsfdsfdsfsdf");
         }
+
       }
     }
     if (ulRef.current && divRef.current) {

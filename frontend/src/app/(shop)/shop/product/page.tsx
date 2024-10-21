@@ -15,6 +15,7 @@ const page = () => {
   return (
     <>
       {parseInt(user.auth) === 2 ? <Admin /> : <User />}
+      {/* {parseInt(user.auth) === 2 ? <User /> : <Admin />} */}
     </>
   )
 }

@@ -12,7 +12,8 @@
   height: 150px;
   overflow: hidden;
   position: relative;
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
+  background-color: rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
   @apply rounded-md flex justify-center items-end;
 }

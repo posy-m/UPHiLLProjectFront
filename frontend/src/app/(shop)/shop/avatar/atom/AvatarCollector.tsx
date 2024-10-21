@@ -16,7 +16,7 @@ const AvatarCollector = ({ product, refetch }: { product: any, refetch: Function
     setWearState } = useContext(Store);
 
   const getStatus = () => {
-    console.log(product.orders)
+    // console.log(product.orders)
     if (product.orders.length > 0 && product.orders[0].usage)
       setStatus('착용중')
     else if (product.orders.length > 0)
