@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import UserProductList from './UserProductBuy';
 
-const ProductListView = ({ product, setBuyPopup, buyPopup }: { product: any, setBuyPopup: Function, buyPopup: boolean }) => {
+const ProductListView = ({ product, setBuyPopup, buyPopup, refetch }: { product: any, setBuyPopup: Function, buyPopup: boolean, refetch: Function }) => {
     const openPopup = () => {
         setBuyPopup(true)
     }
 
     return (
-        <div className='ghidhfsidhfisd' >
+        <div>
             {buyPopup ? (
                 <div style={{
                     position: "fixed",
@@ -15,7 +15,7 @@ const ProductListView = ({ product, setBuyPopup, buyPopup }: { product: any, set
                     left: 0,
                     width: "100vw",
                     height: "100vh",
-                    backgroundColor: "rgba(0, 0, 0, 0.8)", // 검정색 투명 배경
+                    backgroundColor: "rgba(0, 0, 0, 0.1)",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",

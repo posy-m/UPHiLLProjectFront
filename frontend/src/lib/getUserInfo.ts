@@ -4,7 +4,6 @@ import customAxios from "./customAxios";
 
 const getUserInfo = async () => {
     try {
-
         const [user, setUser] = useAtom(userInfo);
         if (user.email !== '') return;
         const response = await customAxios.post("/user/userinfo");

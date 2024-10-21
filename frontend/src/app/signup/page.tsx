@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import styled from './signup.module.css'
 import { Valiation } from './valiation'
 import axios from 'axios'
-import Auth from './_component/Auth'
+import Auth from './_component/(auth)/Auth'
 import { useRouter } from "next/navigation";
 import customAxios from '@/lib/customAxios'
 

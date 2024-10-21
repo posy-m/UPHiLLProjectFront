@@ -5,9 +5,10 @@ import Header from '../../../_components/header/header'
 import styled from './findid.module.css'
 import { Valiation } from '../../../signup/valiation'
 import axios from 'axios'
-import Auth from '../../../signup/_component/Auth'
+import Auth from '../../../signup/_component/(auth)/Auth'
 import { useRouter } from 'next/navigation'
 import customAxios from '@/lib/customAxios'
+import SubAuth from '@/app/signup/_component/(auth)/subAuth'
 
 const Findid = ({ setFn, setPhoneNumber }: { setFn: Function, setPhoneNumber: Function }) => {
 
@@ -86,7 +87,7 @@ const Findid = ({ setFn, setPhoneNumber }: { setFn: Function, setPhoneNumber: Fu
       <span>본인인증</span>
       <input type="text" placeholder='이름' name='useName' />
       <div className={styled.find_id}>
-        <Auth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (010-1234-5678)' name='phoneNumber' maxLength={13} onChange={handleInputChange} />
+        <SubAuth type="text" phoneAuth={phoneAuth} value={setPhoneAuth} formData={formDataValue} placeholder='휴대폰 번호 (010-1234-5678)' name='phoneNumber' maxLength={13} onChange={handleInputChange} />
         {/* {phoneError && <p className={styled.error}>{phoneError}</p>} */}
       </div>
       <button>이메일 찾기</button>

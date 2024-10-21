@@ -17,15 +17,6 @@
   @apply rounded-md flex justify-center items-end;
 }
 
-.product_img .product_bg {
-  width: 150px;
-  height: 150px;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  background: black;
-}
-
 .product_img>span {
   position: absolute;
   @apply text-white font-bold text-sm;

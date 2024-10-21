@@ -44,6 +44,7 @@ export const User = () => {
 
   const [buyState, setBuyState] = useState<boolean>(false);
   const [wearState, setWearState] = useState<boolean>(false);
+  const [update, setUpdate] = useState<boolean>(false);
 
   // 전역 컨택스트
   const obj = {
@@ -60,12 +61,13 @@ export const User = () => {
   }, [])
 
 
+
   const {
     data,
     hasNextPage, // true
     fetchNextPage, // 다음페이지 ㅇㅇ
     isFetchingNextPage, // 로딩중인지 boolean
-    refetch // 재요청
+    refetch
   } = useInfiniteQuery({
     queryKey: ['infinitescroll'],
     queryFn: getAvatarPages,

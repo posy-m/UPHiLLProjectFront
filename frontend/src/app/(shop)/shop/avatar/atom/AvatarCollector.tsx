@@ -21,11 +21,12 @@ const AvatarCollector = ({ product, refetch }: { product: any, refetch: Function
       setStatus('착용중')
     else if (product.orders.length > 0)
       setStatus('보유중')
-
   }
+
   useEffect(() => {
     getStatus()
-  }, [])
+  }, [product])
+
   const handlePopup = (e: React.MouseEvent) => {
     setBuyPopup(true);
   };
