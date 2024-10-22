@@ -1,8 +1,9 @@
 .product_frm {
   width: 300px;
   height: 500px;
-  background-color: aqua;
+  background-color: white;
   border-radius: 5px;
+  border: 1px solid rgb(8, 94, 8);
   position: absolute;
   left: 50%;
   top: 50%;
@@ -16,7 +17,7 @@
   transform: translate(-50%, -50%);
   width: 250px;
   height: 460px;
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -27,18 +28,17 @@
 
 /* 아바타 이미지 올리는 곳 */
 
-.frm_wrap > .product_img {
+.frm_wrap>.product_img {
   width: 200px;
   height: 200px;
-  /* background-color: red; */
-  border: 2px solid #000;
+  border: 1px solid #000;
   box-sizing: border-box;
   margin-bottom: 20px;
   position: relative;
   @apply rounded-xl overflow-hidden rounded-xl;
 }
 
-.product_img > label {
+.product_img>label {
   display: block;
   width: 100%;
   height: 100%;
@@ -50,7 +50,7 @@
   width: 100%;
   height: 100%;
   position: absolute;
-  left:0;
+  left: 0;
   top: 0;
   z-index: 2;
 }
@@ -59,12 +59,12 @@
   width: 100%;
   height: 100%;
   position: absolute;
-  left:0;
+  left: 0;
   top: 0;
   z-index: 1;
 }
 
-.product_img > label::after {
+.product_img>label::after {
   content: "";
   display: block;
   width: 4px;
@@ -76,7 +76,7 @@
   transform: translate(-50%, -50%);
 }
 
-.product_img > label::before {
+.product_img>label::before {
   content: "";
   display: block;
   width: 50px;
@@ -88,44 +88,47 @@
   transform: translate(-50%, -50%);
 }
 
-.product_img > input {
+.product_img>input {
   display: none;
 }
 
 
 /* input area */
-.product_info > div {
+.product_info>div {
   display: flex;
   justify-content: center;
   align-items: center;
-  @apply mb-2
+  @apply mb-3
 }
 
 .product_info label {
-  @apply font-semibold text-sm
+  @apply font-semibold text-lg mr-2
 }
 
 .product_info input {
   @apply rounded-sm px-1 py-1;
+  border: 1px solid gray;
+
 }
 
 /* 아바타를 등록하시겠습니까? 태그 */
 
-.product_info > p {
+.product_info>p {
   text-align: center;
   @apply text-lg my-3 font-semibold;
 }
 
 /* btn_area */
 .btn_area {
-  width: 100%;
+  @apply mt-5
 }
 
-.btn_area > .btn{
+.btn_area>.btn {
+  @apply text-blue-50 mx-3 cursor-pointer rounded-md bg-green-900;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 80px;
   height: 36px;
-  @apply bg-purple-400 text-blue-50 mx-3 cursor-pointer rounded-md;
+
 }

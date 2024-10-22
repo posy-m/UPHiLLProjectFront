@@ -1,0 +1,24 @@
+/* 유저스크롤 */
+
+@media (min-width:360px) {
+  .userScrollBox {
+    height: 410px;
+    display: flex;
+    justify-content: center;
+    overflow-y: scroll;
+    margin-top: 7px;
+  }
+
+  .userScrollDiv {
+    margin-left: 25px
+  }
+
+  .userScrollDiv>ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+    padding-bottom: 20px;
+  }
+
+
+}

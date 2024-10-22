@@ -1,18 +1,20 @@
 @media (min-width:360px) {
   .found_id {
-    @apply flex flex-col gap-5 text-center items-center mt-48;
+    @apply flex flex-col gap-5 text-center items-center mt-60;
   }
 
   .found_id>span {
-    @apply text-2xl font-extrabold mb-8;
+    @apply text-xl font-extrabold;
+    color: rgb(56, 56, 56);
   }
 
   .found_id>span:nth-child(2) {
-    @apply text-green-800 font-extrabold mb-8 text-lg;
+    @apply text-green-800 font-extrabold mb-8 text-2xl;
   }
 
 
   .found_id>a {
-    @apply flex justify-center items-center w-80 h-12 bg-orange-400 rounded-sm font-medium;
+    @apply flex justify-center items-center w-80 h-12 rounded-full font-medium;
+    background-color: #5DB075;
   }
 }

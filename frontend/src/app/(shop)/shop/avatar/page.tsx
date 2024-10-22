@@ -1,17 +1,18 @@
+"use client"
 import React from 'react'
 import Admin from './comoponents/Admin'
-import User from './comoponents/User';
-import UserAvatarBuy from './comoponents/UserAvatarBuy';
-import styled from './page.module.css';
+import { User } from './comoponents/User';
+import { useAtom } from 'jotai';
+import { userInfo } from '@/app/(jotai)/atom';
 
 const page = () => {
+  const [user] = useAtom(userInfo);
+  console.log(user)
+
   return (
-    <div className={styled.body_wrap}>
-      {/* <Admin /> */}
-      {/*  */}
-      {/* <UserAvatarBuy/> */}
-      <User />
-    </div>
+    <>
+      {parseInt(user.auth) === 2 ? <Admin /> : <User />}
+    </>
   )
 }
 

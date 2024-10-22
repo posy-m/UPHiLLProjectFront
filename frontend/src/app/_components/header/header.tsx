@@ -15,4 +15,4 @@ const Header = ({ showBackButton }: { showBackButton: boolean }) => {
   )
 }
 
-export default Header
+export default Header;

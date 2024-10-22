@@ -1,55 +1,68 @@
 .product_wrap {
-  width: 330px;
-  height: 90px;
-  @apply bg-white flex items-center rounded-md;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 /* 아바타 이미지 및 사진 가격 */
 .product_img {
-  width: 70px;
-  height: 70px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
-  @apply bg-red-400 border-l-rose-800 rounded-2xl flex justify-center items-end mx-3;
+  position: relative;
+  border: 1px solid gray;
+  box-sizing: border-box;
+  @apply rounded-md flex justify-center items-end;
 }
 
-.product_wrap > .product_desc {
-  font-size: 16px;
-  @apply mr-2 font-bold;
-}
-.product_desc .product_price {
-  @apply text-sm;
+.product_img .product_bg {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: black;
 }
 
-/* 버튼 */
-.product_btn{
+.product_img>span {
+  position: absolute;
+  @apply text-white font-bold text-sm;
+}
+
+.product_desc {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.product_desc>span {
   display: flex;
-  flex-direction: column;
+  width: 140px;
   justify-content: center;
-  /* @apply flex items-center; */
-}
-.button {
-  width: 50px;
-  height: 30px;
-  @apply flex justify-center items-center bg-black rounded-lg text-white font-semibold
+  align-items: center;
+  font-weight: bold;
 }
 
+.product_desc>.product_title {
+  height: 20px;
+  font-size: 18px;
+  text-overflow: ellipsis;
+}
+
+.product_desc>.product_price {
+  font-size: 14px;
+}
 
 /* 아바타 수정 삭제 버튼 */
-/* .poroduct_btn {
+.product_btn {
   width: 100px;
-  @apply flex justify-end;
+  @apply flex justify-center;
 }
 
-.poroduct_btn span{
-  @apply block ml-2 bg-purple-400 rounded-sm text-yellow-700 cursor-pointer;
-}  */
-
-/* 수정 삭제 팝업창 */
-
-
-/* 아바타 등록 추가버튼 */
-/* .add_btn {
-  position: relative;
-  right: 0;
-  bottom: 0;
-} */
+.product_btn span {
+  font-weight: 500;
+  font-size: 15px;
+  padding: 0 5px;
+  @apply block bg-green-900 text-white ml-2 rounded-md;
+}

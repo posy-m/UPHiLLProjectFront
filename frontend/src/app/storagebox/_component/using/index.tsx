@@ -10,6 +10,7 @@ import { userInfo } from '../../../(jotai)/atom'
 import test from '@/../../public/test.jpeg'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Scroll from './useinfinite'
+import customAxios from '@/lib/customAxios'
 
 
 interface Product {
@@ -23,7 +24,8 @@ const Using = ({ use }: { use: boolean }) => {
   const [list, setList] = useState<Product[]>([])
   // const [use, setUse] = useState(false)
   // const [atom, setAtom] = useAtom(userInfo)
-  const [orderProduct, setOrderProduct] = useState(0)
+  const [orderProduct, setOrderProduct] = useState(0);
+  const [obj, setObj] = useState<Object | null>(null);
 
   const enlargeImage = (src: string, id: number) => {
     setOrderProduct(id)
@@ -59,13 +61,21 @@ const Using = ({ use }: { use: boolean }) => {
   // 사용완료
   const useProductClick = async () => {
     try {
-      const response = await axios.put("http://localhost:3000/user/completedproduct/", {
+      console.log(orderProduct)
+      const response = await customAxios.put("/shop/product/complete", {
         orderProduct
       })
-      const data = response.data
-      setList(data)
+      if (response.status === 200) {
+        const data = response.data
+        setList(data);
+        setIsModalOpen(false);
+        if (obj) {
+          obj.fn();
+        }
+        console.log(obj)
+      }
     } catch (error) {
-      console.error(error, "모달 사용에서 에러")
+      console.error(error, "모달 사용에서 에러");
     }
   }
 
@@ -73,7 +83,7 @@ const Using = ({ use }: { use: boolean }) => {
   return (<>
 
 
-    <Scroll setIsModalOpen={setIsModalOpen} setOrderProduct={setOrderProduct} setClickedImage={setClickedImage} />
+    <Scroll setIsModalOpen={setIsModalOpen} setOrderProduct={setOrderProduct} setClickedImage={setClickedImage} use={use} setObj={setObj} />
 
     {/* 모달 */}
     {isModalOpen && (

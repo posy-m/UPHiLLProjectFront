@@ -17,7 +17,7 @@
   } */
 
   .sign_up>button {
-    @apply w-80 h-12 rounded-sm font-medium;
+    @apply w-80 h-12 rounded-full font-bold;
     background-color: #5DB075;
   }
 
@@ -61,5 +61,9 @@
     @apply text-xs text-red-500 mt-1;
   }
  */
+
+  .success {
+    @apply text-green-700 text-xs text-left mt-1;
+  }
 
 }

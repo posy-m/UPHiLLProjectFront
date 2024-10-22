@@ -1,14 +1,16 @@
+"use client"
+
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import styled from './used.module.css'
-import { pages } from 'next/dist/build/templates/app-page';
+import customAxios from '@/lib/customAxios';
+
 
 const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any) => {
   useEffect(() => {
     const handlerScroll = () => {
-      console.log("되나영");
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         onScrollToEnd()
       }
@@ -22,7 +24,7 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
 
 const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) => {
   try {
-    const { data } = await axios.get('http://localhost:3000/user/getproduct', {
+    const { data } = await customAxios.get('/shop/mybox/product', {
       params: {
         page: pageParam,
         use
@@ -39,8 +41,16 @@ interface Product {
   imageUrl: string
 }
 
+// allpage
+
 
 const CompletedInfinite = ({ use }: { use: boolean }) => {
+  const [total, setTotal] = useState(0);
+  const getTotalpage = async () => {
+    const response = await customAxios.get("/shop/product/count");
+    setTotal(response.data)
+  }
+
   console.log(use)
   const {
     data,
@@ -54,12 +64,15 @@ const CompletedInfinite = ({ use }: { use: boolean }) => {
     queryFn: ({ pageParam }) => getPage({ pageParam, use }),
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages) {
-      return allPages.length < 12 ? allPages.length + 1 : undefined
+      return allPages.length < total ? allPages.length + 1 : undefined
     }
   })
   useScollEnd(fetchNextPage, isFetchingNextPage, data)
   console.log(data, "왜 안돼엥에에엥");
 
+  useEffect(() => {
+    getTotalpage()
+  }, [])
 
   useEffect(() => {
     console.log(data, "가보자아아아앙ㅇ");
@@ -70,10 +83,10 @@ const CompletedInfinite = ({ use }: { use: boolean }) => {
       {/* <span>사용 완료</span> */}
       <div className={styled.img_box}>
         {data?.pages.map((page: Product[]) =>
-          page.map((product: Product) => (
+          page?.map((product: Product) => (
             <Image
               key={product.id}
-              src={product.imageUrl}
+              src={`http://127.0.0.1:4000${product.product.image}`}
               width={300}
               height={500}
               alt='사용완료 기프티콘'
