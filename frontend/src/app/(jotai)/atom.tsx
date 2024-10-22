@@ -7,5 +7,6 @@ export const userInfo = atom({
   nickName: '',
   point: '',
   image: '',
-  auth: ''
+  auth: '',
+  password:''
 })
