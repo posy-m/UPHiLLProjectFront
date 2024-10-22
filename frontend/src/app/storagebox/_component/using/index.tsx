@@ -25,7 +25,7 @@ const Using = ({ use }: { use: boolean }) => {
   // const [use, setUse] = useState(false)
   // const [atom, setAtom] = useAtom(userInfo)
   const [orderProduct, setOrderProduct] = useState(0);
-  const [obj, setObj] = useState<Function | null>(null);
+  const [obj, setObj] = useState<Function>(() => { });
 
   const enlargeImage = (src: string, id: number) => {
     setOrderProduct(id)
@@ -69,7 +69,7 @@ const Using = ({ use }: { use: boolean }) => {
         const data = response.data
         setList(data);
         setIsModalOpen(false);
-        if (obj) {
+        if (obj !== null) {
           obj()
         }
       }
