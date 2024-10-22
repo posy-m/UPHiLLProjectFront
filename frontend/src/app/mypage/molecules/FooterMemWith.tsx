@@ -13,11 +13,11 @@ const FooterMomWith = ({onClick}:{onClick:any}) => {
       method: 'POST',
     });
     if (response.ok) {
-      alert('로그아웃 되었습니다.');
+      console.log('로그아웃 되었습니다.');
       // 로그아웃 후 페이지 리다이렉션 (예: 로그인 페이지로)
       window.location.href = '/login';
     } else {
-      alert('로그아웃 실패.');
+      console.log('로그아웃 실패.');
     }
   };
 
@@ -27,16 +27,15 @@ const FooterMomWith = ({onClick}:{onClick:any}) => {
         method: 'DELETE',
       });
       if (response.ok) {
-        alert('회원탈퇴가 완료되었습니다.');
+        console.log('회원탈퇴가 완료되었습니다.');
         // 회원탈퇴 후 리다이렉션 (예: 메인 페이지로)
         window.location.href = '/';
       } else {
-        alert('회원탈퇴 실패.');
+        console.log('회원탈퇴 실패.');
       }
     
   };
 
-  
   return (
     <div className={styld.footer}>
       <div className={styld.footerContent}> {/* 가로 정렬을 위한 div 추가 */}

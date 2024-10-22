@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UserProductList from './UserProductBuy';
 
-const ProductListView = ({ product }: { product: any }) => {
-
-    const [buyPopup, setBuyPopup] = useState(false);
-
+const ProductListView = ({ product, setBuyPopup, buyPopup, refetch }: { product: any, setBuyPopup: Function, buyPopup: boolean, refetch: Function }) => {
     const openPopup = () => {
         setBuyPopup(true)
     }
 
     return (
-        <div className='ghidhfsidhfisd' style={{}}>
+        <div>
             {buyPopup ? (
                 <div style={{
                     position: "fixed",
@@ -18,13 +15,13 @@ const ProductListView = ({ product }: { product: any }) => {
                     left: 0,
                     width: "100vw",
                     height: "100vh",
-                    backgroundColor: "rgba(0, 0, 0, 0.8)", // 검정색 투명 배경
+                    backgroundColor: "rgba(0, 0, 0, 0.1)",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     zIndex: 9999
                 }}>
-                    <UserProductList productId={product.id} buyPopup={buyPopup} setBuyPopup={setBuyPopup} />
+                    <UserProductList product={product} buyPopup={buyPopup} setBuyPopup={setBuyPopup} />
                 </div>
             ) : null}
             <div style={{ justifyContent: "center", display: "flex", flexDirection: "column" }} onClick={openPopup}>

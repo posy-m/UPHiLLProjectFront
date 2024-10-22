@@ -20,7 +20,7 @@ const Popup = ({ isPopup, setIsPopup, refetch }: { isPopup: boolean, setIsPopup:
     }
   }
 
-  const avatarFrm = (e: React.FormEvent<HTMLFormElement>) => {
+  const avatarFrm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, price, image } = e.target as HTMLFormElement;
     const nameValue: string = (name as unknown as HTMLInputElement).value;
@@ -46,19 +46,17 @@ const Popup = ({ isPopup, setIsPopup, refetch }: { isPopup: boolean, setIsPopup:
 
     // console.log(formData)
 
-    customAxios.post('/shop/avatar', formData
-      , {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        withCredentials: true
-      }).then(response => {
-        console.log("Avatar registed successfully", response);
-        setIsPopup(!isPopup);
-        refetch();
-      }).catch(error => {
-        console.error("Error registered avatar", error);
-      });
+    const response = await customAxios.post('/shop/avatar', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    console.log(response.status)
+    if (response.status === 201) {
+      console.log(response.status)
+      await refetch();
+      setIsPopup(!isPopup);
+    }
   }
 
   return (
@@ -78,11 +76,11 @@ const Popup = ({ isPopup, setIsPopup, refetch }: { isPopup: boolean, setIsPopup:
         <div className={styled.avatar_info}>
           <div>
             {/* <label htmlFor='name'>이름</label> : */}
-            &nbsp;<input type="text" id="name" name="name" placeholder='아바타 이름' />
+            <input type="text" id="name" name="name" placeholder='아바타 이름' />
           </div>
           <div>
             {/* <label htmlFor='price'>가격</label> : */}
-            &nbsp;<input type="number" id="price" name="price" placeholder='아바타 가격' />
+            <input type="number" id="price" name="price" placeholder='아바타 가격' />
           </div>
           <p>아바타를 등록하시겠습니까?</p>
           <div className={styled.btn_area}>

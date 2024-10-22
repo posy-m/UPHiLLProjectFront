@@ -12,18 +12,10 @@
   height: 150px;
   overflow: hidden;
   position: relative;
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
+  background-color: rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
   @apply rounded-md flex justify-center items-end;
-}
-
-.product_img .product_bg {
-  width: 150px;
-  height: 150px;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  background: black;
 }
 
 .product_img>span {

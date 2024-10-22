@@ -5,7 +5,6 @@ import styled from './style.module.css'
 
 const Confichange = ({title,onClick,className}:{title:string,onClick:any,className : string}) => {
 
-    
   const [buttonTitle,setButtonTitle] = useState(title)
   return (
     <div className={styled.confichangeTop}>

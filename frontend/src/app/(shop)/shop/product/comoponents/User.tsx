@@ -2,15 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-// import Avatar from './User';
 import ProductListView from './ProductListView';
 import Link from 'next/link';
-// import AddBtn from './AddBtn';
-// import Popup from './Popup';
-// import Modify from './Modify';
 import styled from './admin.module.css';
 import styles from './product.user.module.css'
-import { getAvatarPages } from '../../api';
+import { getAvatarPages, getProductPages } from '../../api';
 import { UseUserScroll } from '../../hooks/useScroll';
 import Header from '@/app/_components/header/header';
 import Footerbar from '@/app/_components/footerbar/footerbar';
@@ -22,6 +18,7 @@ const User = () => {
   const [modifyPopup, setModifyPopup] = useState<boolean>(false);
   const [productId, setProductId] = useState(0);
   const [dataLength, setDataLength] = useState(0);
+  const [buyPopup, setBuyPopup] = useState(false);
 
   const dataCountAxios = async () => {
     const { data } = await customAxios.get('/shop/product/count');
@@ -35,6 +32,7 @@ const User = () => {
     dataCountAxios();
   }, []);
 
+
   const {
     data,
     hasNextPage, // true
@@ -43,14 +41,14 @@ const User = () => {
     refetch // 재요청
   } = useInfiniteQuery({
     queryKey: ['infinitescroll'],
-    queryFn: getAvatarPages,
+    queryFn: getProductPages,
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages) {
       // 페이지가 남아있으면 더 추가해주는 로직
-      return allPages.length < Math.ceil(dataLength / 10) ? allPages.length + 1 : undefined;
+      // return allPages.length < Math.ceil(dataLength / 10) ? allPages.length + 1 : undefined;
+      return allPages.length < dataLength ? allPages.length + 1 : undefined;
     }
   });
-  console.log(data)
   return (<>
     <Header showBackButton={false} />
     <div className={styles.avatar_wrap} >
@@ -63,10 +61,12 @@ const User = () => {
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           data={data} >
-          {data?.pages.map((page) => page.map((e: any) =>
-            <li className={styles.avatar_list} key={e.id}>
-              <ProductListView product={e} />
-            </li>))
+          {data?.pages.map((page) => page.map((e: any) => {
+            return (
+              <li className={styles.avatar_list} key={e.id}>
+                <ProductListView product={e} refetch={refetch} setBuyPopup={setBuyPopup} buyPopup={buyPopup} />
+              </li>)
+          }))
           }
         </ProductUserScroll>
       </div>

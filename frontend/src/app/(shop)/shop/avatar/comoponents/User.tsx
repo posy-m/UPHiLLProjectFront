@@ -44,6 +44,7 @@ export const User = () => {
 
   const [buyState, setBuyState] = useState<boolean>(false);
   const [wearState, setWearState] = useState<boolean>(false);
+  const [update, setUpdate] = useState<boolean>(false);
 
   // 전역 컨택스트
   const obj = {
@@ -52,12 +53,15 @@ export const User = () => {
 
   const dataLength = async () => {
     const { data } = await customAxios.get('/shop/avatar/count');
+    // console.log(data)
     setDataCount(data);
   };
 
   useEffect(() => {
     dataLength();
+    // console.log(dataLength)
   }, [])
+
 
 
   const {
@@ -65,7 +69,7 @@ export const User = () => {
     hasNextPage, // true
     fetchNextPage, // 다음페이지 ㅇㅇ
     isFetchingNextPage, // 로딩중인지 boolean
-    refetch // 재요청
+    refetch
   } = useInfiniteQuery({
     queryKey: ['infinitescroll'],
     queryFn: getAvatarPages,
@@ -76,7 +80,7 @@ export const User = () => {
     }
   });
 
-  console.log(data)
+  // console.log(data)
 
   return (
     <Store.Provider value={obj}>
@@ -97,7 +101,7 @@ export const User = () => {
         >
           {data?.pages.map((page) => page.map((e: any) =>
             <li key={e.id} style={{ width: "150px" }}>
-              <AvatarCollector product={e} />
+              <AvatarCollector product={e} refetch={refetch} />
             </li>))
           }
         </UseUserScroll>

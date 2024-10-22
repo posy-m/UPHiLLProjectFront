@@ -4,23 +4,31 @@ import styled from '../../avatar/comoponents/userAvatarBuy.module.css';
 import customAxios from '@/lib/customAxios';
 
 const UserProductList = (props: {
-    productId: number,
+    product: any,
     buyPopup: boolean,
-    setBuyPopup: Function
+    setBuyPopup: Function,
 }) => {
-
+    console.log(props.product)
     const handleBuy = async () => {
-        const response = await customAxios.put(`/shop/product/buy`, {
-            productId: props.productId
-        })
-        console.log(response);
+        try {
+
+            const response = await customAxios.put(`/shop/product/buy`, {
+                productId: props.product.id
+            })
+            if (response.status === 200) {
+                props.setBuyPopup(false);
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
+
 
     return (
         <div className={styled.user_avatarFrm}>
             <div className={styled.user_wear}>
                 <div className={styled.user_label}>
-                    <img src="" alt="상품이미지" />
+                    <img src={`http://127.0.0.1:4000${props.product.image}`} alt="상품이미지" />
                 </div>
             </div>
             <div className={styled.btn_area}>
