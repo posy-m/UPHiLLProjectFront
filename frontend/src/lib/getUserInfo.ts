@@ -2,9 +2,8 @@ import { userInfo } from "@/app/(jotai)/atom"
 import { useAtom } from "jotai"
 import customAxios from "./customAxios";
 
-const getUserInfo = async (): Promise<void> => {
+const getUserInfo = async (): Promise<any> => {
     try {
-        if (user.email !== '') return;
         const response = await customAxios.post("/user/userinfo");
         if (response.status === 201) {
             const { data } = response;
