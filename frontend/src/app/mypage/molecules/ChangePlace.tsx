@@ -4,7 +4,8 @@ import Input from '../components/Input'
 import styled from './style.module.css'
 
 // 인풋과 버튼에 넣을 동적 상태 값을 파악하여 props로 전달받기
-const ChangePlace = ({name,inputype,className,inputholder,onChange,value}:{value:any,onChange:any,name:string, inputype : string, className: string,inputholder:string | undefined}) => {
+const ChangePlace = ({name,inputype,inputholder,onChange,value}:{value:any,onChange:any,name:string, inputype : string,inputholder:string | undefined}) => {
+  console.log(value);
   
   const [inputValue, setInputValue] = useState(value)
 
