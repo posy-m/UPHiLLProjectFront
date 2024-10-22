@@ -10,7 +10,7 @@ interface IUserInfo {
   image: string
 }
 
-const MypsgeText = ({ user }: { user: IUserInfo }) => {
+const MypsgeText = ({ user }: { user: any }) => {
   console.log(user)
   return (
     <div >
