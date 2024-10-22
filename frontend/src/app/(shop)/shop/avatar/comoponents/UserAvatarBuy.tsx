@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import styled from './userAvatarBuy.module.css';
 import customAxios from '@/lib/customAxios';
 import { Store } from './User';
+import { useAtom } from 'jotai';
+import { userInfo } from '@/app/(jotai)/atom';
 // import UserAvatar from '../atom/UserAvatar';
 
 const UserAvatarBuy = (props: {
@@ -12,6 +14,7 @@ const UserAvatarBuy = (props: {
   status: string,
   refetch: Function
 }) => {
+  const [user, setUser] = useAtom(userInfo);
 
   const handleBuy = async (e: React.MouseEvent) => {
     const response = await customAxios.put(`/shop/product/buy`, {
@@ -34,9 +37,12 @@ const UserAvatarBuy = (props: {
       });
 
       if (response.status === 200) {
-        alert('변경되었습니다');
-        props.setBuyPopup(false)
-        props.refetch()
+        setUser((prev) => ({
+          ...prev,
+          image: props.product.image,
+        }));
+        props.setBuyPopup(false);
+        props.refetch();
       }
     } catch (error) {
       alert("변경되지 못했습니다.");
