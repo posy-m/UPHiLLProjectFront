@@ -7,7 +7,7 @@ import FootPoinNickAlt from './components/FootPoinNickAlt';
 import Footerbar from '../_components/footerbar/footerbar';
 import customAxios from '@/lib/customAxios';
 import getUserInfo from '@/lib/getUserInfo';
-import { userInfo,isLoginAtom } from '../(jotai)/atom';
+import { userInfo, isLoginAtom } from '../(jotai)/atom';
 import { useAtom } from 'jotai';
 
 interface MessageData {
@@ -26,7 +26,6 @@ declare global {
 }
 
 function Maps() {
-    getUserInfo()
     const [isLogin, setIsLogin] = useAtom(isLoginAtom);
     const [user, setUser] = useAtom(userInfo);
     const [lat, setLat] = useState<number>(0);
@@ -258,7 +257,7 @@ function Maps() {
     //         const pointsToAdd = Math.floor((high - prevHigh) / 20) * 10; // 20m마다 10포인트
     //         setPoints(prevPoints => prevPoints + pointsToAdd); // 포인트 업데이트
     //         setPrevHigh(high); // 현재 고도를 이전 고도로 업데이트
-    
+
     //         // 서버에 포인트 적립 요청
     //         const updatePoints = async () => {
     //             try {
@@ -267,11 +266,11 @@ function Maps() {
     //                 console.error("포인트 적립 요청 중 오류 발생:", error);
     //             }
     //         };
-    
+
     //         updatePoints();
     //     }
     // }, [lat, lng, high, prevHigh]);
-    
+
 
 
 
@@ -307,7 +306,7 @@ function Maps() {
                 {showReturnButton && <Goback onClick={recenterMap} />}
                 {map && <Avata lat={lat} lng={lng} map={map} />}
 
-                <FootPoinNickAlt elevation={high} nickname={user.nickName||'Loading...'} points={points} />
+                <FootPoinNickAlt elevation={high} nickname={user.nickName || 'Loading...'} points={points} />
             </div>
             <Footerbar />
         </>
