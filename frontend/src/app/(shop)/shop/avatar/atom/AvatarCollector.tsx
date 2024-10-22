@@ -18,7 +18,7 @@ const AvatarCollector = ({ product, refetch }: { product: any, refetch: Function
   const getStatus = () => {
     // console.log(product.orders)
     if (product.orders.length > 0 && product.orders[0].usage)
-      setStatus('착용중')
+      setStatus('착용중');
     else if (product.orders.length > 0)
       setStatus('보유중')
   }
@@ -26,7 +26,6 @@ const AvatarCollector = ({ product, refetch }: { product: any, refetch: Function
   useEffect(() => {
     getStatus()
   }, [product])
-
   const handlePopup = (e: React.MouseEvent) => {
     setBuyPopup(true);
   };
