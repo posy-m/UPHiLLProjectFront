@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import UserProductList from './UserProductBuy';
 
-const ProductListView = ({ product, setBuyPopup, buyPopup, refetch }: { product: any, setBuyPopup: Function, buyPopup: boolean, refetch: Function }) => {
+const ProductListView = ({ product, refetch }: { product: any, refetch: Function }) => {
+    const [clickImg, setClickImg] = useState<string>("null")
+    const [buyPopup, setBuyPopup] = useState(false);
+
     const openPopup = () => {
+        console.log(product.id, "fsdjfkdsjfksdjfkd")
         setBuyPopup(true)
+        setClickImg(product.image)
     }
+
+    useEffect(() => {
+        console.log(clickImg);
+    }, [clickImg])
 
     return (
         <div>
@@ -15,13 +24,13 @@ const ProductListView = ({ product, setBuyPopup, buyPopup, refetch }: { product:
                     left: 0,
                     width: "100vw",
                     height: "100vh",
-                    backgroundColor: "rgba(0, 0, 0, 0.1)",
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     zIndex: 9999
                 }}>
-                    <UserProductList product={product} buyPopup={buyPopup} setBuyPopup={setBuyPopup} />
+                    <UserProductList product={product.id} buyPopup={buyPopup} setBuyPopup={setBuyPopup} image={clickImg} />
                 </div>
             ) : null}
             <div style={{ justifyContent: "center", display: "flex", flexDirection: "column" }} onClick={openPopup}>

@@ -24,6 +24,10 @@
   text-indent: -999999999px;
 }
 
+.user_label>img {
+  @apply w-full h-full;
+}
+
 /* input file */
 .user_avatar {
   display: none;

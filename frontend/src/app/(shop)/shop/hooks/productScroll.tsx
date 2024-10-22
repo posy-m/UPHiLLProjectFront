@@ -33,7 +33,7 @@ export const ProductScroll = (props: any) => {
         ulRef.current.removeEventListener('touchmove', handlerScroll);
       }
     }
-  })
+  }, [props.hasNextPage, props.isFetchingNextPage])
 
   return (
     <div
@@ -70,16 +70,16 @@ export const ProductUserScroll = (props: any) => {
       if (ulRef.current && divRef.current) {
         // 무한 스크롤 예시
         // console.log(divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight)
-        // if ((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage)) {
-        //   // console.log((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage))
-        //   props.fetchNextPage();
-
-        //   //props.fetchNextPage();
-        // }
-        if (divRef.current && (divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && props.hasNextPage) {
+        if ((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage)) {
+          // console.log((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage))
           props.fetchNextPage();
-          console.log("dsfsdfsdfsdfsfdsfdsfsdf");
+
+          //props.fetchNextPage();
         }
+        // if (divRef.current && (divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && props.hasNextPage) {
+        //   props.fetchNextPage();
+        //   console.log("dsfsdfsdfsdfsfdsfdsfsdf");
+        // }
 
       }
     }
@@ -94,7 +94,7 @@ export const ProductUserScroll = (props: any) => {
         ulRef.current.removeEventListener('touchmove', handlerScroll);
       }
     }
-  }, [])
+  }, [props.hasNextPage, props.isFetchingNextPage])
 
   return (
     <div ref={divRef} className={styled.userScrollBox}>
