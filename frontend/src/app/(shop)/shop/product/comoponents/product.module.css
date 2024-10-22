@@ -18,6 +18,10 @@
   @apply rounded-md flex justify-center items-end;
 }
 
+.product_img>img {
+  @apply w-full h-full
+}
+
 .product_img>span {
   position: absolute;
   @apply text-white font-bold text-sm;
