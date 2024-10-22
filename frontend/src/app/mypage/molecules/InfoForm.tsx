@@ -119,7 +119,6 @@ const InfoForm = () => {
         data: newPassword
       });
       if (response.data) {
-        setUserInfo((prev) => ({ ...prev, password: newPassword }));
         setPasswordMessage('비밀번호가 변경되었습니다.');
       }
     } catch (error) {
@@ -159,10 +158,10 @@ const InfoForm = () => {
                 {/* 기존 비밀번호 표시 */}
                 <ChangePlace
                   name='currentPassword'
-                  className=''
+
                   inputholder='현재 비밀번호'
                   inputype='password'
-                  value={userInfo.password}
+                  value=''
                   onChange={(value: any) => setCurrentPassword(value)} // 입력한 값을 상태로 관리
                 />
                 <Confichange
@@ -176,7 +175,6 @@ const InfoForm = () => {
                 <div className='p-2'>
                   <ChangePlace
                     name='newPassword'
-                    className=''
                     inputholder='새 비밀번호'
                     inputype='password'
                     value={newPassword}
@@ -184,7 +182,6 @@ const InfoForm = () => {
                   />
                   <ChangePlace
                     name='confirmPassword'
-                    className=''
                     inputholder='새 비밀번호 확인'
                     inputype='password'
                     value={confirmPassword}

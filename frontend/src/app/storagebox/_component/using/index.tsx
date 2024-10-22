@@ -1,5 +1,5 @@
 "use client"
-
+import React from 'react'
 import Image from 'next/image'
 // import Footerbar from '../_components/footerbar/footerbar'
 import styled from './storagebox.module.css'
@@ -25,7 +25,7 @@ const Using = ({ use }: { use: boolean }) => {
   // const [use, setUse] = useState(false)
   // const [atom, setAtom] = useAtom(userInfo)
   const [orderProduct, setOrderProduct] = useState(0);
-  const [obj, setObj] = useState<Object | null>(null);
+  const [obj, setObj] = useState<Function | null>(null);
 
   const enlargeImage = (src: string, id: number) => {
     setOrderProduct(id)
@@ -70,9 +70,8 @@ const Using = ({ use }: { use: boolean }) => {
         setList(data);
         setIsModalOpen(false);
         if (obj) {
-          obj.fn();
+          obj()
         }
-        console.log(obj)
       }
     } catch (error) {
       console.error(error, "모달 사용에서 에러");

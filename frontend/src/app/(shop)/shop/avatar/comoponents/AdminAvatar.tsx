@@ -5,7 +5,7 @@ import customAxios from '@/lib/customAxios';
 import styled from './adminAvatar.module.css'
 import { useEffect } from 'react';
 
-const AdminAvatar = ({ product, setProductId, productId, modifyPopup, setModifyPopup, price, image, refetch }: { product: any, setProductId: Function, productId: number, modifyPopup: boolean, setModifyPopup: Function, price: number, image: string, refetch: Function }) => {
+const AdminAvatar = ({ product, setProductId, modifyPopup, setModifyPopup, refetch }: { product: any, setProductId: Function, modifyPopup: boolean, setModifyPopup: Function, refetch: Function }) => {
 
   const handleDelete = () => {
     const deleteQuestion = confirm('정말 삭제 하시겠습니까?');

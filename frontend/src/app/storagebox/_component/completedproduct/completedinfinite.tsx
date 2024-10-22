@@ -1,7 +1,6 @@
 "use client"
-
+import React from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import styled from './used.module.css'
@@ -37,8 +36,10 @@ const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) 
 }
 
 interface Product {
-  id: number;
-  imageUrl: string
+  product: {
+    id: number;
+    image: string
+  }
 }
 
 // allpage
@@ -85,7 +86,7 @@ const CompletedInfinite = ({ use }: { use: boolean }) => {
         {data?.pages.map((page: Product[]) =>
           page?.map((product: Product) => (
             <Image
-              key={product.id}
+              key={product.product.id}
               src={`http://127.0.0.1:4000${product.product.image}`}
               width={300}
               height={500}

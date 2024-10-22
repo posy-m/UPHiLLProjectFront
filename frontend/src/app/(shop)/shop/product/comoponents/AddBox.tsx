@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from './add.module.css';
 import styled2 from './product.module.css'
-function AddBox({ setIsPopup, modifyPopup }: { setIsPopup: any, modifyPopup: any }) {
+function AddBox({ setIsPopup }: { setIsPopup: any }) {
     const openPopup = () => {
         setIsPopup(true);
     }

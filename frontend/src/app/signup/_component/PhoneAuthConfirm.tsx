@@ -10,7 +10,7 @@ const PhoneAuthConfirm = ({ setFn }: { setFn: Function }) => {
 
   // console.log(window.confirmationResult)
   const confirm = () => {
-    window.confirmationResult.confirm(code).then(result => {
+    window["confirmationResult"].confirm(code).then(result => {
       console.log(result);
       setMessage('인증에 성공했습니다.')
       setFn(true);

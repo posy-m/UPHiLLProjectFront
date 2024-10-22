@@ -74,7 +74,7 @@ export default function Auth(props: AuthProps) {
   const phoneRegex = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
 
 
-  const click = async (e: Event) => {
+  const click = async () => {
     try {
       if (phoneCheck || phoneError) {
         setPhoneCheck('')
@@ -101,7 +101,7 @@ export default function Auth(props: AuthProps) {
       signInWithPhoneNumber(auth, phoneNumber, recap)
         .then((confirmationResult) => {
           // alert("sms 요청")
-          window.confirmationResult = confirmationResult;
+          window["confirmationResult"] = confirmationResult;
           // console.log(1)
           // console.log(window);
           setSend(true)
