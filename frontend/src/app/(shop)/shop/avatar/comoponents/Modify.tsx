@@ -105,7 +105,7 @@ const Modify = ({ modifyPopup, setModifyPopup, productId, refetch }: { setModify
     >
       <div className={styled.frm_wrap}>
         <div className={styled.avatar_img}>
-          <label htmlFor='image'>아바타 이미지
+          <label htmlFor='image'>
             {attachment && <img src={attachment.toString()} className={styled.avatar_upload} />}
             {imageState && <img src={`http://127.0.0.1:4000${imageState}`} className={styled.avatar_modify} />}
           </label>

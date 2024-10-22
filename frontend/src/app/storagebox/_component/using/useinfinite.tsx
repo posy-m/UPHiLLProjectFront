@@ -15,9 +15,9 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
         onScrollToEnd()
       }
     }
-    window.addEventListener("scroll", handlerScroll)
+    window.addEventListener("touchmove", handlerScroll)
     return () => {
-      window.removeEventListener('scroll', handlerScroll)
+      window.removeEventListener('touchmove', handlerScroll)
     }
   }, [useScollEnd])
 }

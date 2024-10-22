@@ -35,7 +35,7 @@ export const UseScroll = (props: any) => {
 				ulRef.current.removeEventListener('touchmove', handlerScroll);
 			}
 		}
-	})
+	}, [props.hasNextPage, props.isFetchingNextPage])
 
 	return (
 		<div
@@ -76,7 +76,6 @@ export const UseUserScroll = (props: any) => {
 					// if ((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage)) {
 					console.log((divRef.current.offsetHeight + divRef.current.scrollTop >= ulRef.current.offsetHeight) && (props.hasNextPage))
 					props.fetchNextPage();
-					console.log("ddddd")
 				}
 			}
 		}
@@ -91,7 +90,7 @@ export const UseUserScroll = (props: any) => {
 				ulRef.current.removeEventListener('touchmove', handlerScroll);
 			}
 		}
-	}, [])
+	}, [props.hasNextPage, props.isFetchingNextPage])
 
 	return (
 		<div ref={divRef} className={styled.userScrollBox}>
