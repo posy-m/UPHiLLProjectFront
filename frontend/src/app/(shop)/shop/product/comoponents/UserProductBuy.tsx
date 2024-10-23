@@ -33,7 +33,7 @@ const UserProductList = (props: {
             <div className={styled.user_wear}>
                 {props.product.id}
                 <div className={styled.user_label}>
-                    <img src={`http://127.0.0.1:4000/${props.image}`} alt="상품이미지" />
+                    <img src={`https://uphillmountainapi.store/${props.image}`} alt="상품이미지" />
                 </div>
             </div>
             <div className={styled.btn_area}>
