@@ -29,7 +29,7 @@ const AdminAvatar = ({ product, setProductId, modifyPopup, setModifyPopup, refet
   return (
     <div className={styled.avatar_wrap}>
       <div className={styled.avatar_img}>
-        <img src={`http://127.0.0.1:4000${product.image}`} className={styled.avatar_bg} />
+        <img src={`https://uphillmountainapi.store${product.image}`} className={styled.avatar_bg} />
       </div>
       <div className={styled.product_desc}>
         <span className={styled.product_title}>{product.name}</span>

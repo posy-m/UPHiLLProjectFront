@@ -87,7 +87,7 @@ const CompletedInfinite = ({ use }: { use: boolean }) => {
           page?.map((product: Product) => (
             <Image
               key={product.id}
-              src={`http://127.0.0.1:4000${product.product.image}`}
+              src={`https://uphillmountainapi.store${product.product.image}`}
               width={300}
               height={500}
               alt='사용완료 기프티콘'

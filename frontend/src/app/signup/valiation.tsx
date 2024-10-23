@@ -62,7 +62,7 @@ export async function Valiation(formData: FormData, fieldName?: string) {
         else if (date >= today) {
           throw new Error("날짜를 다시 확인해주세요.");
         }
-      // break;
+        break;
       case 'checkPassword':
         if (checkPassword !== password) {
           throw new Error("비밀번호가 일치하지 않습니다.")
