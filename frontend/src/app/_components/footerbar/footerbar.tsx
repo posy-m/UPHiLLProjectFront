@@ -7,15 +7,9 @@ import box from '../../../../public/box.png'
 import mypage from '../../../../public/person.png'
 import { usePathname } from 'next/navigation'
 
-
-
-
 const Footerbar = () => {
   const path = usePathname();
   const isShopPath = path.startsWith('/shop')
-
-
-
 
   return (<>
     <div className={styled.footerBox}>

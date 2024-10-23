@@ -81,7 +81,7 @@
     font-semibold
 }
 
-/* .infotext,  */
+/* .ChangePlace,  */
 .changestyl {
     @apply 
     w-full 
@@ -92,11 +92,13 @@
     @apply 
     w-full
     w-80
-    p-2
+    p-3
     mt-4
-    rounded-sm;
+    rounded-sm
+    text-xs;
     border: 1px solid gray
 }
+
 
 
 /* Confichange */

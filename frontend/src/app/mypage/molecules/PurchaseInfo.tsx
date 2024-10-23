@@ -8,8 +8,10 @@ import customAxios from '@/lib/customAxios';
 
 // 받아오는 데이터 타입 정의
 interface PurchaseItem {
-  name: string;
-  point: number;
+  product: {
+    name: string;
+    price: number;
+  }
 }
 
 interface PurchaseResponse {
@@ -67,15 +69,15 @@ const PurchaseInfo = () => {
   return (
     <div className={styled.PurchaseInfoTop}>
       <div className={styled.Purinfostyle}>
-        <Ttext className={styled.PurchaseInfoItem}>- 품목 -</Ttext>
-        <Ttext className={styled.PurchaseInfoDPoint} >- 차감포인트 -</Ttext>
+        <Ttext className={styled.PurchaseInfoItem} onClick={() => { }}>- 품목 -</Ttext>
+        <Ttext className={styled.PurchaseInfoDPoint} onClick={() => { }}>- 차감포인트 -</Ttext>
       </div>
-      {data?.pages.map((page, pageIndex) => {
+      {data?.pages.map((page: any, pageIndex) => {
         if (!page) return <>구매항목이 없습니다.</>
         return page.map((item: PurchaseItem, index: number) =>
           <div key={`${pageIndex}-${index}`} className={styled.purchaseitem}>
-            <Ttext className='mr-4'>{item.product.name}</Ttext>
-            <Ttext className='ml-4'>- {item.product.price} 포인트</Ttext>
+            <Ttext className='mr-4' onClick={() => { }}>{item.product.name}</Ttext>
+            <Ttext className='ml-4' onClick={() => { }}>- {item.product.price} 포인트</Ttext>
           </div>
         )
       }

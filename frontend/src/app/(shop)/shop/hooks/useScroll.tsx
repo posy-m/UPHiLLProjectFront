@@ -92,6 +92,10 @@ export const UseUserScroll = (props: any) => {
 		}
 	}, [props.hasNextPage, props.isFetchingNextPage])
 
+	useEffect(() => {
+		console.log(props.data)
+	}, [props.data])
+
 	return (
 		<div ref={divRef} className={styled.userScrollBox}>
 			<div className={styled.userScrollDiv}>

@@ -69,7 +69,8 @@ export const User = () => {
     hasNextPage, // true
     fetchNextPage, // 다음페이지 ㅇㅇ
     isFetchingNextPage, // 로딩중인지 boolean
-    refetch
+    refetch // 재요청,
+
   } = useInfiniteQuery({
     queryKey: ['infinitescroll'],
     queryFn: getAvatarPages,
@@ -80,7 +81,12 @@ export const User = () => {
     }
   });
 
-  // console.log(data)
+  useEffect(() => {
+    console.log(data);
+    console.log(isFetchingNextPage);
+  }, [data, isFetchingNextPage])
+
+  console.log(data)
 
   return (
     <Store.Provider value={obj}>

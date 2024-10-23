@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import React, { useEffect, useState, useRef } from 'react';
 import { Loader } from "@googlemaps/js-api-loader";
 import Goback from './components/Goback';
@@ -7,6 +7,8 @@ import FootPoinNickAlt from './components/FootPoinNickAlt';
 import Footerbar from '../_components/footerbar/footerbar';
 import customAxios from '@/lib/customAxios';
 import getUserInfo from '@/lib/getUserInfo';
+import { userInfo, isLoginAtom } from '../(jotai)/atom';
+import { useAtom } from 'jotai';
 
 interface MessageData {
     lat: number;
@@ -24,7 +26,8 @@ declare global {
 }
 
 function Maps() {
-    getUserInfo()
+    const [isLogin, setIsLogin] = useAtom(isLoginAtom);
+    const [user, setUser] = useAtom(userInfo);
     const [lat, setLat] = useState<number>(0);
     const [lng, setLng] = useState<number>(0);
     const [initialLat, setInitialLat] = useState<number>(0); // 처음 GPS 위치 저장
@@ -48,6 +51,19 @@ function Maps() {
 
     // let maps: google.maps.Map | null = null;
     // let maker: google.maps.Marker | null = null;
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            const info = await getUserInfo();
+            if (info) {
+                setUser(info); // 유저 정보를 아톰에 저장
+                setIsLogin(true); // 로그인 상태 업데이트
+            }
+        };
+
+        fetchUserInfo();
+    }, [setUser, setIsLogin]);
+
 
     const mapOptions = {
         mapId: process.env.NEXT_PUBLIC_GOOGLE_API_MAP_ID,
@@ -206,14 +222,57 @@ function Maps() {
         }
     }, [lat, lng])
 
+    // useEffect(() => {
+    //     // 포인트 적립 로직
+    //     if (high >= prevHigh + 20) {
+    //         const pointsToAdd = Math.floor((high - prevHigh) / 20) * 10; // 20m마다 10포인트
+    //         setPoints(prevPoints => prevPoints + pointsToAdd);
+    //         setPrevHigh(high); // 현재 고도를 이전 고도로 업데이트
+    //     }
+    // }, [lat, lng, high, prevHigh]); // lat, lng, high, prevHigh가 변경될 때마다 실행
+
+
+
     useEffect(() => {
         // 포인트 적립 로직
         if (high >= prevHigh + 20) {
             const pointsToAdd = Math.floor((high - prevHigh) / 20) * 10; // 20m마다 10포인트
-            setPoints(prevPoints => prevPoints + pointsToAdd);
+            setPoints(prevPoints => {
+                const updatedPoints = prevPoints + pointsToAdd
+                async () => {
+                    await customAxios.post("user/pointStack", pointsToAdd)
+                }
+                return updatedPoints;
+            });
             setPrevHigh(high); // 현재 고도를 이전 고도로 업데이트
         }
     }, [lat, lng, high, prevHigh]); // lat, lng, high, prevHigh가 변경될 때마다 실행
+
+
+
+
+    // useEffect(() => {
+    //     // 포인트 적립 로직
+    //     if (high >= prevHigh + 20) {
+    //         const pointsToAdd = Math.floor((high - prevHigh) / 20) * 10; // 20m마다 10포인트
+    //         setPoints(prevPoints => prevPoints + pointsToAdd); // 포인트 업데이트
+    //         setPrevHigh(high); // 현재 고도를 이전 고도로 업데이트
+
+    //         // 서버에 포인트 적립 요청
+    //         const updatePoints = async () => {
+    //             try {
+    //                 await customAxios.post("user/pointStack", { points: pointsToAdd });
+    //             } catch (error) {
+    //                 console.error("포인트 적립 요청 중 오류 발생:", error);
+    //             }
+    //         };
+
+    //         updatePoints();
+    //     }
+    // }, [lat, lng, high, prevHigh]);
+
+
+
 
     // 맵 드래그할때 현재위치로 돌아가는버튼 보이게하기
     useEffect(() => {
@@ -247,7 +306,7 @@ function Maps() {
                 {showReturnButton && <Goback onClick={recenterMap} />}
                 {map && <Avata lat={lat} lng={lng} map={map} />}
 
-                <FootPoinNickAlt elevation={high} nickname={nickname} points={points} />
+                <FootPoinNickAlt elevation={high} nickname={user.nickName || 'Loading...'} points={points} />
             </div>
             <Footerbar />
         </>

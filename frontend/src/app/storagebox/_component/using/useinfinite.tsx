@@ -1,5 +1,6 @@
 "use client"
 // hooks/useInfiniteProducts.ts
+import React from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
@@ -12,6 +13,7 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
     const handlerScroll = () => {
       // console.log("될까?");
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        console.log(1234)
         onScrollToEnd()
       }
     }
@@ -22,7 +24,7 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
   }, [useScollEnd])
 }
 
-const getPage = async ({ pageParam, use, setObj }: { pageParam: number, use: boolean, setObj: Function }) => {
+const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) => {
   const { data } = await customAxios.get("/shop/mybox/product", {
     params: {
       page: pageParam,
@@ -35,10 +37,12 @@ const getPage = async ({ pageParam, use, setObj }: { pageParam: number, use: boo
 
 interface Product {
   id: number;
-  imageUrl: string;
+  product: {
+    image: string;
+  }
 }
 
-const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use, setObj }: { setIsModalOpen: Dispatch<SetStateAction<boolean>>, setOrderProduct: Dispatch<SetStateAction<number>>, setClickedImage: Dispatch<SetStateAction<string | null>>, use: boolean, setObj: Function }) => {
+const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use }: { setIsModalOpen: Dispatch<SetStateAction<boolean>>, setOrderProduct: Dispatch<SetStateAction<number>>, setClickedImage: Dispatch<SetStateAction<string | null>>, use: boolean, }) => {
   // const [list, setList] = useState<Product[]>([])
   const [total, setTotal] = useState(0);
   const getTotalpage = async () => {
@@ -63,6 +67,7 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use, setObj 
     queryFn: ({ pageParam }) => getPage({ pageParam, use }),
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages) {
+      console.log(allPages.length < total)
       return allPages.length < total ? allPages.length + 1 : undefined
     }
   })
@@ -75,7 +80,7 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use, setObj 
   }
   useEffect(() => {
     getTotalpage()
-    setObj({ fn: refetch })
+    // setObj(refetch)
   }, [])
 
   useEffect(() => {
@@ -92,7 +97,8 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use, setObj 
       // console.log("로딩완료", data)
       return (
         <>
-          {data.pages.map((product: Product[]) => product.map((el) => {
+          {data.pages.map((product: Product[]) => product.map((el: Product) => {
+            console.log(el)
             return (<Image key={el.id} src={`http://127.0.0.1:4000${el.product.image}`} onClick={() => enlargeImage(`http://127.0.0.1:4000${el.product.image}`, el.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />)
           }))
           }

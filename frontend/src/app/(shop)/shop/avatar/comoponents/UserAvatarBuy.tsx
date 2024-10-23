@@ -22,16 +22,15 @@ const UserAvatarBuy = (props: {
     })
     console.log(response.status)
     if (response.status === 200) {
-      props.setBuyPopup(false)
-      props.refetch()
+      props.setBuyPopup(false);
+      setUser({ ...user, point: (parseInt(user.point) - props.product as number) + "" })
+      props.refetch();
     }
     console.log(response);
   }
 
   const updateAvatar = async () => {
     try {
-
-      console.log(props.product.id)
       const response = await customAxios.put("/shop/avatar/update", {
         productId: props.product.id
       });

@@ -14,10 +14,16 @@ import customAxios from '@/lib/customAxios'
 import { userInfo } from "@/app/(jotai)/atom";
 import { useAtom, useAtomValue } from 'jotai'
 
-const queryClient = new QueryClient();
 
+const queryClient = new QueryClient();
+interface IUser {
+  email: string,
+  point: number,
+  image: string,
+  auth: string,
+  nickName: string
+}
 const InfoForm = () => {
-  const [select, setSelect] = useState('개인정보')
   // const [userInfo, setUserInfo] = useState({
   //   email: '',
   //   points: 0,
@@ -25,6 +31,7 @@ const InfoForm = () => {
   //   password: ''
   // })
 
+  const [select, setSelect] = useState('개인정보')
   const [user, setUser] = useAtom(userInfo);
 
   const [currentPassword, setCurrentPassword] = useState(''); // 현재 비밀번호 상태 추가
@@ -35,24 +42,50 @@ const InfoForm = () => {
   const [passwordMessage, setPasswordMessage] = useState('');
   const [isPasswordChangeMode, setIsPasswordChangeMode] = useState(false); // 비밀번호 변경 모드 상태
 
-  const initNickName = () => {
-    setTemNinck(user.nickName);
+  const getUserInfo = async () => {
+    try {
+      if (user.email !== '') return;
+      const response = await customAxios.post("/user/userinfo");
+      if (response.status === 200) {
+        const { data } = response;
+        setUser(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
-  // 사용자 정보 가져오기
-  useEffect(() => {
-    initNickName();
-    // const fetchUserInfo = async () => {
-    //   try {
-    //     const response = await customAxios.post("/user/userinfo");
 
-    //     setUserInfo(response.data);
-    //     setTemNinck(response.data.nickname); // 닉네임 초기화
-    //   } catch (error) {
-    //     console.error("사용자 정보를 가져오는 중 오류 발생:", error);
-    //   }
-    // };
-    // fetchUserInfo();
-  }, []);
+  useEffect(() => {
+    getUserInfo()
+  }, [])
+
+  // 사용자 정보가 업데이트될 때마다 닉네임 초기화
+  useEffect(() => {
+    if (user.nickName) {
+      setTemNinck(user.nickName);
+    }
+  }, [user]);
+
+  // 사용자 정보 가져오기
+  // useEffect(() => {
+
+  //   initNickName();
+  // const fetchUserInfo = async () => {
+  //   try {
+  //     const response = await customAxios.post("/user/userinfo");
+
+  //     setUserInfo(response.data);
+  //     setTemNinck(response.data.nickname); // 닉네임 초기화
+  //   } catch (error) {
+  //     console.error("사용자 정보를 가져오는 중 오류 발생:", error);
+  //   }
+  // };
+  // fetchUserInfo();
+  //     }, []);
+
+  // const initNickName = () => {
+  //   setTemNinck(user.nickName);
+  // }
 
 
   // 닉네임 변경 함수
@@ -75,9 +108,10 @@ const InfoForm = () => {
         type: 'nickName',
         data: temNinck
       });
+      console.log(updateresponse, 11111)
 
     } catch (error) {
-      console.log("중복에러")
+      console.log(error)
     }
 
     try {
@@ -114,12 +148,14 @@ const InfoForm = () => {
     }
 
     try {
-      const response = await customAxios.put("/user/mypage", {
+      const response = await customAxios.put("/user/findpassword", {
         type: 'password',
         data: newPassword
       });
-      if (response.data) {
-        setUserInfo((prev) => ({ ...prev, password: newPassword }));
+      console.log(response.status);
+      if (response.status === 200) {
+
+        setUser((prevUser) => ({ ...prevUser, password: newPassword }));
         setPasswordMessage('비밀번호가 변경되었습니다.');
       }
     } catch (error) {
@@ -127,6 +163,22 @@ const InfoForm = () => {
       setPasswordMessage('비밀번호 변경에 실패했습니다.');
     }
   };
+
+  // 사용자 정보 가져오기
+  useEffect(() => {
+    const getUserInfoPass = async () => {
+      try {
+        const response = await customAxios.post("/user/userinfo");
+        if (response.status === 200) {
+          setUser(response.data); // user 상태 업데이트
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUserInfoPass();
+  }, []);
 
   return (<>
     <Header showBackButton={false} /> {/* 뒤로가기 버튼 숨기기 */}
@@ -143,7 +195,7 @@ const InfoForm = () => {
               name='nickname'
               inputholder='닉네임'
               inputype='text'
-              value={temNinck}
+              value={user.nickName}
               onChange={(value: any) => setTemNinck(value)}
             />
             <Confichange
@@ -157,14 +209,13 @@ const InfoForm = () => {
             {!isPasswordChangeMode ? (
               <>
                 {/* 기존 비밀번호 표시 */}
-                <ChangePlace
+                {/* <ChangePlace
                   name='currentPassword'
-                  className=''
                   inputholder='현재 비밀번호'
-                  inputype='password'
-                  value={userInfo.password}
+                  inputype='text'
+                  value={user.password}
                   onChange={(value: any) => setCurrentPassword(value)} // 입력한 값을 상태로 관리
-                />
+                /> */}
                 <Confichange
                   className='비밀번호 변경'
                   title='비밀번호 변경'
@@ -176,17 +227,15 @@ const InfoForm = () => {
                 <div className='p-2'>
                   <ChangePlace
                     name='newPassword'
-                    className=''
-                    inputholder='새 비밀번호'
-                    inputype='password'
+                    inputholder='새 비밀번호(영문+숫자+특수기호 8자이상 20자이내)'
+                    inputype='text'
                     value={newPassword}
                     onChange={(value: any) => setNewPassword(value)}
                   />
                   <ChangePlace
                     name='confirmPassword'
-                    className=''
                     inputholder='새 비밀번호 확인'
-                    inputype='password'
+                    inputype='text'
                     value={confirmPassword}
                     onChange={(value: any) => setConfirmPassword(value)}
                   />

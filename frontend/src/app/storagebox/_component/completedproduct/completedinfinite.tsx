@@ -1,7 +1,6 @@
 "use client"
-
+import React from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import styled from './used.module.css'
@@ -38,7 +37,9 @@ const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) 
 
 interface Product {
   id: number;
-  imageUrl: string
+  product: {
+    image: string
+  }
 }
 
 // allpage

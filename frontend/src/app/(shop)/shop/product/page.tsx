@@ -9,12 +9,18 @@ const page = () => {
   // const {} = useAtom();
   const auth: string = '일반'
   const [user] = useAtom(userInfo);
-  console.log(user)
+  const checkEmail = async () => {
+    if (user.email === '') {
+
+    }
+  }
+
+
 
   console.log('test')
   return (
     <>
-      {parseInt(user.auth) === 2 ? <Admin /> : <User />}
+      {user.auth === "관리자" ? <Admin /> : <User />}
       {/* {parseInt(user.auth) === 2 ? <User /> : <Admin />} */}
     </>
   )

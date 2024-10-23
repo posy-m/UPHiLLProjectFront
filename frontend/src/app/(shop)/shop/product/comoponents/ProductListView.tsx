@@ -5,6 +5,7 @@ const ProductListView = ({ product, refetch }: { product: any, refetch: Function
     const [clickImg, setClickImg] = useState<string>("null")
     const [buyPopup, setBuyPopup] = useState(false);
 
+
     const openPopup = () => {
         console.log(product.id, "fsdjfkdsjfksdjfkd")
         setBuyPopup(true)
@@ -35,7 +36,11 @@ const ProductListView = ({ product, refetch }: { product: any, refetch: Function
             ) : null}
             <div style={{ justifyContent: "center", display: "flex", flexDirection: "column" }} onClick={openPopup}>
                 <img src={`http://127.0.0.1:4000/${product.image}`} alt="" style={{ borderRadius: "10px", border: "1px solid gray", width: "130px", height: "130px" }} />
-                <div className='w-full flex justify-center font-bold'>{product.name}</div>
+                <div className='w-full flex justify-center font-bold text-center leading-5'>{product.name}
+                    <br />
+                    {product.price} P
+                </div>
+                {/* <div className='w-full flex justify-center font-bold'>{product.price} P</div> */}
             </div>
             <div>
             </div>

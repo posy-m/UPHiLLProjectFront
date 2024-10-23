@@ -4,6 +4,7 @@ import React from 'react';
 
 const UserAvatar = () => {
   const [user, setUser] = useAtom(userInfo);
+  console.log(user)
   return (
     <div style={{
       display: "flex",

@@ -18,7 +18,7 @@ const AvatarCollector = ({ product, refetch }: { product: any, refetch: Function
   const getStatus = () => {
     // console.log(product.orders)
     if (product.orders.length > 0 && product.orders[0].usage)
-      setStatus('착용중')
+      setStatus('착용중');
     else if (product.orders.length > 0)
       setStatus('보유중')
   }
@@ -26,7 +26,6 @@ const AvatarCollector = ({ product, refetch }: { product: any, refetch: Function
   useEffect(() => {
     getStatus()
   }, [product])
-
   const handlePopup = (e: React.MouseEvent) => {
     setBuyPopup(true);
   };
@@ -43,7 +42,10 @@ const AvatarCollector = ({ product, refetch }: { product: any, refetch: Function
       <div style={{ display: "flex", justifyContent: "center" }} onClick={handlePopup} >
         <img src={`http://127.0.0.1:4000${product.image}`} alt="" style={{ borderRadius: "10px", border: "1px solid gray", width: "130px", height: "130px" }} />
       </div>
-      <p style={{ textAlign: "center", fontWeight: 'bold' }}>{product.name}</p>
+      <p style={{ textAlign: "center", fontWeight: 'bold', lineHeight: "20px" }}>{product.name}
+        <br />
+        {product.price} P
+      </p>
       {<p style={{ textAlign: "center", fontWeight: 'bold' }}>{status}</p>}
     </div>
   )
