@@ -6,7 +6,9 @@ const nextConfig = {
   reactStrictMode: false,
   eslint: {
     ignoreDuringBuilds: true
-  }
+  },
+  // next.config.js
+  output: 'standalone',
 };
 
 export default nextConfig;

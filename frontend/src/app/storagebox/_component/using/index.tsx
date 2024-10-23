@@ -25,7 +25,7 @@ const Using = ({ use }: { use: boolean }) => {
   // const [use, setUse] = useState(false)
   // const [atom, setAtom] = useAtom(userInfo)
   const [orderProduct, setOrderProduct] = useState(0);
-  const [obj, setObj] = useState<Function>(() => { });
+  // const [obj, setObj] = useState<object | null>(null);
 
   const enlargeImage = (src: string, id: number) => {
     setOrderProduct(id)
@@ -68,10 +68,10 @@ const Using = ({ use }: { use: boolean }) => {
       if (response.status === 200) {
         const data = response.data
         setList(data);
-        setIsModalOpen(false);
-        if (obj !== null) {
-          obj()
-        }
+        // if (obj) {
+        //   const fn = obj["fn"];
+        //   fn();
+        // }
       }
     } catch (error) {
       console.error(error, "모달 사용에서 에러");
@@ -82,7 +82,7 @@ const Using = ({ use }: { use: boolean }) => {
   return (<>
 
 
-    <Scroll setIsModalOpen={setIsModalOpen} setOrderProduct={setOrderProduct} setClickedImage={setClickedImage} use={use} setObj={setObj} />
+    <Scroll setIsModalOpen={setIsModalOpen} setOrderProduct={setOrderProduct} setClickedImage={setClickedImage} use={use} />
 
     {/* 모달 */}
     {isModalOpen && (

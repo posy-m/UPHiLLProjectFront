@@ -36,8 +36,8 @@ const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) 
 }
 
 interface Product {
+  id: number;
   product: {
-    id: number;
     image: string
   }
 }
@@ -86,7 +86,7 @@ const CompletedInfinite = ({ use }: { use: boolean }) => {
         {data?.pages.map((page: Product[]) =>
           page?.map((product: Product) => (
             <Image
-              key={product.product.id}
+              key={product.id}
               src={`http://127.0.0.1:4000${product.product.image}`}
               width={300}
               height={500}

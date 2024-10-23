@@ -23,11 +23,13 @@ export default function Home() {
     event.preventDefault()
     try {
 
-      const response = await customAxios.post(`/user/signin`, {
+      const { data } = await customAxios.post(`/user/signin`, {
         email: emailValue,
         password: passwordValue
       },)
-      setAtom(response.data)
+      setAtom(data)
+      console.log(data)
+
       // 경재가 해놓은 라우터로
       router.push("/main")
     } catch (error) {

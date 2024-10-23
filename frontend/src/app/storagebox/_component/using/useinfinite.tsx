@@ -13,6 +13,7 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
     const handlerScroll = () => {
       // console.log("될까?");
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        console.log(1234)
         onScrollToEnd()
       }
     }
@@ -41,7 +42,7 @@ interface Product {
   }
 }
 
-const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use, setObj }: { setIsModalOpen: Dispatch<SetStateAction<boolean>>, setOrderProduct: Dispatch<SetStateAction<number>>, setClickedImage: Dispatch<SetStateAction<string | null>>, use: boolean, setObj: Function }) => {
+const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use }: { setIsModalOpen: Dispatch<SetStateAction<boolean>>, setOrderProduct: Dispatch<SetStateAction<number>>, setClickedImage: Dispatch<SetStateAction<string | null>>, use: boolean, }) => {
   // const [list, setList] = useState<Product[]>([])
   const [total, setTotal] = useState(0);
   const getTotalpage = async () => {
@@ -66,6 +67,7 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use, setObj 
     queryFn: ({ pageParam }) => getPage({ pageParam, use }),
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages) {
+      console.log(allPages.length < total)
       return allPages.length < total ? allPages.length + 1 : undefined
     }
   })
@@ -78,7 +80,7 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use, setObj 
   }
   useEffect(() => {
     getTotalpage()
-    setObj(refetch)
+    // setObj(refetch)
   }, [])
 
   useEffect(() => {
@@ -96,6 +98,7 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use, setObj 
       return (
         <>
           {data.pages.map((product: Product[]) => product.map((el: Product) => {
+            console.log(el)
             return (<Image key={el.id} src={`http://127.0.0.1:4000${el.product.image}`} onClick={() => enlargeImage(`http://127.0.0.1:4000${el.product.image}`, el.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />)
           }))
           }
