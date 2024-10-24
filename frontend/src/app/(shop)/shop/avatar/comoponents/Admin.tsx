@@ -69,7 +69,7 @@ const Admin = () => {
           <li className={styled.avatar_list}>
             <AddBox setIsPopup={setIsPopup} />
           </li>
-          {data?.pages.map((page) => page.map((e: any) =>
+          {data?.pages.map((page) => page?.map((e: any) =>
             <li className={styled.avatar_list} key={e.id}>
               <Avatar product={e} refetch={refetch} setProductId={setProductId} setModifyPopup={setModifyPopup} modifyPopup={modifyPopup} />
             </li>))

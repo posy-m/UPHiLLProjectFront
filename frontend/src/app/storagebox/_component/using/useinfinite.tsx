@@ -93,14 +93,16 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use }: { set
   // console.log(data)
 
   const View = () => {
-    if (data != undefined) {
+    if (data !== undefined) {
       // console.log("로딩완료", data)
       return (
         <>
-          {data.pages.map((product: Product[]) => product.map((el: Product) => {
-            console.log(el)
-            return (<Image key={el.id} src={`https://uphillmountainapi.store${el.product.image}`} onClick={() => enlargeImage(`https://uphillmountainapi.store${el.product.image}`, el.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />)
-          }))
+          {data.pages.map((product: Product[]) => {
+            if (!product) return (<></>)
+            return product?.map((el: Product) => {
+              return (<Image key={el.id} src={`https://uphillmountainapi.store${el.product.image}`} onClick={() => enlargeImage(`https://uphillmountainapi.store${el.product.image}`, el.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />)
+            })
+          })
           }
         </>
       )
