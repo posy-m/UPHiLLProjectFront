@@ -60,7 +60,7 @@ const User = () => {
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           data={data} >
-          {data?.pages.map((page) => page.map((e: any) => {
+          {data?.pages.map((page) => page?.map((e: any) => {
             return (
               <li className={styles.avatar_list} key={e.id}>
                 <ProductListView product={e} refetch={refetch} />
