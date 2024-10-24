@@ -21,7 +21,7 @@ const Product = ({ product, setProductId, modifyPopup, setModifyPopup, refetch }
   return (
     <div className={styled.product_wrap}>
       <div className={styled.product_img}>
-        <img src={`http://127.0.0.1:4000${product.image}`} />
+        <img src={`https://uphillmountain.store:4000${product.image}`} />
       </div>
       <div className={styled.product_desc}>
         <span className={styled.product_title}>{product.name}</span>

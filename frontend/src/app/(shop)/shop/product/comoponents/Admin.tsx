@@ -60,7 +60,7 @@ const Admin = () => {
       <div className={styled.avatar_wrap}>
         <div className={styled.avatar_content}>
           <ul className={styled.product_ul}>
-            <li ><Link href="http://127.0.0.1:3000/shop/avatar">아바타</Link></li>
+            <li ><Link href="https://uphillmountain.store/shop/avatar">아바타</Link></li>
             <li>상품</li>
           </ul>
           <ProductScroll

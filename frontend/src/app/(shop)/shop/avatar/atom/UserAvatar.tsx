@@ -14,7 +14,7 @@ const UserAvatar = () => {
       padding: '20px 0 0'
     }}>
       <div style={{ width: "100px", height: "100px", border: "1px solid green", borderRadius: "10px" }}>
-        <img src={`http://127.0.0.1:4000${user.image}`} alt="착용중인 아바타" style={{ width: "100%", height: "100%", borderRadius: "10px" }} />
+        <img src={`https://uphillmountain.store:4000${user.image}`} alt="착용중인 아바타" style={{ width: "100%", height: "100%", borderRadius: "10px" }} />
       </div>
       <p style={{
         fontWeight: "bold",

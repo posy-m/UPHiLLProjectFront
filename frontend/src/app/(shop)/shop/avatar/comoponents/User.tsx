@@ -93,8 +93,8 @@ export const User = () => {
       <Header showBackButton={false} />
       <div className={styled.user_avatar_wrap}>
         <ul className={styled.product_ul}>
-          <li><Link href="http://localhost:3000/shop/avatar">아바타</Link></li>
-          <li><Link href="http://127.0.0.1:3000/shop/product">상품</Link></li>
+          <li><Link href="https://uphillmountain.store/shop/avatar">아바타</Link></li>
+          <li><Link href="https://uphillmountain.store/shop/product">상품</Link></li>
         </ul>
         <div className={styled.now_avatar}>
           <UserAvatar />

@@ -58,7 +58,7 @@ const Admin = () => {
       <div className={styled.avatar_content}>
         <ul className={styled.product_ul}>
           <li>아바타</li>
-          <li><Link href="http://127.0.0.1:3000/shop/product">상품</Link></li>
+          <li><Link href="https://uphillmountain.store/shop/product">상품</Link></li>
         </ul>
         <UseScroll
           fetchNextPage={fetchNextPage}

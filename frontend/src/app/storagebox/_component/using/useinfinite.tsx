@@ -100,7 +100,7 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use }: { set
           {data.pages.map((product: Product[]) => {
             if (!product) return (<></>)
             return product?.map((el: Product) => {
-              return (<Image key={el.id} src={`http://127.0.0.1:4000${el.product.image}`} onClick={() => enlargeImage(`http://127.0.0.1:4000${el.product.image}`, el.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />)
+              return (<Image key={el.id} src={`https://uphillmountain.store:4000${el.product.image}`} onClick={() => enlargeImage(`https://uphillmountain.store:4000${el.product.image}`, el.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />)
             })
           })
           }
