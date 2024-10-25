@@ -62,7 +62,7 @@ function Maps() {
         };
 
         fetchUserInfo();
-    }, []);
+    }, [user, setIsLogin]);
 
 
     const mapOptions = {
@@ -251,6 +251,7 @@ function Maps() {
                 const pointsToAdd = Math.floor((high - prevHigh) / 5) * 10; // 20m마다 10포인트
                 await updatePoints(pointsToAdd); // 서버 요청 호출
                 setPoints(prevPoints => prevPoints + pointsToAdd); // 업데이트된 포인트 설정,누적 포인트 업데이트
+                setUser({ ...user, point: (parseInt(user.point) + pointsToAdd) + "" })
             }
         }
         pointStack();
