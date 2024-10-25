@@ -72,9 +72,8 @@ const PurchaseInfo = () => {
         <Ttext className={styled.PurchaseInfoItem} onClick={() => { }}>- 품목 -</Ttext>
         <Ttext className={styled.PurchaseInfoDPoint} onClick={() => { }}>- 차감포인트 -</Ttext>
       </div>
-      {data?.pages.map((page: any, pageIndex) => {
-        if (!page) return <>구매항목이 없습니다.</>
-        return page.map((item: PurchaseItem, index: number) =>
+      {data?.pages?.map((page: any, pageIndex) => {
+        return page?.map((item: PurchaseItem, index: number) =>
           <div key={`${pageIndex}-${index}`} className={styled.purchaseitem}>
             <Ttext className='mr-4' onClick={() => { }}>{item.product.name}</Ttext>
             <Ttext className='ml-4' onClick={() => { }}>- {item.product.price} 포인트</Ttext>

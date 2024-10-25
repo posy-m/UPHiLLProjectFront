@@ -52,7 +52,7 @@ const UserAvatarBuy = (props: {
     if (props.status === "판매중")
       return (<button className={styled.btn} onClick={handleBuy}>구입</button>)
     else if (props.status === "보유중")
-      return (<button className={styled.btn} onClick={updateAvatar}>착용하기</button>)
+      return (<button className={styled.btn} onClick={updateAvatar}>착용</button>)
   }
 
   useEffect(() => {

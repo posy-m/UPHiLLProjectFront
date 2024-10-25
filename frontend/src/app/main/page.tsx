@@ -54,15 +54,15 @@ function Maps() {
 
     useEffect(() => {
         const fetchUserInfo = async () => {
-            const info = await getUserInfo();
-            if (info) {
+            if (user.email === '') {
+                const info = await getUserInfo();
                 setUser(info); // 유저 정보를 아톰에 저장
                 setIsLogin(true); // 로그인 상태 업데이트
             }
         };
 
         fetchUserInfo();
-    }, [setUser, setIsLogin]);
+    }, []);
 
 
     const mapOptions = {
