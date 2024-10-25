@@ -62,7 +62,7 @@ function Maps() {
         };
 
         fetchUserInfo();
-    }, [user, setIsLogin]);
+    }, [setUser, setIsLogin]);
 
 
     const mapOptions = {
