@@ -17,6 +17,11 @@ const UserAvatarBuy = (props: {
   const [user, setUser] = useAtom(userInfo);
 
   const handleBuy = async (e: React.MouseEvent) => {
+
+    if (parseInt(user.point) < parseInt(props.product.price)) {
+      alert("보유하신 포인트가 부족합니다.");
+      return;
+    }
     const response = await customAxios.put(`/shop/product/buy`, {
       productId: props.product.id
     })

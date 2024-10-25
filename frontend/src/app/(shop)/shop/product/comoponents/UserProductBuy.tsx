@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import styled from '../../avatar/comoponents/userAvatarBuy.module.css';
 //import styled from './userAvatarBuy.module.css';
 import customAxios from '@/lib/customAxios';
+import { useAtom } from 'jotai';
+import { userInfo } from '@/app/(jotai)/atom';
 
 const UserProductList = (props: {
     product: any,
@@ -9,17 +11,19 @@ const UserProductList = (props: {
     setBuyPopup: Function,
     image: string
 }) => {
-    // console.log(props.product, "하이여어ㅓ어어")
-    console.log("-----------------------")
-    console.log(props.image)
+    const [user, setUser] = useAtom(userInfo);
     useEffect(() => { }, [props.image])
     const handleBuy = async () => {
         try {
-
+            if (parseInt(user.point) < parseInt(props.product.price)) {
+                alert("보유하신 포인트가 부족합니다");
+                return;
+            }
             const response = await customAxios.put(`/shop/product/buy`, {
                 productId: props.product
             })
             if (response.status === 200) {
+                setUser({ ...user, point: (parseInt(user.point) - parseInt(props.product.price)) + "" })
                 props.setBuyPopup(false);
             }
         } catch (error) {
