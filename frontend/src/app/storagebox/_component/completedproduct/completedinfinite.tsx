@@ -23,11 +23,11 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
 
 const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) => {
   try {
-    const { data } = await customAxios.get('/shop/mybox/product', {
-      params: {
-        page: pageParam,
-        use
-      }
+    const { data } = await customAxios.post('/shop/mybox/product', {
+
+      page: pageParam,
+      use
+
     })
     return data
   } catch (error) {
@@ -87,7 +87,7 @@ const CompletedInfinite = ({ use }: { use: boolean }) => {
           page?.map((product: Product) => (
             <Image
               key={product.id}
-              src={`https://uphillmountain.store:4000${product.product.image}`}
+              src={`https://uphillmountain.store/back${product.product.image}`}
               width={300}
               height={500}
               alt='사용완료 기프티콘'

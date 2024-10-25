@@ -28,7 +28,7 @@ const Avata: React.FC<AvataProps> = ({ lat, lng, map }) => {
             map,
             icon: {
                 //url: characterFrames[0],
-                url: `https://uphillmountain.store:4000${user.image}`,
+                url: `https://uphillmountain.store/back${user.image}`,
                 scaledSize: new google.maps.Size(64, 64),
             },
         });

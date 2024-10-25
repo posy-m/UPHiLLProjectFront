@@ -1,6 +1,6 @@
 import axios from 'axios';
 const customAxios = axios.create({
-    baseURL: 'https://uphillmountain.store:4000',
+    baseURL: 'https://uphillmountain.store/back',
     timeout: 3000,
     withCredentials: true
 })
