@@ -107,7 +107,7 @@ const Modify = ({ modifyPopup, setModifyPopup, productId, refetch }: { setModify
         <div className={styled.avatar_img}>
           <label htmlFor='image'>
             {attachment && <img src={attachment.toString()} className={styled.avatar_upload} />}
-            {imageState && <img src={`https://uphillmountain.store:4000${imageState}`} className={styled.avatar_modify} />}
+            {imageState && <img src={`https://uphillmountain.store/back${imageState}`} className={styled.avatar_modify} />}
           </label>
           <input type="file" id="image" name="image" accept="image/*" onChange={handleChangeAvatar} />
         </div>

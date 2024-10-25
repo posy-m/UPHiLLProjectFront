@@ -62,7 +62,7 @@ const UserAvatarBuy = (props: {
     <div className={styled.user_avatarFrm}>
       <div className={styled.user_wear}>
         <div className={styled.user_label}>
-          <img src={`https://uphillmountain.store:4000${props.product.image}`} alt="현재착용중 아바타" />
+          <img src={`https://uphillmountain.store/back${props.product.image}`} alt="현재착용중 아바타" />
         </div>
       </div>
       <div className={styled.btn_area}>

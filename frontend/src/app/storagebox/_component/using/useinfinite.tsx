@@ -25,11 +25,9 @@ const useScollEnd = (onScrollToEnd: any, isFetchingNextPage: boolean, data: any)
 }
 
 const getPage = async ({ pageParam, use }: { pageParam: number, use: boolean }) => {
-  const { data } = await customAxios.get("/shop/mybox/product", {
-    params: {
-      page: pageParam,
-      use: use
-    }
+  const { data } = await customAxios.post("/shop/mybox/product", {
+    page: pageParam,
+    use: use
   })
 
   return data
@@ -100,7 +98,7 @@ const Scroll = ({ setIsModalOpen, setOrderProduct, setClickedImage, use }: { set
           {data.pages.map((product: Product[]) => {
             if (!product) return (<></>)
             return product?.map((el: Product) => {
-              return (<Image key={el.id} src={`https://uphillmountain.store:4000${el.product.image}`} onClick={() => enlargeImage(`https://uphillmountain.store:4000${el.product.image}`, el.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />)
+              return (<Image key={el.id} src={`https://uphillmountain.store/back${el.product.image}`} onClick={() => enlargeImage(`https://uphillmountain.store/back${el.product.image}`, el.id)} width={300} height={500} alt='기프티콘' className={styled.customImage} />)
             })
           })
           }

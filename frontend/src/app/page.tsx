@@ -40,7 +40,7 @@ export default function Home() {
 
   // 소셜 로그인
   const kakaoBtn = async () => {
-    router.push("https://uphillmountain.store:4000/user/kakao");
+    router.push("https://uphillmountain.store/back/user/kakao");
     // 경재가 해놓은 라우터로
     //const respose = await customAxios.get('/user/kakao')
     // const kakaoData = respose.data

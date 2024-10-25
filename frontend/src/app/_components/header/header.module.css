@@ -1,14 +1,8 @@
 @media (min-width:360px) {
   .headerBox {
-    @apply w-full 
-    h-20 
-    bg-green-900 
-    flex 
-    items-center 
-    p-8 
-    top-0 
-    fixed 
-    z-50;
+    @apply w-full h-20 bg-green-900 flex items-center p-8 top-0 fixed z-50;
+
+    /* background-color: #F7F5F5; */
   }
 
   .headerBox>div {

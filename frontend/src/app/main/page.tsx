@@ -168,13 +168,10 @@ function Maps() {
     useEffect(() => {
         window.onmessage = (e: MessageEvent<MessageData>) => {
             const { lat, lng } = e.data;
-            if (lat && lng && map) {
-                map.setCenter({ lat, lng });
-                setLat(lat);
-                setLng(lng);
-            }
+            setLat(lat);
+            setLng(lng);
         };
-        getPosition();
+        // getPosition();
         initMap()
         setInitialLat(lat);  // 처음 위치 저장
         setInitialLng(lng);  // 처음 위치 저장
@@ -186,19 +183,25 @@ function Maps() {
             try {
                 if (Math.abs(lat - prevLat) > 0.002 || Math.abs(lng - prevLng) > 0.002) {
                     console.log("요청")
-                    const response = await customAxios.get("/geolocation/elevation", {
-                        params: { lat, lng }
+                    const response = await customAxios.post("/geolocation/elevation", {
+                        lat, lng
                     });
 
-                    if (response.status === 200) {
-                        const newHigh = response.data.results[0].elevation;
+                    if (response.status === 201) {
+                        // alert(response.data)
+                        const newHigh = response.data
                         setHigh(newHigh);
 
                         // 고도가 이전 고도보다 높을 경우 포인트 추가
-                        if (newHigh > prevHigh) {
-                            const pointIncrement = Math.floor(newHigh - prevHigh); // 고도 차이만큼 포인트 증가
-                            setPoints(prevPoints => prevPoints + pointIncrement); // 포인트 업데이트
+                        if (newHigh >= (prevHigh + 5)) {
                             setPrevHigh(newHigh); // 이전 고도 값 갱신
+
+                            const pointsToAdd = Math.floor((newHigh - prevHigh) / 5) * 10; // 20m마다 10포인트
+
+                            await customAxios.post("/user/pointStack", { points: pointsToAdd });
+                            //await updatePoints(pointsToAdd); // 서버 요청 호출
+                            setPoints(prevPoints => prevPoints + pointsToAdd); // 업데이트된 포인트 설정,누적 포인트 업데이트
+
                         }
                     } else {
                         console.error("고도 데이터를 가져오는 데 실패했습니다:", response.data);
@@ -220,7 +223,7 @@ function Maps() {
         if (map && (lat !== 0 && lng !== 0)) {
             setPosition();
         }
-    }, [lat, lng])
+    }, [lat, lng, prevHigh])
 
     // useEffect(() => {
     //     // 포인트 적립 로직
@@ -233,20 +236,25 @@ function Maps() {
 
 
 
+    const updatePoints = async (pointsToAdd: number) => {
+
+        try {
+            await customAxios.post("/user/pointStack", { points: pointsToAdd });
+        } catch (error) {
+            console.error("포인트 저장 중 오류 발생:", error);
+        }
+    };
     useEffect(() => {
         // 포인트 적립 로직
-        if (high >= prevHigh + 20) {
-            const pointsToAdd = Math.floor((high - prevHigh) / 20) * 10; // 20m마다 10포인트
-            setPoints(prevPoints => {
-                const updatedPoints = prevPoints + pointsToAdd
-                async () => {
-                    await customAxios.post("user/pointStack", pointsToAdd)
-                }
-                return updatedPoints;
-            });
-            setPrevHigh(high); // 현재 고도를 이전 고도로 업데이트
+        const pointStack = async () => {
+            if (high >= (prevHigh + 5)) {
+                const pointsToAdd = Math.floor((high - prevHigh) / 5) * 10; // 20m마다 10포인트
+                await updatePoints(pointsToAdd); // 서버 요청 호출
+                setPoints(prevPoints => prevPoints + pointsToAdd); // 업데이트된 포인트 설정,누적 포인트 업데이트
+            }
         }
-    }, [lat, lng, high, prevHigh]); // lat, lng, high, prevHigh가 변경될 때마다 실행
+        pointStack();
+    }, [high, prevHigh]); // lat, lng, high, prevHigh가 변경될 때마다 실행
 
 
 
@@ -298,14 +306,13 @@ function Maps() {
     return (
         <>
             <div style={{ position: "relative", width: '100vw', height: '100vh' }}>
-                {/* FooterBar 컴포넌트를 하단에 추가 */}
 
+                {/* FooterBar 컴포넌트를 하단에 추가 */}
                 <div id='map' style={{ width: '100%', height: '100%' }}></div>
 
                 {/* showReturnButton이 true일 때만 버튼 표시 */}
                 {showReturnButton && <Goback onClick={recenterMap} />}
                 {map && <Avata lat={lat} lng={lng} map={map} />}
-
                 <FootPoinNickAlt elevation={high} nickname={user.nickName || 'Loading...'} points={points} />
             </div>
             <Footerbar />
