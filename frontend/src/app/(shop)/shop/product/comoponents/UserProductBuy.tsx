@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from '../../avatar/comoponents/userAvatarBuy.module.css';
 //import styled from './userAvatarBuy.module.css';
 import customAxios from '@/lib/customAxios';
@@ -13,6 +13,18 @@ const UserProductList = (props: {
 }) => {
     const [user, setUser] = useAtom(userInfo);
     useEffect(() => { }, [props.image])
+    const [product, setProduct] = useState({ price: 0 });
+
+    useEffect(() => {
+        const getProductInfo = async () => {
+            const response = await customAxios.get(`detail/${props.product}`);
+            if (response.status === 200) {
+                const { data } = response;
+                setProduct(data);
+            }
+        }
+        getProductInfo();
+    }, [])
     const handleBuy = async () => {
         try {
             if (parseInt(user.point) < parseInt(props.product.price)) {
