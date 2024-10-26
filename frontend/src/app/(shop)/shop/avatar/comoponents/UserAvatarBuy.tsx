@@ -28,7 +28,7 @@ const UserAvatarBuy = (props: {
     console.log(response.status)
     if (response.status === 200) {
       props.setBuyPopup(false);
-      setUser({ ...user, point: (parseInt(user.point) - props.product as number) + "" })
+      setUser({ ...user, point: (parseInt(user.point) - props.product.price as number) + "" })
       props.refetch();
     }
     console.log(response);

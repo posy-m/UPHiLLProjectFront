@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from '../../avatar/comoponents/userAvatarBuy.module.css';
 //import styled from './userAvatarBuy.module.css';
 import customAxios from '@/lib/customAxios';
@@ -13,9 +13,22 @@ const UserProductList = (props: {
 }) => {
     const [user, setUser] = useAtom(userInfo);
     useEffect(() => { }, [props.image])
+    const [product, setProduct] = useState({ price: 0 });
+
+    useEffect(() => {
+        const getProductInfo = async () => {
+            const response = await customAxios.get(`shop/detail/${props.product}`);
+            if (response.status === 200) {
+                const { data } = response;
+                setProduct(data);
+            }
+        }
+        getProductInfo();
+    }, [])
     const handleBuy = async () => {
+        console.log(user, product, props.product)
         try {
-            if (parseInt(user.point) < parseInt(props.product.price)) {
+            if (parseInt(user.point) < product.price) {
                 alert("보유하신 포인트가 부족합니다");
                 return;
             }
@@ -37,7 +50,7 @@ const UserProductList = (props: {
             <div className={styled.user_wear}>
                 {props.product.id}
                 <div className={styled.user_label}>
-                    <img src={`https://uphillmountain.store/back/${props.image}`} alt="상품이미지" />
+                    <img src={`https://uphillmountain.store/back${props.image}`} alt="상품이미지" />
                 </div>
             </div>
             <div className={styled.btn_area}>

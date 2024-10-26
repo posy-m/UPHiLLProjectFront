@@ -35,7 +35,7 @@ const ProductListView = ({ product, refetch }: { product: any, refetch: Function
                 </div>
             ) : null}
             <div style={{ justifyContent: "center", display: "flex", flexDirection: "column" }} onClick={openPopup}>
-                <img src={`http://uphillmountain.store/api/${product.image}`} alt="" style={{ borderRadius: "10px", border: "1px solid gray", width: "130px", height: "130px" }} />
+                <img src={`https://uphillmountain.store/back${product.image}`} alt="" style={{ borderRadius: "10px", border: "1px solid gray", width: "130px", height: "130px" }} />
                 <div className='w-full flex justify-center font-bold text-center leading-5'>{product.name}
                     <br />
                     {product.price} P
