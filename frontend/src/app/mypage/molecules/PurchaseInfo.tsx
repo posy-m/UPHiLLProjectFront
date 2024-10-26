@@ -21,12 +21,10 @@ interface PurchaseResponse {
 
 const getPages = async ({ pageParam }: { pageParam?: any }): Promise<PurchaseResponse> => {
   try {
-    const response = await customAxios.get(`/user/order`, {
-      params: {
-        page: pageParam,
-      }
+    const response = await customAxios.post(`/user/order`, {
+      page: pageParam
     });
-    if (response.status === 200) {
+    if (response.status === 201) {
       console.log(response.data)
       return response.data; // 서버에서 반환한 데이터를 그대로 반환
     }
