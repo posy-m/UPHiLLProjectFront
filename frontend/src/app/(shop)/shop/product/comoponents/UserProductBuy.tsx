@@ -17,7 +17,7 @@ const UserProductList = (props: {
 
     useEffect(() => {
         const getProductInfo = async () => {
-            const response = await customAxios.get(`detail/${props.product}`);
+            const response = await customAxios.get(`shop/detail/${props.product}`);
             if (response.status === 200) {
                 const { data } = response;
                 setProduct(data);
@@ -26,8 +26,9 @@ const UserProductList = (props: {
         getProductInfo();
     }, [])
     const handleBuy = async () => {
+        console.log(user, product, props.product)
         try {
-            if (parseInt(user.point) < parseInt(props.product.price)) {
+            if (parseInt(user.point) < product.price) {
                 alert("보유하신 포인트가 부족합니다");
                 return;
             }
