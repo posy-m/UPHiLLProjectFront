@@ -61,7 +61,7 @@ const PurchaseInfo = () => {
     initialPageParam: 1,
     queryKey: ['pagination'],
     getNextPageParam: (lastPage: any) => {
-      return lastPage.hasMore ? (lastPage?.pages.length + 1) : undefined; // 페이지 번호 계산
+      return lastPage?.hasMore ? (lastPage?.pages.length + 1) : undefined; // 페이지 번호 계산
     }
   });
   useScrollEnd(fetchNextPage, hasNextPage);

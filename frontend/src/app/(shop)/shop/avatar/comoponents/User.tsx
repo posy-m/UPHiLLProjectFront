@@ -14,6 +14,9 @@ import { getAvatarPages } from '../../api';
 import AvatarCollector from '../atom/AvatarCollector';
 // import { useContext } from 'react';
 import { createContext } from 'react';
+import getUserInfo from '@/lib/getUserInfo';
+import { userInfo } from '@/app/(jotai)/atom';
+import { useAtom } from 'jotai';
 
 
 // 컨텍스트에서 사용할 데이터의 타입 정의
@@ -37,7 +40,7 @@ export const Store = createContext<StoreContextProps>(defaultStoreContext);
 export const User = () => {
   // const [nowAvatar, setNowAvatar] = useState(null);
   const [buyPopup, setBuyPopup] = useState<boolean>(false);
-
+  const [user, setUser] = useAtom(userInfo);
   const [dataCount, setDataCount] = useState(0);
   const [buy, setBuy] = useState<Array<boolean>>();
   // const [productId, setProductId] = useState(0)
@@ -58,6 +61,11 @@ export const User = () => {
   };
 
   useEffect(() => {
+    const getUser = async () => {
+      const info = await getUserInfo();
+      setUser(info);
+    }
+    getUser();
     dataLength();
     // console.log(dataLength)
   }, [])

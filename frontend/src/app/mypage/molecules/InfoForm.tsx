@@ -13,6 +13,7 @@ import Header from '@/app/_components/header/header'
 import customAxios from '@/lib/customAxios'
 import { userInfo } from "@/app/(jotai)/atom";
 import { useAtom, useAtomValue } from 'jotai'
+import getUserInfo from '@/lib/getUserInfo'
 
 
 const queryClient = new QueryClient();
@@ -42,21 +43,14 @@ const InfoForm = () => {
   const [passwordMessage, setPasswordMessage] = useState('');
   const [isPasswordChangeMode, setIsPasswordChangeMode] = useState(false); // 비밀번호 변경 모드 상태
 
-  const getUserInfo = async () => {
-    try {
-      if (user.email !== '') return;
-      const response = await customAxios.post("/user/userinfo");
-      if (response.status === 200) {
-        const { data } = response;
-        setUser(data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   useEffect(() => {
-    getUserInfo()
+    const fetchUserInfo = async () => {
+      const info = await getUserInfo();
+      setUser(info); // 유저 정보를 아톰에 저장
+    };
+
+    fetchUserInfo();
   }, [])
 
   // 사용자 정보가 업데이트될 때마다 닉네임 초기화
